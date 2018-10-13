@@ -255,7 +255,7 @@ paths:
         required: false
       - in: "path"
         name: "id"
-        description: "ID of employee to return"
+        description: "Company ID"
         required: true
         type: "integer"
         format: "int64"      
@@ -285,7 +285,7 @@ paths:
           $ref: "#/definitions/Employee"
       - in: "path"
         name: "id"
-        description: "ID of employee to return"
+        description: "Company ID"
         required: true
         type: "integer"
         format: "int64" 
@@ -345,7 +345,87 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Proposal not found"
-
+  /proposal/{id}/comments/:
+    get:
+      tags:
+      - "proposal"
+      summary: "Get all comments by the proposal ID"
+      description: "Returns all comments"
+      operationId: "getProposalComments"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Comment"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Proposal not found"
+  /proposal/{id}/reviews/:
+    get:
+      tags:
+      - "proposal"
+      summary: "Get all reviews by the proposal ID"
+      description: "Returns all reviews"
+      operationId: "getProposalReviews"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Proposal not found"
+  /proposal/{id}/members/:
+    get:
+      tags:
+      - "proposal"
+      summary: "Get all members by the proposal ID"
+      description: "Returns all members"
+      operationId: "getProposalMembers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Employee"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Proposal not found"
 definitions:
   Employee:
     type: "object"
@@ -402,6 +482,14 @@ definitions:
         format: "int64"
       title:
         type: "string"
+      comments:
+        type: "array"
+        items:
+          $ref: "#/definitions/Comment"
+      members:
+        type: "array"
+        items:
+          $ref: "#/definitions/Employee"
       status:
         type: "string"
         description: "Proposal Status"
@@ -409,4 +497,38 @@ definitions:
         - "placed"
         - "approved"
         - "declined"
+  Comment:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      author:
+        type: "string"
+        items:
+          $ref: "#/definitions/Employee"
+      comment:
+        type: "string"
+        format: "Adoro este tipo de eventos!"
+  Review:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      author:
+        type: "string"
+        items:
+          $ref: "#/definitions/Employee"
+      text:
+        type: "string"
+        format: "Que ideia brutal!"
+      score:
+        type: "integer"
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
 
