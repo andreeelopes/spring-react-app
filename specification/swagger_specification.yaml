@@ -13,6 +13,8 @@ tags:
   description: "Know all about your partners employees"
 - name: "company"
   description: "Everything about your partners company"
+- name: "proposal"
+  description: "Know all about your partners proposals"
   
 schemes:
 - "https"
@@ -341,4 +343,19 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Employee"
+  Proposal:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      status:
+        type: "string"
+        description: "Proposal Status"
+        enum:
+        - "placed"
+        - "approved"
+        - "declined"
 
