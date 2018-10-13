@@ -294,6 +294,32 @@ paths:
           description: "Invalid input"
         409:
           description: "Employee already exists"
+          
+  /proposal:
+    get:
+      tags:
+      - "proposal"
+      summary: "Finds all proposals by title"
+      description: "Retrieves all proposals with our without a filter on title"
+      operationId: "findProposal"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "title"
+        in: "query"
+        description: "Title value to be considered for filter"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Proposal"
+        400:
+          description: "Invalid title value"
 
 definitions:
   Employee:
