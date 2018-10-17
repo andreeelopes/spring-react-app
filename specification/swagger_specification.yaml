@@ -402,7 +402,7 @@ paths:
   /proposals/{id}/comments/:
     post:
       tags:
-      - "comments"
+      - "proposals"
       summary: "Add a new comment to the proposal"
       description: ""
       operationId: "addComment"
@@ -430,7 +430,7 @@ paths:
           description: "Invalid input"
     get:
       tags:
-      - "comments"
+      - "proposals"
       summary: "Get all comments by the proposal ID"
       description: "Returns all comments"
       operationId: "getProposalComments"
@@ -457,7 +457,7 @@ paths:
   /proposals/{id}/reviews/:
     post:
       tags:
-      - "reviews"
+      - "proposals"
       summary: "Add a new review to the proposal"
       description: ""
       operationId: "addReview"
@@ -486,7 +486,7 @@ paths:
 
     get:
       tags:
-      - "reviews"
+      - "proposals"
       summary: "Get all reviews by the proposal ID"
       description: "Returns all reviews" #rm description
       operationId: "getProposalReviews"
@@ -675,7 +675,7 @@ paths:
         400:
           description: "Invalid ID supplied"
         404:
-          description: "Company not found"
+          description: "Proposal or staff not found"
 
 
   /proposals/{id}/authors/:
@@ -759,7 +759,7 @@ paths:
         400:
           description: "Invalid ID supplied"
         404:
-          description: "Company not found"
+          description: "Proposal or author not found"
 
 
   /proposals/{id}/viewers/:
@@ -843,24 +843,80 @@ paths:
         400:
           description: "Invalid ID supplied"
         404:
-          description: "Company not found"
-
-  # /proposals/{id}/partners/:
-  #     get:
-  #     post:
-  #     delete:
-
+          description: "Proposal or viewer not found"
+  /reviews/:
+    get:
+      tags:
+      - "reviews"
+      summary: "Get the list of all reviews"
+      description: ""
+      operationId: "getReviews"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "search"
+        description: "Filter reviews by name, description, or address" #
+        type: "string"
+        required: false
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+    post:
+      tags:
+      - "reviews"
+      summary: "Add a new review to the collection"
+      description: ""
+      operationId: "addReviews"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "company"
+        description: "Review object that needs to be added to the collection"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        200:
+          description: "Added a new review"
+        405:
+          description: "Invalid input"
+        409:
+          description: "Review already exists"
+  /reviews/{id}:
+    delete:
+      tags:
+      - "reviews"
+      summary: "Delete review with the ID provided"
+      description: ""
+      operationId: "deleteReview"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Review ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Review not found"
   # /proposals/{id}/sections/:
   #     get:
   #     post:
 
 
-  # /reviews
-  # get:
-  # /reviews/{id}
-  # get:
-  # put:
-  # delete:
+
 
   # /sections
   # get:
