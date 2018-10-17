@@ -210,7 +210,7 @@ paths:
           $ref: "#/definitions/Employee"
       - name: "id"
         in: "path"
-        description: "ID of company to return"
+        description: "ID of emoloyee to return"
         required: true
         type: "integer"
         format: "int64"
@@ -856,7 +856,7 @@ paths:
       parameters:
       - in: "query"
         name: "search"
-        description: "Filter reviews by name, description, or address" #
+        description: "Filter reviews by author, description, ..." #
         type: "string"
         required: false
       responses:
@@ -866,30 +866,7 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Review"
-    post:
-      tags:
-      - "reviews"
-      summary: "Add a new review to the collection"
-      description: ""
-      operationId: "addReviews"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "company"
-        description: "Review object that needs to be added to the collection"
-        required: true
-        schema:
-          $ref: "#/definitions/Review"
-      responses:
-        200:
-          description: "Added a new review"
-        405:
-          description: "Invalid input"
-        409:
-          description: "Review already exists"
+
   /reviews/{id}:
     delete:
       tags:
@@ -911,6 +888,156 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Review not found"
+    get:
+      tags:
+      - "reviews"
+      summary: "Find review by ID"
+      description: "Returns a single review"
+      operationId: "getReview"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of review to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Review"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Review not found"
+    put:
+      tags:
+      - "reviews"
+      summary: "Update review with ID provided"
+      description: ""
+      operationId: "updateReview"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "review"
+        description: "Review object that needs to be updated in the collection"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      - name: "id"
+        in: "path"
+        description: "ID of Review to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Review not found" 
+        405:
+          description: "Validation exception"
+
+  /comments/:
+    get:
+      tags:
+      - "comments"
+      summary: "Get the list of all comments"
+      description: ""
+      operationId: "getComments"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "search"
+        description: "Filter reviews by id, description, author" #
+        type: "string"
+        required: false
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+
+  /comments/{id}:
+    delete:
+      tags:
+      - "comments"
+      summary: "Delete comment with the ID provided"
+      description: ""
+      operationId: "deleteComment"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Comment ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Comment not found"
+    get:
+      tags:
+      - "comments"
+      summary: "Find comment by ID"
+      description: "Returns a single comment"
+      operationId: "getComment"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of comment to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Comment"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Comment not found"
+    put:
+      tags:
+      - "comments"
+      summary: "Update comment with ID provided"
+      description: ""
+      operationId: "updateComment"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "cooment"
+        description: "Comment object that needs to be updated in the collection"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      - name: "id"
+        in: "path"
+        description: "ID of comment to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Comment not found" 
+        405:
+          description: "Validation exception"
+
   # /proposals/{id}/sections/:
   #     get:
   #     post:
