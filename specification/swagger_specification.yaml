@@ -493,61 +493,61 @@ paths:
           description: "Proposal not found"
 
 
-  # /proposals/{id}/members/:
-  #   post:
-  #     tags:
-  #     - "proposals"
-  #     summary: "Add a new member to the proposal"
-  #     description: ""
-  #     operationId: "addMember"
-  #     consumes:
-  #     - "application/json"
-  #     produces:
-  #     - "application/json"
-  #     parameters:
-  #     - name: "id"
-  #       in: "path"
-  #       description: "Proposal ID"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #     - in: "body"
-  #       name: "member"
-  #       description: "Member object to add on the proposal"
-  #       required: true
-  #       schema:
-  #         $ref: "#/definitions/Employee"
-  #     responses:
-  #       200:
-  #         description: "Added a new Employee"
-  #       405:
-  #         description: "Invalid input"
-  #   get:
-  #     tags:
-  #     - "proposals"
-  #     summary: "Get all members by the proposal ID"
-  #     description: "Returns all members"
-  #     operationId: "getProposalMembers"
-  #     produces:
-  #     - "application/json"
-  #     parameters:
-  #     - name: "id"
-  #       in: "path"
-  #       description: "Proposal ID"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #     responses:
-  #       200:
-  #         description: "Successful operation"
-  #         schema:
-  #           type: "array"
-  #           items:
-  #             $ref: "#/definitions/Employee"
-  #       400:
-  #         description: "Invalid ID supplied"
-  #       404:
-  #         description: "Proposal not found"
+  /proposals/{id}/partners/:
+    post:
+      tags:
+      - "proposals"
+      summary: "Add a new partner member to the proposal"
+      description: ""
+      operationId: "addPartner"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "member"
+        description: "Partner member object to add on the proposal"
+        required: true
+        schema:
+          $ref: "#/definitions/Employee"
+      responses:
+        200:
+          description: "Added a new Partner"
+        405:
+          description: "Invalid input"
+    get:
+      tags:
+      - "proposals"
+      summary: "Get all partner members by the proposal ID"
+      description: "Returns all partner members"
+      operationId: "getProposalMembers"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Employee"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Proposal not found"
   /proposals/{id}/staff/:
     post:
       tags:
