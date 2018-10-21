@@ -254,8 +254,8 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Mention"
-
-   /employees/{id}/myproposals:
+   
+  /employees/{id}/myproposals:
     get:
       tags: 
       - "employees"
