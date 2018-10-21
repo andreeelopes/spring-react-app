@@ -1,5 +1,5 @@
 
-Falta delete da lista comments e reviews
+#Falta delete da lista comments e reviews
 
 swagger: "2.0"
 info:
@@ -224,6 +224,36 @@ paths:
           description: "Employee not found" 
         405:
           description: "Validation exception"
+
+
+  /employees/{id}/mentions:
+    get:
+      tags: 
+      - "employees"
+      summary: "Get the list of all mentions of a employee"
+      description: ""
+      operationId: "getMentionsOfEmployee"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "search"
+        description: "Filter mentions by the author"
+        type: "string"
+        required: false
+      - in: "path"
+        name: "id"
+        description: "Employee ID"
+        required: true
+        type: "integer"
+        format: "int64"      
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Mentions"
 
     delete:
       tags:
@@ -570,6 +600,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Proposal not found"
+
+
   /proposals/{id}/partners/{partnerid}:
     delete:
       tags:
@@ -597,6 +629,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Company not found"
+
+
   /proposals/{id}/staff/:
     post:
       tags:
@@ -652,6 +686,8 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Proposal not found"
+
+
   /proposals/{id}/staff/{staffid}:
     delete:
       tags:
@@ -736,6 +772,8 @@ paths:
           description: "Added a new Author"
         405:
           description: "Invalid input"
+
+
   /proposals/{id}/authors/{authorid}:
     delete:
       tags:
@@ -820,6 +858,8 @@ paths:
           description: "Added a new Viewer"
         405:
           description: "Invalid input"
+
+
   /proposals/{id}/viewers/{viewerid}:
     delete:
       tags:
@@ -847,6 +887,164 @@ paths:
           description: "Invalid ID supplied"
         404:
           description: "Proposal or viewer not found"
+
+
+  /proposals/{id}/sections:
+    get:
+      tags:
+      - "proposals"
+      summary: "Get all the sections belonging to the proposal with the provided ID"
+      description: "Returns all sections"
+      operationId: "getSections"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Section"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Proposal not found"
+
+    post:
+      tags:
+      - "proposals"
+      summary: "Add a new section to the proposal"
+      description: ""
+      operationId: "addSection"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Proposal ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "Section"
+        description: "Section object to be added on the proposal"
+        required: true
+        schema:
+          $ref: "#/definitions/Section"
+      responses:
+        200:
+          description: "Added a new Section"
+        405:
+          description: "Invalid input"
+
+
+  /sections:
+    get:
+      tags:
+      - "sections"
+      summary: "Get the list of all sections"
+      description: "Returns all the sections"
+      operationId: "getAllSections"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        name: "search"
+        description: "Filter sections by type"
+        type: "string"
+        required: false
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Section"
+
+
+  /sections/{id}:
+    get:
+      tags:
+      - "sections"
+      summary: "Find section by ID"
+      description: "Returns a single section"
+      operationId: "getSection"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of section to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Section"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Section not found"
+    put:
+      tags:
+      - "sections"
+      summary: "Update the section with the provided ID"
+      description: ""
+      operationId: "updateSection"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "section"
+        description: "Section object that will be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Section"
+      - name: "id"
+        in: "path"
+        description: "ID of Section to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Section not found" 
+        405:
+          description: "Validation exception"
+    delete:
+      tags:
+      - "sections"
+      summary: "Delete the section with the provided ID"
+      description: ""
+      operationId: "deleteSection"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Section ID"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Section not found"
+
   /reviews/:
     get:
       tags:
@@ -1041,25 +1239,6 @@ paths:
         405:
           description: "Validation exception"
 
-  # /proposals/{id}/sections/:
-  #     get:
-  #     post:
-
-
-  # /sections
-  # get:
-  # /sections/{id}
-  # get:
-  # put:
-  # delete:
-
-  # /comments
-  # get: (comments of the all system)
-  # /comments/{id}
-  # get:
-  # put:
-  # delete:
-
 
 definitions:
   Employee:
@@ -1086,6 +1265,27 @@ definitions:
         type: "object"
         items:
           $ref: "#/definitions/Company"
+
+      myProposals:
+        type: "object"
+        items:
+           $ref: "#/definitions/Proposal"
+      viewedProposals:
+        type: "object"
+        items:
+           $ref: "#/definitions/Proposal"
+      staffProposals:
+        type: "object"
+        items:
+           $ref: "#/definitions/Proposal"
+      partnerProposals:
+        type: "object"
+        items:
+           $ref: "#/definitions/Proposal"
+      proposals:
+        type: "object"
+        items:
+           $ref: "#/definitions/Proposal"
   Company:
     type: "object"
     required:
@@ -1115,6 +1315,18 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+      approver:
+        type: "object"
+        items:
+          $ref: "#/definitions/Employee"
+      status:
+        type: "string"
+        description: "Proposal Status"
+        enum:
+        - "placed"
+        - "approved"
+        - "declined"
+
       sections:
         type: "array"
         items:
@@ -1123,14 +1335,11 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Comment"
+
       authors:
         type: "array"
         items:
-          $ref: "#/definitions/Employee"
-      approver:
-        type: "object"
-        items:
-          $ref: "#/definitions/Employee"
+          $ref: "#/definitions/Employee"      
       viewers:
         type: "array"
         items:
@@ -1143,13 +1352,7 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Employee"
-      status:
-        type: "string"
-        description: "Proposal Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "declined"
+      
   Comment:
     type: "object"
     properties:
@@ -1163,10 +1366,24 @@ definitions:
       mentions:
         type: "array"
         items:
-          $ref: "#/definitions/Employee"
+          $ref: "#/definitions/Mentions"
       comment:
         type: "string"
         format: "Adoro este tipo de eventos!"
+  Mentions:
+    type: "object"
+    required:
+    - "author"
+    - "target"
+    properties:
+      author:
+        type: "object"
+        items:
+          $ref: "#/definitions/Employee"
+      target:
+        type: "object"
+        items:
+          $ref: "#/definitions/Employee"
   Review:
     type: "object"
     properties:
@@ -1188,7 +1405,6 @@ definitions:
         - 3
         - 4
         - 5
-
   Section:
     type: "object"
     properties:
@@ -1197,7 +1413,7 @@ definitions:
         format: "int64"
       text:
         type: "string"
-        format: "Churrasco"
+        format: "WebSummit FCT"
       type:
         type: "string"
         format: "title"
