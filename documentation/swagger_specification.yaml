@@ -1,3 +1,6 @@
+
+Falta delete da lista comments e reviews
+
 swagger: "2.0"
 info:
   description: "Host and organise events with the help of partner companies"
@@ -9,15 +12,15 @@ tags:
 - name: "employees"
   description: "Know all about your partners employees"
 - name: "companies"
-  description: "Everything about your partners company"
+  description: "Know all about your partners"
 - name: "proposals"
   description: "Know all about your partners proposals"
 - name: "reviews"
-  description: "" #
+  description: "Know all about the proposals reviews"
 - name: "comments"
-  description: "" #
+  description: "Know all about the proposals comments"
 - name: "sections"
-  description: "" #
+  description: "Know all about the proposals sections"
 
 schemes:
 - "https"
@@ -75,7 +78,7 @@ paths:
       tags:
       - "companies"
       summary: "Find company by ID"
-      description: "Returns a single company"
+      description: ""
       operationId: "getCompany"
       produces:
       - "application/json"
@@ -226,7 +229,7 @@ paths:
       tags:
       - "employees"
       summary: "Delete employee with the ID provided"
-      description: "Deletes a single employee"
+      description: ""
       operationId: "deleteEmployee"
       parameters:
       - in: "path"
@@ -331,7 +334,7 @@ paths:
     get:
       tags:
       - "proposals"
-      summary: "Finds all proposals by title"
+      summary: "Find all proposals by title"
       description: "Retrieves all proposals with our without a filter on title"
       operationId: "findProposal"
       produces:
@@ -344,7 +347,7 @@ paths:
         type: "string"
       responses:
         200:
-          description: "successful operation"
+          description: "Successful operation"
           schema:
             type: "array"
             items:
@@ -383,7 +386,7 @@ paths:
       - "proposals"
       summary: "Delete proposal with the ID provided"
       description: "Deletes a single proposal"
-      operationId: "deleteproposal"
+      operationId: "deleteProposal"
       parameters:
       - in: "path"
         name: "id"
@@ -488,7 +491,7 @@ paths:
       tags:
       - "proposals"
       summary: "Get all reviews by the proposal ID"
-      description: "Returns all reviews" #rm description
+      description: "Returns all reviews" 
       operationId: "getProposalReviews"
       produces:
       - "application/json"
@@ -1043,8 +1046,6 @@ paths:
   #     post:
 
 
-
-
   # /sections
   # get:
   # /sections/{id}
@@ -1159,7 +1160,10 @@ definitions:
         type: "object"
         items:
           $ref: "#/definitions/Employee"
-#target
+      mentions:
+        type: "array"
+        items:
+          $ref: "#/definitions/Employee"
       comment:
         type: "string"
         format: "Adoro este tipo de eventos!"
