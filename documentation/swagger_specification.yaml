@@ -253,28 +253,36 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Mentions"
+              $ref: "#/definitions/Mention"
 
-    delete:
-      tags:
+   /employees/{id}/myproposals:
+    get:
+      tags: 
       - "employees"
-      summary: "Delete employee with the ID provided"
+      summary: "Get the list of all proposals created by a employee"
       description: ""
-      operationId: "deleteEmployee"
+      operationId: "getProposalsOfEmployee"
+      produces:
+      - "application/json"
       parameters:
+      - in: "query"
+        name: "search"
+        description: "Filter proposal by the status"
+        type: "string"
+        required: false
       - in: "path"
         name: "id"
-        description: "ID of employee to return"
+        description: "Employee ID"
         required: true
         type: "integer"
-        format: "int64"
+        format: "int64"      
       responses:
         200:
           description: "Successful operation"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Company not found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Proposal"
 
   /companies/{id}/employees:
     get:
@@ -1366,11 +1374,11 @@ definitions:
       mentions:
         type: "array"
         items:
-          $ref: "#/definitions/Mentions"
+          $ref: "#/definitions/Mention"
       comment:
         type: "string"
         format: "Adoro este tipo de eventos!"
-  Mentions:
+  Mention:
     type: "object"
     required:
     - "author"
