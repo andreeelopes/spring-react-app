@@ -1,6 +1,3 @@
-
-#Falta delete da lista comments e reviews
-
 swagger: "2.0"
 info:
   description: "Host and organise events with the help of partner companies"
