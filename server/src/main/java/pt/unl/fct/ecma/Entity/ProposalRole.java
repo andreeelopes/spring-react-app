@@ -6,10 +6,11 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 @Entity
 @Data
-public class ProposalRole {
+public class ProposalRole  implements Serializable {
 
     @Id
     @ManyToOne
