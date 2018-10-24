@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Employee {
     private String job;
 
     @ManyToOne
+    @JsonIgnore
     private Company company;
 
     @OneToMany(cascade = CascadeType.ALL,

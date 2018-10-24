@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,9 +15,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
+    @JsonIgnore
     private Employee author;
     private String text;
     @ManyToOne
+    @JsonIgnore
     private Proposal proposal;
     private Score score;
 }

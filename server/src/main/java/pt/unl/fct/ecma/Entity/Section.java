@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Section {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
+    @JsonIgnore
     private Proposal proposal;
     private String text;
     private String type;
