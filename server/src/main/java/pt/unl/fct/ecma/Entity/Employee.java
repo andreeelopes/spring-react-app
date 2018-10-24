@@ -28,7 +28,7 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "employee")
-    private Set<Bid> bidingProposals = new HashSet<>();
+    private Set<Bid> biddingProposals = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")
