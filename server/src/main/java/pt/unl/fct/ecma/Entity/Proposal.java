@@ -29,7 +29,11 @@ public class Proposal {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
-    private Set<Section> Sections = new HashSet<>();
+    private Set<Section> sections = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "proposal")
+    private Set<Section> binded = new HashSet<>();
 
     private Status status;
 
