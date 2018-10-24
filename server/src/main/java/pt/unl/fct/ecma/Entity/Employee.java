@@ -2,10 +2,7 @@ package pt.unl.fct.ecma.Entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +16,19 @@ public class Employee {
     private String name;
     private String email;
     private String job;
+
+    @ManyToOne
     private Company company;
-    private Set<Proposal> staffProposals = new HashSet<>();
-    private Set<Proposal> partnerProposals = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "employee")
+    private Set<ProposalRole> rolesOnProposal = new HashSet<>();
+   // private Set<Proposal> partnerProposals = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "author")
     private Set<Comment> comments = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "author")
     private Set<Review> reviews = new HashSet<>();
 }
