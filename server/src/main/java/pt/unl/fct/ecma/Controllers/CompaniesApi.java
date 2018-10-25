@@ -9,22 +9,11 @@ package pt.unl.fct.ecma.Controllers;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
 import pt.unl.fct.ecma.Entity.Company;
 import pt.unl.fct.ecma.Entity.Employee;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-25T09:46:01.754Z")
 
 @Api(value = "companies", description = "the companies API")
@@ -102,7 +91,7 @@ public interface CompaniesApi {
     @RequestMapping(value = "/companies/{id}/admins",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    Page<Employee> getAdminsOfCompany(Pageable pageable,@ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id, @ApiParam(value = "Filter employees by name, email, job, company or address and companies by...") @Valid @RequestParam(value = "search", required = false) String search);
+    Page<Employee> getAdminsOfCompany(Pageable pageable,@ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id);
 
 
     @ApiOperation(value = "Get the list of all companies", nickname = "getCompanies", notes = "", response = Company.class, responseContainer = "List", tags={ "companies", })

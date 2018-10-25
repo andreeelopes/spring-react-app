@@ -1,12 +1,10 @@
 package pt.unl.fct.ecma.Services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import pt.unl.fct.ecma.Entity.Company;
 import pt.unl.fct.ecma.Entity.Employee;
-import pt.unl.fct.ecma.Entity.Proposal;
-import pt.unl.fct.ecma.Entity.ProposalRole;
 import pt.unl.fct.ecma.Errors.BadRequestException;
 import pt.unl.fct.ecma.Errors.NotFoundException;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
@@ -59,7 +57,7 @@ public class CompanyService {
         Optional<Employee> employee = employeeRepository.findById(adminId);
         if(employee.isPresent()){
             Employee realEmpoyee = employee.get();
-            if(realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId()==adminId){
+            if(realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId() == id){
 
                 employeeRepository.delete(realEmpoyee);
             }
@@ -75,5 +73,61 @@ public class CompanyService {
             companyRepository.delete(realCompany);
         }
         else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+    }
+
+    public void deleteEmployee(Long id, Long employeeid) {
+        Optional<Employee> employee = employeeRepository.findById(employeeid);
+        if(employee.isPresent()){
+            Employee realEmpoyee = employee.get();
+            if(realEmpoyee.getCompany().getId() == id){
+
+                employeeRepository.delete(realEmpoyee);
+            }
+            else throw new BadRequestException("O utilizador não pertence á empresa");
+        }
+        else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+    }
+
+    public Page<Employee> getAdminsOfCompany(Long id, Pageable pageable) {
+        return companyRepository.getAdminsOfCompany(id,pageable);
+    }
+
+    public Page<Company> getAllCompanies(Pageable pageable, String search) {
+        if(search==null){
+            return companyRepository.findAll(pageable);
+        }
+        else{
+            return companyRepository.findAllByName(search,pageable);
+        }
+    }
+
+    public Company getCompanyById(Long id) {
+        Optional<Company> company = companyRepository.findById(id);
+        if(company.isPresent()){
+            return company.get();
+        }
+        else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+    }
+
+    public Page<Employee> getEmployeesOfCompany(Pageable pageable, Long id, String search) {
+        Optional<Company> company = companyRepository.findById(id);
+        if(company.isPresent()) {
+
+            if (search == null) {
+                return companyRepository.getAllEmployeers(id, pageable);
+            } else return companyRepository.getAllEmployeersWithName(search, id, pageable);
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+    }
+
+    public void updateEmployeesOfCompany(Company companyToBeUpdated, Long id) {
+        Optional<Company> company = companyRepository.findById(companyToBeUpdated.getId());
+        if(company.isPresent()) {
+            Company realcompany = company.get();
+            if(realcompany.getId()==id){
+                companyRepository.save(companyToBeUpdated);
+            }
+            else throw new BadRequestException("O id é invalido");
+        }
+        else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
     }
 }

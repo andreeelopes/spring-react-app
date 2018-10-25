@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.Entity.Company;
 import pt.unl.fct.ecma.Entity.Employee;
@@ -45,31 +46,33 @@ public class CompanyController implements CompaniesApi {
 
     @Override
     public void fireEmployee(Long id, Long employeeid) {
-
+        companyService.deleteEmployee(id,employeeid);
     }
 
     @Override
-    public Page<Employee> getAdminsOfCompany(Pageable pageable, Long id, @Valid String search) {
-        return null;
+    public Page<Employee> getAdminsOfCompany(Pageable pageable,@PathVariable Long id) {
+
+        return companyService.getAdminsOfCompany(id,pageable);
     }
 
     @Override
-    public Page<Company> getCompanies(Pageable pageable, @Valid String search) {
-        return null;
+    public Page<Company> getCompanies(Pageable pageable, @Valid @RequestParam(value = "search", required = false) String search) {
+        return companyService.getAllCompanies(pageable,search);
     }
 
     @Override
-    public Company getCompany(Long id) {
-        return null;
+    public Company getCompany(@PathVariable  Long id) {
+       return companyService.getCompanyById(id);
     }
 
     @Override
-    public Page<Employee> getEmployeesOfCompany(Pageable pageable, Long id, @Valid String search) {
-        return null;
+    public Page<Employee> getEmployeesOfCompany(Pageable pageable,@PathVariable Long id, @Valid  String search) {
+
+        return companyService.getEmployeesOfCompany(pageable,id,search);
     }
 
     @Override
-    public void updateCompany(@Valid Company company, Long id) {
-
+    public void updateCompany(@Valid @RequestBody Company company, @PathVariable Long id) {
+        return companyService.updateEmployeesOfCompany(company,id);
     }
 }

@@ -9,8 +9,6 @@ import pt.unl.fct.ecma.Entity.Bid;
 import pt.unl.fct.ecma.Entity.Employee;
 import pt.unl.fct.ecma.Entity.Proposal;
 
-import java.util.List;
-
 public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
     Page<Employee> findAll(Pageable pageable);

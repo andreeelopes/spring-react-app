@@ -1,7 +1,6 @@
 package pt.unl.fct.ecma.Services;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.Entity.Bid;
@@ -11,9 +10,7 @@ import pt.unl.fct.ecma.Errors.BadRequestException;
 import pt.unl.fct.ecma.Errors.NotFoundException;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class EmployeeService {
