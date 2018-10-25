@@ -6,6 +6,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import pt.unl.fct.ecma.Entity.Bid;
 import pt.unl.fct.ecma.Entity.Employee;
+import pt.unl.fct.ecma.Entity.Proposal;
 import pt.unl.fct.ecma.Errors.NotFoundException;
 import pt.unl.fct.ecma.Services.EmployeeService;
 
@@ -58,5 +59,14 @@ public class EmployeeController {
         else{
             return employeeService.getAllBidByStatus(id,search,pageable);
         }
+    }
+    @GetMapping("{id}/partnerproposals")
+    public Page<Proposal> getProposalPartner(Pageable pageable,@PathVariable Long id){
+        return  employeeService.getProposalPartner(pageable,id);
+    }
+    
+    @GetMapping("{id}/Staffproposals")
+    public Page<Proposal> getProposalStaff(Pageable pageable,@PathVariable Long id){
+        return  employeeService.getProposalStaff(pageable,id);
     }
 }

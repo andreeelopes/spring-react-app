@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,24 +18,26 @@ public class Proposal {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
-    private Set<ProposalRole> team = new HashSet<>();
+    @JsonIgnore
+    private List<ProposalRole> team = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
-    private Set<Review> reviews = new HashSet<>();
+    private List<Review> reviews = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
-    private Set<Section> sections = new HashSet<>();
+
+    private List<Section> sections = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
     @JsonIgnore
-    private Set<Section> binded = new HashSet<>();
+    private List<Section> binded = new LinkedList<>();
 
     private Status status;
 

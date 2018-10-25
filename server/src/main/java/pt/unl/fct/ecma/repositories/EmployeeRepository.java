@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import pt.unl.fct.ecma.Entity.Bid;
 import pt.unl.fct.ecma.Entity.Employee;
+import pt.unl.fct.ecma.Entity.Proposal;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
     @Query("SELECT b FROM Bid b where b.employee.id = :employeeid ")
     Page<Bid> findAllBid(Pageable pageable,@Param(value = "employeeid") Long id);
+
+    @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','PARTNER','%')")
+    Page<Proposal> findProposalPartner(Pageable pageable,@Param(value = "employeeid") Long id);
+
+    @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
+    Page<Proposal> findProposalStaff(Pageable pageable, Long id);
 }

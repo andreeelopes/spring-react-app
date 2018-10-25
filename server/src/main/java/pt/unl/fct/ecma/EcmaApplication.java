@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pt.unl.fct.ecma.Entity.Bid;
 import pt.unl.fct.ecma.Entity.Employee;
 import pt.unl.fct.ecma.Entity.Proposal;
+import pt.unl.fct.ecma.Entity.ProposalRole;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
@@ -41,11 +42,18 @@ public class EcmaApplication implements CommandLineRunner {
             bid.setProposal(prop);
             bid.setStatus(Bid.Status.WAITING.toString());
 
+            ProposalRole role= new ProposalRole();
+            role.setEmployee(emp);
+            role.setProposal(prop);
+            role.setRole("PARTNER");
+
+            emp.getRolesOnProposal().add(role);
             emp.getBiddingProposals().add(bid);
 
             proposalRepository.save(prop);
         }
-        
+
+
         employeeRepository.save(emp);
     }
 }

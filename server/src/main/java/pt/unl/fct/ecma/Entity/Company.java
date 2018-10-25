@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -19,9 +21,9 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "company")
-    private Set<Employee> members = new HashSet<>();
+    private List<Employee> members = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "company")
-    private Set<Employee> staff = new HashSet<>();
+    private List<Employee> staff = new LinkedList<>();
 }
