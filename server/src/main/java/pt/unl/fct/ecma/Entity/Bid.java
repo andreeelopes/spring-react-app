@@ -17,6 +17,6 @@ public class Bid implements Serializable {
     @ManyToOne
     @Id
     private Proposal proposal;
-    private  Status status;
+    private  String status;
 
 }

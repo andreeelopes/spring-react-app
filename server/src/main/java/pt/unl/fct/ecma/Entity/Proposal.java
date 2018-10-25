@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class Proposal {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
+    @JsonIgnore
     private Set<Section> binded = new HashSet<>();
 
     private Status status;

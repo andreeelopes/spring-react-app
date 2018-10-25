@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -24,16 +26,17 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "employee")
-    private Set<ProposalRole> rolesOnProposal = new HashSet<>();
+    private List<ProposalRole> rolesOnProposal = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "employee")
-    private Set<Bid> biddingProposals = new HashSet<>();
+    @JsonIgnore
+    private List<Bid> biddingProposals = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments = new LinkedList<>();
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")
-    private Set<Review> reviews = new HashSet<>();
+    private List<Review> reviews = new LinkedList<>();
 }
