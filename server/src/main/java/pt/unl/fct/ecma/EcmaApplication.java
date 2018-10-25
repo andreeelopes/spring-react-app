@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import pt.unl.fct.ecma.Entity.Bid;
-import pt.unl.fct.ecma.Entity.Employee;
-import pt.unl.fct.ecma.Entity.Proposal;
-import pt.unl.fct.ecma.Entity.ProposalRole;
+import pt.unl.fct.ecma.Entity.*;
+import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
@@ -26,6 +24,9 @@ public class EcmaApplication implements CommandLineRunner {
     @Autowired
     ProposalRepository proposalRepository;
 
+    @Autowired
+    CompanyRepository companyRepository;
+
     @Override
     @Transactional
     public void run(String... args) throws Exception {
@@ -33,6 +34,14 @@ public class EcmaApplication implements CommandLineRunner {
         emp.setEmail("simon@gmail.com");
         emp.setJob("Informatico");
         emp.setName("Simon");
+        emp.setAdmin(true);
+        Company company= new Company();
+        company.setAddress("rua idk");
+        company.setEmail("ecma@");
+
+        emp.setCompany(company);
+
+        companyRepository.save(company);
 
         for(int i=0;i<30;i++) {
             Proposal prop = new Proposal();

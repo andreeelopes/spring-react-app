@@ -19,6 +19,7 @@ public class Employee {
     private String name;
     private String email;
     private String job;
+    private boolean isAdmin = false;
 
     @ManyToOne
     @JsonIgnore
