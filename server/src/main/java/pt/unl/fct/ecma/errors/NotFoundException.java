@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Errors;
+package pt.unl.fct.ecma.errors;
 
 
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -30,7 +30,7 @@ public class Employee {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "employee")
     @JsonIgnore
-    private List<Bid> biddingProposals = new LinkedList<>();
+    private List<Bid> biddedProposals = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")

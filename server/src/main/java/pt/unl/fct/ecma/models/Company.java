@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import lombok.Data;
 
@@ -20,6 +20,6 @@ public class Company {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "company")
-    private List<Employee> members = new LinkedList<>();
+    private List<Employee> employees = new LinkedList<>();
 
 }

@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -7,8 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Review {
-    public enum Score{BAD,POOR,OK,GREAT,EXCELENT}
+public class Comment {
 
 
     @Id
@@ -17,9 +16,9 @@ public class Review {
     @ManyToOne
     @JsonIgnore
     private Employee author;
-    private String text;
+
+    private String comment;
     @ManyToOne
     @JsonIgnore
     private Proposal proposal;
-    private Score score;
 }

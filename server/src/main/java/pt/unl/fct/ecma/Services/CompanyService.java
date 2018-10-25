@@ -3,10 +3,10 @@ package pt.unl.fct.ecma.Services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.Entity.Company;
-import pt.unl.fct.ecma.Entity.Employee;
-import pt.unl.fct.ecma.Errors.BadRequestException;
-import pt.unl.fct.ecma.Errors.NotFoundException;
+import pt.unl.fct.ecma.models.Company;
+import pt.unl.fct.ecma.models.Employee;
+import pt.unl.fct.ecma.errors.BadRequestException;
+import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
@@ -97,7 +97,7 @@ public class CompanyService {
             return companyRepository.findAll(pageable);
         }
         else{
-            return companyRepository.findAllByName(search,pageable);
+            return companyRepository.findByName(search,pageable);
         }
     }
 
@@ -114,8 +114,8 @@ public class CompanyService {
         if(company.isPresent()) {
 
             if (search == null) {
-                return companyRepository.getAllEmployeers(id, pageable);
-            } else return companyRepository.getAllEmployeersWithName(search, id, pageable);
+                return companyRepository.getAllEmployees(id, pageable);
+            } else return companyRepository.getEmployeesByName(search, id, pageable);
         } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
     }
 

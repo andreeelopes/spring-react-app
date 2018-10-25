@@ -3,16 +3,16 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package pt.unl.fct.ecma.Controllers;
+package pt.unl.fct.ecma.controllers;
 
 
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import pt.unl.fct.ecma.Entity.Bid;
-import pt.unl.fct.ecma.Entity.Employee;
-import pt.unl.fct.ecma.Entity.Proposal;
+import pt.unl.fct.ecma.models.Bid;
+import pt.unl.fct.ecma.models.Employee;
+import pt.unl.fct.ecma.models.Proposal;
 
 import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-25T09:46:01.754Z")

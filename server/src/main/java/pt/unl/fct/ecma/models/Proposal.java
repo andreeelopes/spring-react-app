@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class Proposal {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
     @JsonIgnore
-    private List<Section> binded = new LinkedList<>();
+    private List<Bid> bids = new LinkedList<>();
 
     private Status status;
 

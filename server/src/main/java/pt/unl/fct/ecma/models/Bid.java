@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import lombok.Data;
 
@@ -13,7 +13,7 @@ public class Bid implements Serializable {
     public enum Status{DENIED,WAITING,ACCEPTED}
     @ManyToOne
     @Id
-    private Employee employee;
+    private Employee bidder;
     @ManyToOne
     @Id
     private Proposal proposal;

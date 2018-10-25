@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Errors;
+package pt.unl.fct.ecma.errors;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

@@ -3,11 +3,11 @@ package pt.unl.fct.ecma.Services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.Entity.Bid;
-import pt.unl.fct.ecma.Entity.Employee;
-import pt.unl.fct.ecma.Entity.Proposal;
-import pt.unl.fct.ecma.Errors.BadRequestException;
-import pt.unl.fct.ecma.Errors.NotFoundException;
+import pt.unl.fct.ecma.models.Bid;
+import pt.unl.fct.ecma.models.Employee;
+import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.errors.BadRequestException;
+import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class EmployeeService {
     }
 
     public Page<Employee> getEmployeeByName(String search,Pageable pageable) {
-        return employeeRepository.findAllByName(search,pageable);
+        return employeeRepository.findByName(search,pageable);
     }
 
     public void updateEmployee(Long id, Employee emp) {
@@ -48,7 +48,7 @@ public class EmployeeService {
     public Page<Bid> getAllBid(Long id,Pageable pageable) {
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
-            return employeeRepository.findAllBid(pageable,id);
+            return employeeRepository.findAllBids(pageable,id);
           //  return new PageImpl<Bid>(bid,pageable,bid.size());
 
         }
@@ -58,7 +58,7 @@ public class EmployeeService {
     public Page<Bid> getAllBidByStatus(Long id, String search,Pageable pageable) {
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()) {
-            return employeeRepository.findBidByStatus(search, id,pageable);
+            return employeeRepository.findBidsByStatus(search, id,pageable);
         }
         else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
     }

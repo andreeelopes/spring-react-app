@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Controllers;
+package pt.unl.fct.ecma.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pt.unl.fct.ecma.Entity.Company;
-import pt.unl.fct.ecma.Entity.Employee;
+import pt.unl.fct.ecma.models.Company;
+import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.Services.CompanyService;
 
 import javax.validation.Valid;

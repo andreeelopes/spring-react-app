@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import pt.unl.fct.ecma.Entity.*;
+import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
@@ -30,12 +30,12 @@ public class EcmaApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Employee emp=new Employee();
+        Employee emp = new Employee();
         emp.setEmail("simon@gmail.com");
         emp.setJob("Informatico");
         emp.setName("Simon");
         emp.setAdmin(true);
-        Company company= new Company();
+        Company company = new Company();
         company.setAddress("rua idk");
         company.setEmail("ecma@");
 
@@ -43,7 +43,7 @@ public class EcmaApplication implements CommandLineRunner {
 
         companyRepository.save(company);
 
-        for(int i=0;i<30;i++) {
+        for (int i = 0; i < 30; i++) {
             Proposal prop = new Proposal();
             prop.setStatus(Proposal.Status.APPROVED);
             Bid bid = new Bid();
@@ -51,7 +51,7 @@ public class EcmaApplication implements CommandLineRunner {
             bid.setProposal(prop);
             bid.setStatus(Bid.Status.WAITING.toString());
 
-            ProposalRole role= new ProposalRole();
+            ProposalRole role = new ProposalRole();
             role.setEmployee(emp);
             role.setProposal(prop);
             role.setRole("PARTNER");

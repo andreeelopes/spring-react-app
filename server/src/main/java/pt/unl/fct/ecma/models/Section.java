@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Entity;
+package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

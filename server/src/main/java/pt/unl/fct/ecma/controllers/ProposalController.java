@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Controllers;
+package pt.unl.fct.ecma.controllers;
 
 public class ProposalController {
 }
