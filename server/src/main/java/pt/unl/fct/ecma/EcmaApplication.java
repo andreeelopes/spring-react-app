@@ -27,6 +27,8 @@ public class EcmaApplication implements CommandLineRunner {
     @Autowired
     CompanyRepository companyRepository;
 
+
+
     @Override
     @Transactional
     public void run(String... args) throws Exception {
@@ -46,7 +48,14 @@ public class EcmaApplication implements CommandLineRunner {
         for (int i = 0; i < 30; i++) {
             Proposal prop = new Proposal();
             prop.setStatus(Proposal.Status.APPROVED);
+            Bid bid = new Bid();
+            bid.setBidder(emp);
+            bid.setProposal(prop);
+            bid.setStatus(Bid.Status.WAITING.toString());
 
+            Review review= new Review();
+            review.setAuthor(emp);
+            review.setProposal(prop);
 
             ProposalRole role = new ProposalRole();
             role.setEmployee(emp);
@@ -54,8 +63,8 @@ public class EcmaApplication implements CommandLineRunner {
             role.setRole("PARTNER");
 
             emp.getRolesOnProposal().add(role);
-
-
+            emp.getBiddedProposals().add(bid);
+            emp.getReviews().add(review);
             proposalRepository.save(prop);
         }
 

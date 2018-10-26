@@ -55,38 +55,38 @@ public class ProposalController implements ProposalsApi {
     }
 
     @Override
-    public void deleteBid(Long id, Long bidid) {
-
+    public void deleteBid(@PathVariable("id") Long id, @PathVariable("bidid") Long bidid) {
+        proposalService.deleteBid(id,bidid);
     }
 
     @Override
-    public void deleteComment(Long id, Long commentid) {
-
+    public void deleteComment(@PathVariable("id") Long id,@PathVariable("commentid")  Long commentid) {
+        proposalService.deleteComment(id,commentid);
     }
 
     @Override
-    public void deletePartner(Long id, Long partnerid) {
-
+    public void deletePartner(@PathVariable("id") Long id, @PathVariable("partnerid") Long partnerid) {
+        proposalService.deletePartner(id,partnerid);
     }
 
     @Override
-    public void deleteProposal(Long id) {
-
+    public void deleteProposal(@PathVariable("id") Long id) {
+        proposalService.deleteProposal(id);
     }
 
     @Override
-    public void deleteReview(Long id, Long reviewid) {
-
+    public void deleteReview(@PathVariable("id") Long id,@PathVariable("reviewid") Long reviewid) {
+        proposalService.deleteReview(id,reviewid);
     }
 
     @Override
-    public void deleteSection(Long id, Long sectionid) {
-
+    public void deleteSection(@PathVariable("id") Long id,@PathVariable("sectionid") Long sectionid) {
+        proposalService.deleteSection(id,sectionid);
     }
 
     @Override
-    public void deleteStaff(Long id, Long staffid) {
-
+    public void deleteStaff(@PathVariable("id") Long id, @PathVariable("staffid") Long staffid) {
+        proposalService.deleteStaff(id,staffid);
     }
 
     @Override

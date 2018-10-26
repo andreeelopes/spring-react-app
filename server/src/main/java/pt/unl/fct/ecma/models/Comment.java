@@ -14,11 +14,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
-    @JsonIgnore
+
     private Employee author;
 
     private String comment;
+
     @ManyToOne
-    @JsonIgnore
     private Proposal proposal;
 }
