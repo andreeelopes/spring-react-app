@@ -146,7 +146,7 @@ public class ProposalService {
         Comment comment = findCommentById(commentid);
        if(comment.getId()==id) {
            commentRepository.delete(comment);
-       }
+       }else throw new NotFoundException(String.format("Comment with id %d does not have a proposal with id %d", commentid,id));
     }
 
     private Proposal findById(Long id){
