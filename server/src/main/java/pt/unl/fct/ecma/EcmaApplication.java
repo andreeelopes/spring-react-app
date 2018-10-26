@@ -46,10 +46,7 @@ public class EcmaApplication implements CommandLineRunner {
         for (int i = 0; i < 30; i++) {
             Proposal prop = new Proposal();
             prop.setStatus(Proposal.Status.APPROVED);
-            Bid bid = new Bid();
-            bid.setBidder(emp);
-            bid.setProposal(prop);
-            bid.setStatus(Bid.Status.WAITING.toString());
+
 
             ProposalRole role = new ProposalRole();
             role.setEmployee(emp);
@@ -57,7 +54,7 @@ public class EcmaApplication implements CommandLineRunner {
             role.setRole("PARTNER");
 
             emp.getRolesOnProposal().add(role);
-            emp.getBiddedProposals().add(bid);
+
 
             proposalRepository.save(prop);
         }

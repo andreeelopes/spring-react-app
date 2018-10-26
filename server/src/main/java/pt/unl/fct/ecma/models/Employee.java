@@ -2,12 +2,15 @@ package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Employee {
 
@@ -25,17 +28,20 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "employee")
+    @JsonIgnore
     private List<ProposalRole> rolesOnProposal = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "employee")
+            mappedBy = "bidder")
     @JsonIgnore
     private List<Bid> biddedProposals = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")
+    @JsonIgnore
     private List<Comment> comments = new LinkedList<>();
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "author")
+    @JsonIgnore
     private List<Review> reviews = new LinkedList<>();
 }

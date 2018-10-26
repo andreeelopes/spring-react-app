@@ -14,7 +14,7 @@ public interface CompanyRepository extends CrudRepository<Company,Long> {
 
     Page<Company> findByName(String name, Pageable pageable);
 
-    @Query("SELECT c.employees FROM Company c where c.company.id = :companyid")
+    @Query("SELECT c.employees FROM Company c where c.id = :companyid")
     Page<Employee> getAllEmployees(@Param(value = "companyid") Long id, Pageable pageable);
 
     @Query("SELECT e FROM Employee e where e.company.id = :companyid AND e.isAdmin = true")

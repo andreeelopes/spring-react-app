@@ -35,7 +35,7 @@ public class CompanyService {
     }
 
     public void addCompany(Company company) {
-        if (company.getId() != null) {
+        if (company.getId() == null) {
             companyRepository.save(company);
         } else throw new BadRequestException("Invalid input");
     }
@@ -97,7 +97,7 @@ public class CompanyService {
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
             return company.get();
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }
 
     public Page<Employee> getEmployeesOfCompany(Pageable pageable, Long id, String search) {
@@ -107,16 +107,16 @@ public class CompanyService {
             if (search == null) {
                 return companyRepository.getAllEmployees(id, pageable);
             } else return companyRepository.getEmployeesByName(search, id, pageable);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }
 
-    public void updateEmployeesOfCompany(Company companyToBeUpdated, Long id) {
+    public void updateCompany(Company companyToBeUpdated, Long id) {
         Optional<Company> company = companyRepository.findById(companyToBeUpdated.getId());
         if (company.isPresent()) {
             Company realcompany = company.get();
             if (realcompany.getId() == id) {
                 companyRepository.save(companyToBeUpdated);
             } else throw new BadRequestException("O id é invalido");
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }
 }

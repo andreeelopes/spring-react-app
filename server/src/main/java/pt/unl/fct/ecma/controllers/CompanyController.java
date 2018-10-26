@@ -75,6 +75,6 @@ public class CompanyController implements CompaniesApi {
 
     @Override
     public void updateCompany(@Valid @RequestBody Company company, @PathVariable Long id) { //TODO is this here?
-        companyService.updateEmployeesOfCompany(company, id);
+        companyService.updateCompany(company, id);
     }
 }
