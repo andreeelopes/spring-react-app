@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
@@ -36,12 +37,24 @@ public class EcmaApplication implements CommandLineRunner {
         emp.setEmail("simon@gmail.com");
         emp.setJob("Informatico");
         emp.setName("Simon");
+        emp.setUsername("simon");
+        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
         emp.setAdmin(true);
+
+        Employee emp2 = new Employee();
+        emp2.setEmail("andre@gmail.com");
+        emp2.setJob("Canalizador");
+        emp2.setName("andre");
+        emp2.setUsername("andre");
+        emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
+        emp2.setAdmin(false);
+
         Company company = new Company();
         company.setAddress("rua idk");
         company.setEmail("ecma@");
 
         emp.setCompany(company);
+        emp2.setCompany(company);
 
         companyRepository.save(company);
 
@@ -57,6 +70,9 @@ public class EcmaApplication implements CommandLineRunner {
             review.setAuthor(emp);
             review.setProposal(prop);
 
+            Comment comment = new Comment();
+            comment.setComment("Muito bom");
+
             ProposalRole role = new ProposalRole();
             role.setEmployee(emp);
             role.setProposal(prop);
@@ -65,10 +81,14 @@ public class EcmaApplication implements CommandLineRunner {
             emp.getRolesOnProposal().add(role);
             emp.getBiddedProposals().add(bid);
             emp.getReviews().add(review);
+
+            comment.setAuthor(emp);
+            comment.setProposal(prop);
+            prop.getComments().add(comment);
             proposalRepository.save(prop);
         }
 
-
-        employeeRepository.save(emp);
+         employeeRepository.save(emp);
+        employeeRepository.save(emp2);
     }
 }

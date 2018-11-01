@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.controllers;
+package pt.unl.fct.ecma.Controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +46,7 @@ public class CompanyController implements CompaniesApi {
     }
 
     @Override
-    public void fireEmployee(Long id, Long employeeid) {
+    public void fireEmployee(@PathVariable("id")Long id, @PathVariable("employeeid") Long employeeid) {
         companyService.deleteEmployee(id, employeeid);
     }
 

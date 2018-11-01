@@ -37,7 +37,13 @@ public class EmployeeService {
         if(emp.getId()==id){
             Optional<Employee> old_emp= employeeRepository.findById(id);
             if(old_emp.isPresent()){
-                employeeRepository.save(emp);
+                Employee realemp =old_emp.get();
+                realemp.setPassword(emp.getPassword());
+                realemp.setAdmin(emp.isAdmin());
+                realemp.setEmail(emp.getEmail());
+                realemp.setName(emp.getName());
+                realemp.setJob(emp.getJob());
+                employeeRepository.save(realemp);
 
             }
             else throw new NotFoundException(String.format("Employee with id %d does not exist", id));

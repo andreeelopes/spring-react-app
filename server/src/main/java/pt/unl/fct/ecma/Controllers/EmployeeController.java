@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.controllers;
+package pt.unl.fct.ecma.Controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

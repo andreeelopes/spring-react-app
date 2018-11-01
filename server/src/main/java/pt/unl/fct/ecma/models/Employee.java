@@ -17,10 +17,14 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique=true)
+    private String username;
     private String name;
     private String email;
     private String job;
     private boolean isAdmin = false;
+    @JsonIgnore
+    private String password;
 
     @ManyToOne
     @JsonIgnore

@@ -56,7 +56,6 @@ public class CompanyService {
         if (employee.isPresent()) {
             Employee realEmpoyee = employee.get();
             if (realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId() == id) {
-
                 employeeRepository.delete(realEmpoyee);
             } else throw new BadRequestException("O utilizador não é admin da empresa");
         } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
@@ -71,7 +70,7 @@ public class CompanyService {
     }
 
     public void deleteEmployee(Long id, Long employeeid) {
-        Optional<Employee> employee = employeeRepository.findById(employeeid);
+            Optional<Employee> employee = employeeRepository.findById(employeeid);
         if (employee.isPresent()) {
             Employee realEmpoyee = employee.get();
             if (realEmpoyee.getCompany().getId() == id) {
@@ -115,7 +114,10 @@ public class CompanyService {
         if (company.isPresent()) {
             Company realcompany = company.get();
             if (realcompany.getId() == id) {
-                companyRepository.save(companyToBeUpdated);
+                realcompany.setAddress(companyToBeUpdated.getAddress());
+                realcompany.setEmail(companyToBeUpdated.getEmail());
+                realcompany.setName(companyToBeUpdated.getName());
+                companyRepository.save(realcompany);
             } else throw new BadRequestException("O id é invalido");
         } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }

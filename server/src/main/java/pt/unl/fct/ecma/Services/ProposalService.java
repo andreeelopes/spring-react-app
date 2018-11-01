@@ -198,6 +198,15 @@ public class ProposalService {
         }
         else throw new NotFoundException(String.format("Review with id %d does not have a proposal with id %d", reviewid,id));
     }
+
+    public void deleteSection(Long id, Long sectionid) {
+        Section section=findSectionById(sectionid);
+        if(section.getId()==id){
+            sectionRepository.delete(section);
+        }else throw new NotFoundException(String.format("Section with id %d does not have a proposal with id %d", sectionid,id));
+    }
+
+
     private Review findReviewById(Long id){
         Optional<Review> review = reviewRepository.findById(id);
         if(review.isPresent()) {
@@ -209,11 +218,5 @@ public class ProposalService {
         if(section.isPresent()) {
             return section.get();
         }else throw new NotFoundException(String.format("Review with id %d does not exist", id));
-    }
-    public void deleteSection(Long id, Long sectionid) {
-        Section section=findSectionById(sectionid);
-        if(section.getId()==id){
-            sectionRepository.delete(section);
-        }else throw new NotFoundException(String.format("Section with id %d does not have a proposal with id %d", sectionid,id));
     }
 }

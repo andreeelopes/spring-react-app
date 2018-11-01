@@ -13,6 +13,8 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
     Page<Employee> findAll(Pageable pageable);
 
+    Employee findByUsername(String name);
+
     Page<Employee> findByName(String name, Pageable pageable);
 
     @Query("SELECT b FROM Bid b WHERE b.status LIKE CONCAT('%',:name,'%') AND  b.bidder.id = :employeeid ")
@@ -25,7 +27,7 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
     Page<Proposal> findProposalPartner(Pageable pageable,@Param(value = "employeeid") Long id);
 
     @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
-    Page<Proposal> findProposalStaff(Pageable pageable, Long id);
+    Page<Proposal> findProposalStaff(Pageable pageable,@Param(value = "employeeid") Long id);
 
 
     //TODO Add findProposalApprover
