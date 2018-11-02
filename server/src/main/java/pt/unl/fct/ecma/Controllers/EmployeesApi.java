@@ -10,6 +10,7 @@ import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import pt.unl.fct.ecma.Security.isPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
@@ -28,6 +29,7 @@ public interface EmployeesApi {
     @RequestMapping(value = "/employees/{id}",
             produces = { "application/json" },
             method = RequestMethod.GET)
+
     Employee getEmployee(@ApiParam(value = "ID of employee to return",required=true) @PathVariable("id") Long id);
 
 

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pt.unl.fct.ecma.Security.isPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
@@ -30,6 +31,7 @@ public class EmployeeController implements EmployeesApi{
 
 
     @Override
+    @isPrincipal
     public Employee getEmployee(@PathVariable Long id) {
         try {
             return employeeService.getEmployeeById(id);
@@ -39,6 +41,7 @@ public class EmployeeController implements EmployeesApi{
     }
 
     @Override
+    @isPrincipal
     public Page<Bid> getEmployeeBids(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable) {
         if(search == null) {
             return employeeService.getAllBid(id,pageable);
@@ -59,16 +62,19 @@ public class EmployeeController implements EmployeesApi{
     }
 
     @Override
+    @isPrincipal
     public Page<Proposal> getProposalPartner(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
         return  employeeService.getProposalPartner(pageable,id);
     }
 
     @Override
+    @isPrincipal
     public Page<Proposal> getProposalStaff(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
         return  employeeService.getProposalStaff(pageable,id);
     }
 
     @Override
+    @isPrincipal
     public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {
         employeeService.updateEmployee(id,employee);
     }
