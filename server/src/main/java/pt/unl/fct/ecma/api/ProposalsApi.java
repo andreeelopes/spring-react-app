@@ -89,16 +89,6 @@ public interface ProposalsApi {
     void deleteStaff(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Staff ID", required = true) @PathVariable("staffid") Long staffid);
 
 
-    @ApiOperation(value = "Find all proposals by title", nickname = "findProposal", notes = "Retrieves all proposals with our without a filter on title", response = Proposal.class, responseContainer = "List", tags = {"proposals",})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Invalid title value")})
-    @RequestMapping(value = "/proposals",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    Page<Proposal> findProposal(Pageable pageable, @ApiParam(value = "Title value to be considered for filter") @Valid @RequestParam(value = "title", required = false) String title);
-
-
     @ApiOperation(value = "Find proposal by ID", nickname = "getProposal", notes = "Returns a single proposal", response = Proposal.class, tags = {"proposals",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class),

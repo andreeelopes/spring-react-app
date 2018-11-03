@@ -8,4 +8,5 @@ import pt.unl.fct.ecma.models.Comment;
 public interface CommentRepository extends CrudRepository<Comment,Long> {
     Page<Comment> findAllByProposal_Id(Long id, Pageable pageable);
 
+
 }

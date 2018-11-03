@@ -1,5 +1,7 @@
 package pt.unl.fct.ecma.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
@@ -216,5 +218,19 @@ public class ProposalService {
         if(section.isPresent()) {
             return section.get();
         }else throw new NotFoundException(String.format("Review with id %d does not exist", id));
+    }
+
+
+    public Proposal getProposal(Long id) {
+
+        return findById(id);
+    }
+
+    public Page<Employee> getProposalMembers(Long id,Pageable pageable) {
+        return proposalRepository.getProposalMembers(id,pageable);
+    }
+
+    public Page<Employee> getProposalStaff(Long id,Pageable pageable) {
+        return proposalRepository.getProposalStaff(id,pageable);
     }
 }

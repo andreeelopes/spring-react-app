@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import pt.unl.fct.ecma.models.Bid;
+import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.models.ProposalRole;
 
@@ -47,4 +48,10 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
 
     @Query("select r FROM ProposalRole r WHERE r.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
     List<ProposalRole> staffExists(@Param(value = "id")Long id, @Param(value = "staffid") Long partnerid);
+
+    @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','PARTNER','%') AND r.proposal.id = :id")
+    Page<Employee> getProposalMembers(@Param(value = "id")Long id, Pageable pageable);
+
+    @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
+    Page<Employee> getProposalStaff(@Param(value = "id")Long id, Pageable pageable);
 }

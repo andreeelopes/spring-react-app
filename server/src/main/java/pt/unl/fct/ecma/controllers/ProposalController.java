@@ -56,25 +56,19 @@ public class ProposalController implements ProposalsApi {
     }
 
     @Override
-    public Page<Proposal> findProposal(Pageable pageable, @Valid String title) {
-        return null;
+    public Proposal getProposal(@PathVariable("id") Long id) {
+        return proposalService.getProposal(id);
+    }
+
+    @Override
+    public Page<Employee> getProposalMembers(Pageable pageable,@PathVariable("id") Long id) {
+        return proposalService.getProposalMembers(id,pageable);
     }
 
 
     @Override
-    public Proposal getProposal(Long id) {
-        return null;
-    }
-
-    @Override
-    public Page<Employee> getProposalMembers(Pageable pageable, Long id) {
-        return null;
-    }
-
-
-    @Override
-    public Page<Employee> getStaffMembers(Pageable pageable, Long id) {
-        return null;
+    public Page<Employee> getStaffMembers(Pageable pageable,@PathVariable("id") Long id) {
+        return proposalService.getProposalStaff(id,pageable);
     }
 
 
