@@ -3,7 +3,7 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package pt.unl.fct.ecma.controllers;
+package pt.unl.fct.ecma.api;
 
 
 import io.swagger.annotations.*;

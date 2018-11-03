@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pt.unl.fct.ecma.api.EmployeesApi;
 import pt.unl.fct.ecma.security.isPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
@@ -18,7 +19,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 
-public class EmployeeController implements EmployeesApi{
+public class EmployeeController implements EmployeesApi {
 
     public static final String BASE_URL="/employees";
 

@@ -2,6 +2,7 @@ package pt.unl.fct.ecma.api;
 
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,50 +18,60 @@ import pt.unl.fct.ecma.models.Section;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-11-03T10:56:43.867Z")
 
 @Api(value = "sections", description = "the sections API")
 public interface SectionsApi {
 
-    @ApiOperation(value = "Delete the section with the provided ID", nickname = "deleteSection", notes = "", tags={ "sections", })
+
+    @ApiOperation(value = "Add a new section to the proposal", nickname = "addSection", notes = "", tags = {"proposals",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Added a new Section"),
+            @ApiResponse(code = 405, message = "Invalid input")})
+    @RequestMapping(value = "/proposals/{id}/sections/",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    void addSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
+                    @ApiParam(value = "Section object to add to the proposal", required = true)
+                    @Valid @RequestBody Section section);
+
+
+    @ApiOperation(value = "Delete section with the ID provided", nickname = "deleteSection", notes = "", tags = {"proposals",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Section not found") })
-    @RequestMapping(value = "/sections/{id}",
+            @ApiResponse(code = 404, message = "Proposal not found")})
+    @RequestMapping(value = "/proposals/{id}/sections/{sectionid}",
             method = RequestMethod.DELETE)
-    void deleteSection(@ApiParam(value = "Section ID",required=true) @PathVariable("id") Long id);
+    void deleteSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
+                       @ApiParam(value = "Section ID", required = true) @PathVariable("sectionid") Long sectionid);
 
 
-    @ApiOperation(value = "Get the list of all sections", nickname = "getAllSections", notes = "Returns all the sections", response = Section.class, responseContainer = "List", tags={ "sections", })
+    @ApiOperation(value = "Get all sections by the proposal ID", nickname = "getProposalSections",
+            notes = "Returns all sections", response = Section.class, responseContainer = "List", tags = {"proposals",})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = Section.class, responseContainer = "List") })
-    @RequestMapping(value = "/sections",
-            produces = { "application/json" },
-            method = RequestMethod.GET)
-    Page<Section> getAllSections(@ApiParam(value = "Filter sections by type") @Valid @RequestParam(value = "search", required = false) String search);
-
-
-    @ApiOperation(value = "Find section by ID", nickname = "getSection", notes = "Returns a single section", response = Section.class, tags={ "sections", })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful operation", response = Section.class),
+            @ApiResponse(code = 200, message = "Successful operation", response = Section.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Section not found") })
-    @RequestMapping(value = "/sections/{id}",
-            produces = { "application/json" },
+            @ApiResponse(code = 404, message = "Proposal not found")})
+    @RequestMapping(value = "/proposals/{id}/sections/",
+            produces = {"application/json"},
             method = RequestMethod.GET)
-    Page<Section> getSection(@ApiParam(value = "ID of section to return",required=true) @PathVariable("id") Long id);
+    Page<Section> getProposalSections(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Update the section with the provided ID", nickname = "updateSection", notes = "", tags={ "sections", })
+    @ApiOperation(value = "Update sections with ID provided", nickname = "updateSection", notes = "", tags = {"proposals",})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
-            @ApiResponse(code = 404, message = "Section not found"),
-            @ApiResponse(code = 405, message = "Validation exception") })
-    @RequestMapping(value = "/sections/{id}",
-            consumes = { "application/json" },
+            @ApiResponse(code = 404, message = "Proposal or section not found"),
+            @ApiResponse(code = 405, message = "Validation exception")})
+    @RequestMapping(value = "/proposals/{id}/sections/{sectionid}",
+            consumes = {"application/json"},
             method = RequestMethod.PUT)
-    void updateSection(@ApiParam(value = "Section object that will be updated" ,required=true )  @Valid @RequestBody Section section,@ApiParam(value = "ID of Section to return",required=true) @PathVariable("id") Long id);
+    void updateSection(@ApiParam(value = "Section object that needs to be updated in the collection", required = true)
+                       @Valid @RequestBody Section section, @ApiParam(value = "Section ID", required = true)
+    @PathVariable("sectionid") Long sectionid, @ApiParam(value = "ID of proposal to return", required = true) @PathVariable("id") Long id);
 
 }
 
