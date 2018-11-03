@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.SectionsApi;
+import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Section;
 import pt.unl.fct.ecma.services.SectionService;
 
@@ -16,14 +17,13 @@ import javax.validation.Valid;
 @RestController
 public class SectionController implements SectionsApi {
 
+    @Autowired
     SectionService sectionService;
-
-    public SectionController(SectionService sectionService){
-        this.sectionService = sectionService;
-    }
 
     @Override
     public void addSection(Long id, @Valid Section section) {
+        if(id != null)
+            throw new BadRequestException("Invalid id supplied");
         sectionService.addSection(id, section);
     }
 
