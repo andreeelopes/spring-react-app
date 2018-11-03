@@ -9,6 +9,7 @@ package pt.unl.fct.ecma.api;
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,21 @@ import pt.unl.fct.ecma.models.*;
 
 
 import javax.validation.Valid;
+import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-25T09:46:01.754Z")
 
 @Api(value = "proposals", description = "the proposals API")
 public interface ProposalsApi {
+
+
+    @ApiOperation(value = "Get all list of all proposals", nickname = "getAllProposals", notes = "Returns all proposals", response = Proposal.class, responseContainer = "List", tags={ "proposals", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class, responseContainer = "List") })
+    @RequestMapping(value = "/proposals",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    Page<Proposal> getAllProposals(Pageable pageable, @ApiParam(value = "Filter proposal status") @Valid @RequestParam(value = "search", required = false) String search);
 
 
     @ApiOperation(value = "Add a new partner member to the proposal", nickname = "addPartner", notes = "", tags = {"proposals",})

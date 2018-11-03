@@ -233,4 +233,12 @@ public class ProposalService {
     public Page<Employee> getProposalStaff(Long id,Pageable pageable) {
         return proposalRepository.getProposalStaff(id,pageable);
     }
+
+    public Page<Proposal> getAllProposals(Pageable pageable) {
+        return proposalRepository.findAll(pageable);
+    }
+
+    public Page<Proposal> getProposalsByStatus(String search, Pageable pageable) {
+        return proposalRepository.findByStatus(pageable, search);
+    }
 }

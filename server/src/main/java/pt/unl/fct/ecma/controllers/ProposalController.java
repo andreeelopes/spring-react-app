@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.ProposalsApi;
 import pt.unl.fct.ecma.services.ProposalService;
@@ -20,6 +21,15 @@ public class ProposalController implements ProposalsApi {
         this.proposalService = proposalService;
     }
 
+
+    @Override
+    public Page<Proposal> getAllProposals(Pageable pageable, @Valid @RequestParam(value = "search", required = false) String search) {
+        if(search == null)
+            return proposalService.getAllProposals(pageable);
+        else
+            return proposalService.getProposalsByStatus(search, pageable);
+
+    }
 
     @Override
     public void addPartner(@PathVariable Long id, @Valid @RequestBody Employee member) {

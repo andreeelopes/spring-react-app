@@ -15,6 +15,12 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface ProposalRepository extends CrudRepository<Proposal,Long> {
+
+    Page<Proposal> findAll(Pageable pageable);
+
+    Page<Proposal> findByStatus(Pageable pageable, String status);
+
+
     @Transactional
     @Modifying
     @Query("delete from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid")
@@ -25,7 +31,6 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
 
     @Query("SELECT b FROM Bid b where b.proposal.id = :proposalid ")
     Page<Bid> findAllBids(Pageable pageable, @Param(value = "proposalid") Long id);
-
 
     @Modifying
     @Query("update Bid b set b.status = :status where b.bidder.id = :employeeid and b.proposal.id = :proposalid")
@@ -54,4 +59,5 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
 
     @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
     Page<Employee> getProposalStaff(@Param(value = "id")Long id, Pageable pageable);
+
 }
