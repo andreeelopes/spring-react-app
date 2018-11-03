@@ -26,7 +26,7 @@ public class ReviewService {
     }
 
     public Page<Review> getProposalReviews(Proposal proposal, Pageable pageable) {
-        return rRepo.findAllProposalsBy_Id(proposal.getId(), pageable);
+        return rRepo.findAllByProposal_Id(proposal.getId(), pageable);
     }
 
     public Review findById(Long reviewId) {

@@ -24,9 +24,9 @@ public class ReviewController implements ReviewsApi {
     public void updateReview(@Valid @RequestBody Review review, @PathVariable("reviewId") Long reviewId,
                              @PathVariable("proposalId") Long proposalId) {
 
-        if (review.getProposal().getId() != proposalId)
+        if (!review.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
-        if (review.getId() != reviewId)
+        if (!review.getId().equals(reviewId))
             throw new BadRequestException("Ids of review do not match");
 
         rbroker.updateReview(review);
@@ -46,7 +46,9 @@ public class ReviewController implements ReviewsApi {
     @Override
     public void addReview(@PathVariable("id") Long proposalId, @Valid @RequestBody Review review) {
 
-        if (review.getProposal().getId() != proposalId)
+        if(review.getId() != null)
+            throw new BadRequestException("Cannot submit id of review");
+        if (!review.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
 
         rbroker.addReview(review);

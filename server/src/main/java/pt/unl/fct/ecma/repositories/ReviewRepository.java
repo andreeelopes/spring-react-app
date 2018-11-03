@@ -8,6 +8,5 @@ import pt.unl.fct.ecma.models.Review;
 
 public interface ReviewRepository extends CrudRepository<Review,Long> {
 
-    Page<Review> findAllProposalsBy_Id(Long id, Pageable pageable);
-
+    Page<Review> findAllByProposal_Id(Long id, Pageable pageable);
 }

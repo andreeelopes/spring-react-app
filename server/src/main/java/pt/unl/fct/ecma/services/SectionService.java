@@ -70,7 +70,7 @@ public class SectionService {
     public Page<Section> getProposalsSections(Pageable pageable, Long id) {
         findProposalById(id);
 
-        return sectionRepository.findAllProposalsBy_Id(id, pageable);
+        return sectionRepository.findAllByProposal_Id(id, pageable);
 
     }
 

@@ -7,6 +7,6 @@ import pt.unl.fct.ecma.models.Section;
 
 public interface SectionRepository extends CrudRepository<Section,Long> {
 
-    Page<Section> findAllProposalsBy_Id(Long id, Pageable pageable);
+    Page<Section> findAllByProposal_Id(Long id, Pageable pageable);
 
 }
