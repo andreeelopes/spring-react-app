@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CommentsApi;
 import pt.unl.fct.ecma.models.Comment;
+import pt.unl.fct.ecma.services.CommentService;
 
 import javax.validation.Valid;
 
@@ -14,26 +15,32 @@ import javax.validation.Valid;
 public class CommentController implements CommentsApi {
 
 
+    private CommentService commentService;
+
+    public CommentController(CommentService commentService){
+        this.commentService=commentService;
+    }
+
     @Override
     public void addComment(@PathVariable Long id, @Valid @RequestBody Comment comment) {
-        proposalService.addComment(id, comment);
+        commentService.addComment(id, comment);
     }
 
 
     @Override
     public void deleteComment(@PathVariable("id") Long id, @PathVariable("commentid") Long commentid) {
-        proposalService.deleteComment(id, commentid);
+        commentService.deleteComment(id, commentid);
     }
 
 
     @Override
-    public Page<Comment> getProposalComments(Pageable pageable, Long id) {
-        return null;
+    public Page<Comment> getProposalComments(Pageable pageable,@PathVariable Long id) {
+        return commentService.getProposalComments(pageable,id);
     }
 
 
     @Override
-    public void updateComment(@Valid Comment section, Long commentid, Long id) {
-
+    public void updateComment(@Valid @RequestBody Comment comment,@PathVariable("commentid") Long commentid,@PathVariable("id") Long id) {
+        commentService.updateComment(comment,commentid,id);
     }
 }
