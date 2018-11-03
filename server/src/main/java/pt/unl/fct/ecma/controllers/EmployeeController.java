@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Controllers;
+package pt.unl.fct.ecma.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pt.unl.fct.ecma.Security.isPrincipal;
+import pt.unl.fct.ecma.security.isPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.errors.NotFoundException;
-import pt.unl.fct.ecma.Services.EmployeeService;
+import pt.unl.fct.ecma.services.EmployeeService;
 
 import javax.validation.Valid;
 import java.util.NoSuchElementException;

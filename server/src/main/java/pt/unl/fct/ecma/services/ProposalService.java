@@ -1,6 +1,5 @@
-package pt.unl.fct.ecma.Services;
+package pt.unl.fct.ecma.services;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
@@ -8,7 +7,6 @@ import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.*;
 
 import javax.transaction.Transactional;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Optional;
 

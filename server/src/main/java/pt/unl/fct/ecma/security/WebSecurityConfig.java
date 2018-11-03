@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Security;
+package pt.unl.fct.ecma.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
