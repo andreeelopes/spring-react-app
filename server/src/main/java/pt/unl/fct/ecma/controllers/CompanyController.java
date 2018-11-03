@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @RestController
 public class CompanyController implements CompaniesApi {
-    CompanyService companyService;
+    private CompanyService companyService;
 
     public CompanyController(CompanyService companyService) { //companyService should be static
         this.companyService = companyService;
@@ -75,7 +75,7 @@ public class CompanyController implements CompaniesApi {
     }
 
     @Override
-    public void updateCompany(@Valid @RequestBody Company company, @PathVariable Long id) { //TODO is this here?
+    public void updateCompany(@Valid @RequestBody Company company, @PathVariable Long id) {
         companyService.updateCompany(company, id);
     }
 }
