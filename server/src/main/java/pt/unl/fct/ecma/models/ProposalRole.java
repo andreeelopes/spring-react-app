@@ -16,6 +16,7 @@ public class ProposalRole  implements Serializable {
     @ManyToOne
     @JsonIgnore
     private Proposal proposal;
+
     @Id
     @ManyToOne
     @JsonIgnore

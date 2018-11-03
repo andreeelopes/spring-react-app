@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,17 +18,29 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     @Column(unique=true)
     private String username;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String job;
+
     private boolean isAdmin = false;
+
     @JsonIgnore
+    @NotNull
     private String password;
 
     @ManyToOne
     @JsonIgnore
+    @NotNull
     private Company company;
 
     @OneToMany(cascade = CascadeType.ALL,

@@ -16,12 +16,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     private Employee author;
 
     @NotNull
     private String text;
 
+    @NotNull
     @ManyToOne
     private Proposal proposal;
 

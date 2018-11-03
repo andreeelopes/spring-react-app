@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,10 +45,11 @@ public class Proposal {
     @JsonIgnore
     private List<Bid> bids = new LinkedList<>();
 
+    @NotNull
     @ManyToOne
     private Company companyProposed;
 
-    private Status status;
+    private Status status = Status.PLACED;
 
     public enum Status{
         PLACED,APPROVED,DECLINED

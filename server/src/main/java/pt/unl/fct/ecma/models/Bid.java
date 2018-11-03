@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
@@ -14,12 +15,16 @@ import java.io.Serializable;
 @Entity
 public class Bid implements Serializable {
     public enum Status{DENIED,WAITING,ACCEPTED}
+
     @ManyToOne
     @Id
     private Employee bidder;
+
     @ManyToOne
     @Id
     private Proposal proposal;
+
+    @NotNull
     private  String status;
 
 }
