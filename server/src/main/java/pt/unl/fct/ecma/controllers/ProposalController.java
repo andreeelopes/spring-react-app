@@ -1,11 +1,11 @@
-package pt.unl.fct.ecma.Controllers;
+package pt.unl.fct.ecma.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pt.unl.fct.ecma.Services.ProposalService;
+import pt.unl.fct.ecma.services.ProposalService;
 import pt.unl.fct.ecma.models.*;
 
 import javax.validation.Valid;

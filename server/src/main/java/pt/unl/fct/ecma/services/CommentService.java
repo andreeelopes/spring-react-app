@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.Services;
+package pt.unl.fct.ecma.services;
 
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.repositories.CommentRepository;

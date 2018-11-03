@@ -1,6 +1,5 @@
-package pt.unl.fct.ecma.Security;
+package pt.unl.fct.ecma.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
