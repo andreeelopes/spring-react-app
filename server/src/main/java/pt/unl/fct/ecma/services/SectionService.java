@@ -22,11 +22,6 @@ public class SectionService {
     private ProposalRepository proposalRepository;
 
 
-    public SectionService(SectionRepository sectionRepository, ProposalRepository proposalRepository) {
-        this.sectionRepository = sectionRepository;
-        this.proposalRepository = proposalRepository;
-    }
-
     public void deleteSection(Long id, Long sectionid) {
         Section section = findSectionById(sectionid);
         Proposal proposal = findProposalById(id);
