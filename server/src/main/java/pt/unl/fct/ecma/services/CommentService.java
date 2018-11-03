@@ -78,8 +78,7 @@ public class CommentService {
     public void updateComment(Comment comment, Long commentid, Long id) {
         findProposalById(id);
         Comment dbcomment = findCommentById(commentid);
-        if(dbcomment.getProposal().getId()==id){
             dbcomment.setComment(comment.getComment());
-        }throw new BadRequestException(String.format("Proposal doesnt have the comment with id %d",commentid));
+            commentRepository.save(dbcomment);
     }
 }

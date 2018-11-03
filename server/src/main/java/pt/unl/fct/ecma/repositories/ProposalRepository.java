@@ -1,5 +1,7 @@
 package pt.unl.fct.ecma.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -20,6 +22,14 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
     @Query("select b from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid")
     List<Bid> existsBid(@Param(value = "id")Long id,@Param(value = "employeeid") Long employeeid);
 
+    @Query("SELECT b FROM Bid b where b.proposal.id = :proposalid ")
+    Page<Bid> findAllBids(Pageable pageable, @Param(value = "proposalid") Long id);
+
+
+    @Modifying
+    @Query("update Bid b set b.status = :status where b.bidder.id = :employeeid and b.proposal.id = :proposalid")
+    @Transactional
+    void changeBidStatus(@Param(value = "status") String status,@Param(value = "employeeid")Long employeeId, @Param(value = "proposalid") Long proposalid );
 
 
     @Transactional

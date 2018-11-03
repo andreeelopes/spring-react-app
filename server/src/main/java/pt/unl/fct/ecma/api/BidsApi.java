@@ -32,9 +32,9 @@ public interface BidsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or bid not found")})
-    @RequestMapping(value = "/proposals/{id}/bids/{bidid}",
+    @RequestMapping(value = "/proposals/{id}/bids/{employeeid}",
             method = RequestMethod.DELETE)
-    void deleteBid(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Bid ID", required = true) @PathVariable("bidid") Long bidid);
+    void deleteBid(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Bid ID", required = true) @PathVariable("employeeid") Long employeeid);
 
 
     @ApiOperation(value = "Get all bids by the proposal ID", nickname = "getBids", notes = "Returns all bids", response = Bid.class, responseContainer = "List", tags = {"proposals",})
@@ -53,13 +53,13 @@ public interface BidsApi {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or bid not found"),
             @ApiResponse(code = 405, message = "Validation exception")})
-    @RequestMapping(value = "/proposals/{id}/bids/{bidid}",
+    @RequestMapping(value = "/proposals/{id}/bids/{employeeid}",
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     void updateBid(
             @ApiParam(value = "Bid object that needs to be updated in the collection", required = true)
-            @Valid @RequestBody Bid review,
-            @ApiParam(value = "Bid ID", required = true) @PathVariable("bidid") Long bidid,
+            @Valid @RequestBody Bid bid,
+            @ApiParam(value = "Employee ID", required = true) @PathVariable("employeeid") Long employeeid,
             @ApiParam(value = "ID of proposal", required = true) @PathVariable("id") Long id);
 
 

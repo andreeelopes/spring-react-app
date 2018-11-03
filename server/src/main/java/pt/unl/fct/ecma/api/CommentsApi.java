@@ -63,7 +63,7 @@ public interface CommentsApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     void updateComment(@ApiParam(value = "Comment object that needs to be updated in the collection", required = true)
-                       @Valid @RequestBody Comment section, @ApiParam(value = "Comment ID", required = true)
+                       @Valid @RequestBody Comment comment, @ApiParam(value = "Comment ID", required = true)
                        @PathVariable("commentid") Long commentid, @ApiParam(value = "ID of proposal to return", required = true)
                        @PathVariable("id") Long id);
 
