@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class Review {
     public enum Score{BAD,POOR,OK,GREAT,EXCELENT}
 
-    @NotNull
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

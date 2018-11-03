@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pt.unl.fct.ecma.models.*;
+import pt.unl.fct.ecma.repositories.CommentRepository;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
@@ -28,7 +29,8 @@ public class EcmaApplication implements CommandLineRunner {
     @Autowired
     CompanyRepository companyRepository;
 
-
+    @Autowired
+    CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -52,14 +54,17 @@ public class EcmaApplication implements CommandLineRunner {
         Company company = new Company();
         company.setAddress("rua idk");
         company.setEmail("ecma@");
+        company.setName("atum");
 
         emp.setCompany(company);
         emp2.setCompany(company);
 
         companyRepository.save(company);
-
+        employeeRepository.save(emp);
+        employeeRepository.save(emp2);
         for (int i = 0; i < 30; i++) {
             Proposal prop = new Proposal();
+            prop.setCompanyProposed(company);
             prop.setStatus(Proposal.Status.APPROVED);
             Bid bid = new Bid();
             bid.setBidder(emp);
@@ -69,6 +74,8 @@ public class EcmaApplication implements CommandLineRunner {
             Review review= new Review();
             review.setAuthor(emp);
             review.setProposal(prop);
+            review.setScore(Review.Score.EXCELENT);
+            review.setText("ola");
 
             Comment comment = new Comment();
             comment.setComment("Muito bom");
@@ -82,13 +89,13 @@ public class EcmaApplication implements CommandLineRunner {
             emp.getBiddedProposals().add(bid);
             emp.getReviews().add(review);
 
-            comment.setAuthor(emp);
-            comment.setProposal(prop);
-            prop.getComments().add(comment);
+
+
+
             proposalRepository.save(prop);
+
         }
 
-         employeeRepository.save(emp);
-        employeeRepository.save(emp2);
+
     }
 }
