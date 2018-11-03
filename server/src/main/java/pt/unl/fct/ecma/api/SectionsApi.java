@@ -43,7 +43,7 @@ public interface SectionsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/sections/{sectionid}",
+    @RequestMapping(value = "/proposals/{proposalId}/sections/{sectionId}",
             method = RequestMethod.DELETE)
     void deleteSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
                        @ApiParam(value = "Section ID", required = true) @PathVariable("sectionid") Long sectionid);
@@ -66,12 +66,12 @@ public interface SectionsApi {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or section not found"),
             @ApiResponse(code = 405, message = "Validation exception")})
-    @RequestMapping(value = "/proposals/{id}/sections/{sectionid}",
+    @RequestMapping(value = "/proposals/{proposalId}/sections/{sectionId}",
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     void updateSection(@ApiParam(value = "Section object that needs to be updated in the collection", required = true)
                        @Valid @RequestBody Section section, @ApiParam(value = "Section ID", required = true)
-    @PathVariable("sectionid") Long sectionid, @ApiParam(value = "ID of proposal to return", required = true) @PathVariable("id") Long id);
+    @PathVariable("sectionId") Long sectionId, @ApiParam(value = "ID of proposal to return", required = true) @PathVariable("proposalId") Long proposalId);
 
 }
 
