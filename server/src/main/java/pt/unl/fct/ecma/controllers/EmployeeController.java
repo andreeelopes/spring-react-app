@@ -34,11 +34,7 @@ public class EmployeeController implements EmployeesApi {
     @Override
     @isPrincipal
     public Employee getEmployee(@PathVariable Long id) {
-        try {
             return employeeService.getEmployeeById(id);
-        }catch (NoSuchElementException exception){
-            throw new NotFoundException("Employee not found.");
-        }
     }
 
     @Override
