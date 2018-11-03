@@ -4,20 +4,27 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
 public class Review {
     public enum Score{BAD,POOR,OK,GREAT,EXCELENT}
 
-
+    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @ManyToOne
     private Employee author;
+
+    @NotNull
     private String text;
+
     @ManyToOne
     private Proposal proposal;
+
+    @NotNull
     private Score score;
 }

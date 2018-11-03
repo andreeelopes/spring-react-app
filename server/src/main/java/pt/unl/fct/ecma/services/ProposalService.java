@@ -147,7 +147,7 @@ public class ProposalService {
        }else throw new NotFoundException(String.format("Comment with id %d does not have a proposal with id %d", commentid,id));
     }
 
-    private Proposal findById(Long id){
+    public Proposal findById(Long id){
         Optional<Proposal> proposal = proposalRepository.findById(id);
         if(proposal.isPresent()) {
             return proposal.get();
