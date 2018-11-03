@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.brokers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,10 @@ import pt.unl.fct.ecma.services.ReviewService;
 @Service
 public class ReviewBroker {
 
+    @Autowired
     private ReviewService rService;
+
+    @Autowired
     private ProposalService pService;
 
 

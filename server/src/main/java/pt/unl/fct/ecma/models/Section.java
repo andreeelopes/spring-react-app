@@ -12,7 +12,7 @@ public class Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JsonIgnore
     private Proposal proposal;

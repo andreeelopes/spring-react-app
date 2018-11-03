@@ -17,7 +17,7 @@ public class Proposal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
