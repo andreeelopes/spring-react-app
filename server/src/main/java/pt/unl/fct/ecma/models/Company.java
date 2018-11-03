@@ -26,4 +26,9 @@ public class Company {
     @JsonIgnore
     private List<Employee> employees = new LinkedList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "companyProposed")
+    @JsonIgnore
+    private List<Proposal> proposals;
+
 }

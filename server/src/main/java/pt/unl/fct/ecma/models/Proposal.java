@@ -44,6 +44,9 @@ public class Proposal {
     @JsonIgnore
     private List<Bid> bids = new LinkedList<>();
 
+    @ManyToOne
+    private Company companyProposed;
+
     private Status status;
 
     public enum Status{
