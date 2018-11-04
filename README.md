@@ -26,3 +26,4 @@ Consider an application that a marketing company called ECMA uses to host and or
 * Por o approver na proposal
 * Verificar se o approver faz parte da company da proosal
 * Enumerado de roles
+* Adicionar pasta 'annotations' à pasta 'security'
