@@ -57,7 +57,7 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
     void deleteStaff(@Param(value = "id")Long id, @Param(value = "staffid") Long partnerid);
 
     @Query("select r FROM ProposalRole r WHERE r.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
-    List<ProposalRole> staffExists(@Param(value = "id")Long id, @Param(value = "staffid") Long partnerid);
+    List<ProposalRole> staffExists(@Param(value = "id")Long id, @Param(value = "staffid") Long staffId);
 
     @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','PARTNER','%') AND r.proposal.id = :id")
     Page<Employee> getProposalMembers(@Param(value = "id")Long id, Pageable pageable);

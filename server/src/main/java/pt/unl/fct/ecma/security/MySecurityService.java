@@ -23,6 +23,7 @@ public class MySecurityService {
 
     public MySecurityService(EmployeeRepository peopleRepository, ProposalRepository proposalRepository,
                              CompanyRepository companyRepository, CommentRepository commentRepository) {
+
         this.peopleRepository = peopleRepository;
         this.proposalRepository = proposalRepository;
         this.companyRepository = companyRepository;
@@ -31,25 +32,42 @@ public class MySecurityService {
     }
 
     public boolean isPrincipal(User user, Long id) {
+
         Optional<Employee> person = peopleRepository.findById(id);
 
         return person.isPresent() && person.get().getUsername().equals(user.getUsername());
     }
 
-    public boolean isApproverOfProposal(User user,Long proposalid){
+    public boolean isApproverOfProposal(User user,Long proposalId){
+
         Employee person = peopleRepository.findByUsername(user.getUsername());
-        Optional<Proposal> proposal = proposalRepository.findById(proposalid);
+        Optional<Proposal> proposal = proposalRepository.findById(proposalId);
+
         return proposal.isPresent() && proposal.get().getApprover().getId().equals(person.getId());
     }
 
-    public boolean belongsToTeamProposal(User user,Long proposalid){
+    public boolean belongsToTeamProposal(User user,Long proposalId){
+
         Employee person = peopleRepository.findByUsername(user.getUsername());
-        Optional<Proposal> proposal = proposalRepository.findById(proposalid);
-        return proposal.isPresent() && (proposalRepository.partnerExists(proposalid,person.getId()).size()>0 || proposalRepository.staffExists(proposalid,person.getId()).size()>0);
+        Optional<Proposal> proposal = proposalRepository.findById(proposalId);
+
+        return proposal.isPresent() && (proposalRepository.partnerExists(proposalId, person.getId()).size() > 0
+                || proposalRepository.staffExists(proposalId, person.getId()).size() > 0);
+    }
+
+    public boolean belongsToStaffProposal(User user,Long proposalId){
+
+        Employee person = peopleRepository.findByUsername(user.getUsername());
+        Optional<Proposal> proposal = proposalRepository.findById(proposalId);
+
+        return proposal.isPresent() && (proposalRepository.staffExists(proposalId, person.getId()).size() > 0
+                || proposalRepository.staffExists(proposalId, person.getId()).size() > 0);
     }
 
     public boolean bidHasPrincipal(User user, Bid bid){
+
         Employee person = peopleRepository.findByUsername(user.getUsername());
+
         return bid.getBidder().getUsername().equals(person.getUsername());
     }
 
@@ -57,13 +75,17 @@ public class MySecurityService {
 
         return comment.getAuthor().getUsername().equals(user.getUsername());
     }
+
     public boolean IsAdminOfCompany(User user,Long id){
+
         Employee employee = peopleRepository.findByUsername(user.getUsername());
+
         return employee.isAdmin() && employee.getCompany().getId().equals(id);
 
     }
 
     public boolean isAuthorOfExistingComment(User user, Long commentId){
+
         Optional<Comment> comment = commentRepository.findById(commentId);
         boolean isAuthor = false;
 
@@ -81,7 +103,9 @@ public class MySecurityService {
     }
 
     public boolean isBidApproved(User user, Long proposalId) {
+
         Employee person = peopleRepository.findByUsername(user.getUsername());
+
         return proposalRepository.existsBidOnProposalWithStatus
                 (proposalId, person.getId(), Bid.Status.ACCEPTED.toString()).size() > 0;
     }
