@@ -8,9 +8,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize(CanAddComment.Condition)
-public @interface CanAddComment {
+@PreAuthorize(IsAuthorOfComment.Condition)
+public @interface IsAuthorOfComment {
+
     String Condition =
-            "@mySecurityService.isAuthorOfComment(principal, #comment) and " +
-            "@mySecurityService.belongsToTeamProposal(principal, #id)";
+            "@mySecurityService.isAuthorOfExistingComment(principal, #commentid)";
 }
