@@ -34,19 +34,20 @@ public class BidService {
         Optional<Employee> employee = employeeRepository.findById(bidid);
 
         if(employee.isPresent()){
+            if(!(proposalRepository.existsBid(id,bidid).size()>0)){
+                Bid newBid = new Bid();
+                Proposal realProposal = findProposalById(id);
+                Employee realEmployee = employee.get();
 
-            Bid newBid = new Bid();
-            Proposal realProposal = findProposalById(id);
-            Employee realEmployee = employee.get();
-
-            newBid.setBidder(realEmployee);
-            newBid.setProposal(realProposal);
-            newBid.setStatus("WAITING");
+                newBid.setBidder(realEmployee);
+                newBid.setProposal(realProposal);
+                newBid.setStatus("WAITING");
 
 
-            realProposal.getBids().add(newBid);
+                realProposal.getBids().add(newBid);
 
-            employeeRepository.save(realEmployee);
+                employeeRepository.save(realEmployee);
+            } else throw new BadRequestException("The user already did the bid");
         }else throw new BadRequestException("The id of employee in bid is invalid");
 
     }
