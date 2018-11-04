@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.SectionsApi;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Section;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalStaff;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
 import pt.unl.fct.ecma.services.SectionService;
 
 import javax.validation.Valid;
@@ -20,8 +22,7 @@ public class SectionController implements SectionsApi {
     @Autowired
     SectionService sectionService;
 
-    //@BelongsToProposalStaff
-    //staff
+    @BelongsToProposalStaff
     @Override
     public void addSection(Long id, @Valid Section section) {
         if(id != null)
@@ -29,22 +30,19 @@ public class SectionController implements SectionsApi {
         sectionService.addSection(id, section);
     }
 
-    //@BelongsToProposalStaff
-    //staff
+    @BelongsToProposalStaff
     @Override
     public void deleteSection(Long id, Long sectionid) {
         sectionService.deleteSection(id, sectionid);
     }
 
-    //@BelongsToProposalTeam
-    //pertencer à team
+    @BelongsToProposalTeam
     @Override
     public Page<Section> getProposalSections(Pageable pageable, Long id) {
         return sectionService.getProposalsSections(pageable, id);
     }
 
-    //@BelongsToProposalStaff
-    //staff
+    @BelongsToProposalStaff
     @Override
     public void updateSection(@Valid Section section, Long sectionId, Long proposalId) {
         sectionService.updateSection(section, sectionId, proposalId);
