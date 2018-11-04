@@ -40,7 +40,6 @@ public class CommentService {
             }
             else throw new BadRequestException("The id of comment is invalid");
         }else throw new BadRequestException("The comment doesnt have author");
-
     }
 
     public void deleteComment(Long id, Long commentid) {
@@ -49,6 +48,20 @@ public class CommentService {
             commentRepository.delete(comment);
         }else throw new NotFoundException(String.format("Comment with id %d does not have a proposal with id %d", commentid,id));
     }
+
+    public Page<Comment> getProposalComments(Pageable pageable, Long id) {
+        findProposalById(id);
+        return commentRepository.findAllByProposal_Id(id,pageable);
+
+    }
+
+    public void updateComment(Comment comment, Long commentid, Long id) {
+        findProposalById(id);
+        Comment dbcomment = findCommentById(commentid);
+            dbcomment.setComment(comment.getComment());
+            commentRepository.save(dbcomment);
+    }
+
 
     private Employee findEmployeeById(Long id){
         Optional<Employee> employee = employeeRepository.findById(id);
@@ -67,18 +80,5 @@ public class CommentService {
         if(comment.isPresent()) {
             return comment.get();
         }else throw new NotFoundException(String.format("Comment with id %d does not exist", id));
-    }
-
-    public Page<Comment> getProposalComments(Pageable pageable, Long id) {
-        findProposalById(id);
-        return commentRepository.findAllByProposal_Id(id,pageable);
-
-    }
-
-    public void updateComment(Comment comment, Long commentid, Long id) {
-        findProposalById(id);
-        Comment dbcomment = findCommentById(commentid);
-            dbcomment.setComment(comment.getComment());
-            commentRepository.save(dbcomment);
     }
 }
