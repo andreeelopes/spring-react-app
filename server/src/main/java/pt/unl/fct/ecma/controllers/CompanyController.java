@@ -57,27 +57,27 @@ public class CompanyController implements CompaniesApi {
         companyService.deleteEmployee(id, employeeid);
     }
 
-    //admin daquela empresa
+
     @Override
     public Page<Employee> getAdminsOfCompany(Pageable pageable, @PathVariable Long id) {
 
         return companyService.getAdminsOfCompany(id, pageable);
     }
 
-    //isPrincipal
+
     @Override
     public Page<Company> getCompanies(Pageable pageable,
                                       @Valid @RequestParam(value = "search", required = false) String search) {
         return companyService.getAllCompanies(pageable, search);
     }
 
-    //isPrincipal
+
     @Override
     public Company getCompany(@PathVariable Long id) {
         return companyService.getCompanyById(id);
     }
 
-    //isPrincipal
+
     @Override
     public Page<Employee> getEmployeesOfCompany(Pageable pageable, @PathVariable Long id, @Valid String search) {
 

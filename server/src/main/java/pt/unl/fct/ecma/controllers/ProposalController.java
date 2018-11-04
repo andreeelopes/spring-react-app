@@ -21,7 +21,7 @@ public class ProposalController implements ProposalsApi {
         this.proposalService = proposalService;
     }
 
-    //só se pode ir buscar as propostas em que participei
+
     @Override
     public Page<Proposal> getAllProposals(Pageable pageable, @Valid @RequestParam(value = "search", required = false) String search) {
         if(search == null)
@@ -37,7 +37,7 @@ public class ProposalController implements ProposalsApi {
         proposalService.addPartner(id,member);
     }
 
-    //isPrincipal
+
     @Override
     public void addProposal(@Valid @RequestBody Proposal proposal) {
         proposalService.addProposal(proposal);
@@ -48,7 +48,7 @@ public class ProposalController implements ProposalsApi {
     public void addStaffMember(@PathVariable Long id, @Valid @RequestBody Employee staffMember) {
         proposalService.addStaffMember(id,staffMember);
     }
-
+    //TODO: update proposal
     //approver?
     @Override
     public void deletePartner(@PathVariable("id") Long id, @PathVariable("partnerid") Long partnerid) {

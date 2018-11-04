@@ -49,7 +49,7 @@ public class EmployeeController implements EmployeesApi {
         }
     }
 
-    //isPrincipal
+
     @Override
     public Page<Employee> getEmployees(@Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
         if(search == null) {

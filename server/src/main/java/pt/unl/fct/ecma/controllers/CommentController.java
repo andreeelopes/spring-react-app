@@ -27,7 +27,7 @@ public class CommentController implements CommentsApi {
         commentService.addComment(id, comment);
     }
 
-    //ser autor do comentario(? ou approver ?)
+    //ser autor do comentario ou ter a role admin
     @Override
     public void deleteComment(@PathVariable("id") Long id, @PathVariable("commentid") Long commentid) {
         commentService.deleteComment(id, commentid);
