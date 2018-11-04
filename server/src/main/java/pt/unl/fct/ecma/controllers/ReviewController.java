@@ -20,7 +20,7 @@ public class ReviewController implements ReviewsApi {
     @Autowired
     private ReviewBroker rbroker;
 
-    @CanModifyReview
+    //@CanModifyReview
     //eu
     @Override
     public void updateReview(@Valid @RequestBody Review review, @PathVariable("reviewId") Long reviewId,
@@ -34,21 +34,21 @@ public class ReviewController implements ReviewsApi {
         rbroker.updateReview(review);
     }
 
-    @BelongsToProposalTeam
+    //@BelongsToProposalTeam
     //pertence à team da proposal
     @Override
     public Page<Review> getProposalReviews(Pageable pageable, @PathVariable("id") Long proposalId) {
         return rbroker.getProposalReviews(proposalId, pageable);
     }
 
-    @CanModifyReview
+    //@CanModifyReview
     //eu
     @Override
     public void deleteReview(@PathVariable("proposalId") Long proposalId, @PathVariable("reviewid") Long reviewId) {
         rbroker.deleteReview(proposalId, reviewId);
     }
 
-    @CanAddReview
+    //@CanAddReview
     //pertence à team daquela proposal e bid tem de estar approved
     @Override
     public void addReview(@PathVariable("id") Long proposalId, @Valid @RequestBody Review review) {

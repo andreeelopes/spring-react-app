@@ -20,6 +20,10 @@ public class Proposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @ManyToOne
+    private Employee approver;
+
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "proposal")
     @JsonIgnore

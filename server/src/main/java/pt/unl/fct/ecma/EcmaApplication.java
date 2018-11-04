@@ -65,6 +65,7 @@ public class EcmaApplication implements CommandLineRunner {
         for (int i = 0; i < 30; i++) {
             Proposal prop = new Proposal();
             prop.setCompanyProposed(company);
+            prop.setApprover(emp);
             prop.setStatus(Proposal.Status.APPROVED);
             Bid bid = new Bid();
             bid.setBidder(emp);

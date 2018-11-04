@@ -21,42 +21,42 @@ public class CompanyController implements CompaniesApi {
         this.companyService = companyService;
     }
 
-    @CanAddAdmin
+    //@CanAddAdmin
     //hasRole(ADMIN) && verificar se é admin da empresa do novo admin
     @Override
     public void addAdmin(@Valid @RequestBody Employee employee, @PathVariable Long id) {
         companyService.addAdmin(employee, id);
     }
 
-    @IsSuperAdmin
+    //@IsSuperAdmin
     //hasRole(ADMIN)
     @Override
     public void addCompany(@Valid @RequestBody Company company) {
         companyService.addCompany(company);
     }
 
-    @IsAdminOfCompany
+    //@IsAdminOfCompany
     //admin daquela empresa
     @Override
     public void addEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {
         companyService.addEmployee(employee, id);
     }
 
-    @IsSuperAdmin
+    //@IsSuperAdmin
     //hasRole(ADMIN)
     @Override
     public void deleteAdmin(@PathVariable("id") Long id, @PathVariable("adminId") Long adminId) {
         companyService.deleteAdmin(id, adminId);
     }
 
-    @CanDeleteCompany
+    //@CanDeleteCompany
     //hasRole(ADMIN) e admin da empresa
     @Override
     public void deleteCompany(@PathVariable Long id) {
         companyService.deleteCompany(id);
     }
 
-    @IsAdminOfCompany
+    //@IsAdminOfCompany
     //admin daquela empresa
     @Override
     public void fireEmployee(@PathVariable("id") Long id, @PathVariable("employeeid") Long employeeid) {
@@ -89,7 +89,7 @@ public class CompanyController implements CompaniesApi {
         return companyService.getEmployeesOfCompany(pageable, id, search);
     }
 
-    @IsAdminOfCompany
+    //@IsAdminOfCompany
     //admin da empresa
     @Override
     public void updateCompany(@Valid @RequestBody Company company, @PathVariable Long id) {

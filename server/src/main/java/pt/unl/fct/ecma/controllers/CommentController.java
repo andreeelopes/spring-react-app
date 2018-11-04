@@ -21,28 +21,28 @@ public class CommentController implements CommentsApi {
         this.commentService=commentService;
     }
 
-    @CanAddComment
+    // @CanAddComment
     //pertencer à team da proposal e confirmar o autor com o principal
     @Override
     public void addComment(@PathVariable Long id, @Valid @RequestBody Comment comment) {
         commentService.addComment(id, comment);
     }
 
-    @IsAuthorOfComment
+    //@IsAuthorOfComment
     //ser autor do comentario
     @Override
     public void deleteComment(@PathVariable("id") Long id, @PathVariable("commentid") Long commentid) {
         commentService.deleteComment(id, commentid);
     }
 
-    @BelongsToTeam
+    //@BelongsToTeam
     //pertencer à team da proposal
     @Override
     public Page<Comment> getProposalComments(Pageable pageable,@PathVariable Long id) {
         return commentService.getProposalComments(pageable,id);
     }
 
-    @IsAuthorOfComment
+    //@IsAuthorOfComment
     //ser autor do comentario
     @Override
     public void updateComment(@Valid @RequestBody Comment comment,@PathVariable("commentid") Long commentid,@PathVariable("id") Long id) {

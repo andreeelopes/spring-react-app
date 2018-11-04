@@ -35,7 +35,6 @@ public class EmployeeController implements EmployeesApi {
             return employeeService.getEmployeeById(id);
     }
 
-    @IsPrincipal
     @Override
     @isPrincipal
     public Page<Bid> getEmployeeBids(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable) {
@@ -58,21 +57,18 @@ public class EmployeeController implements EmployeesApi {
         }
     }
 
-    @IsPrincipal
     @Override
     @isPrincipal
     public Page<Proposal> getProposalPartner(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
         return  employeeService.getProposalPartner(pageable,id);
     }
 
-    @IsPrincipal
     @Override
     @isPrincipal
     public Page<Proposal> getProposalStaff(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
         return  employeeService.getProposalStaff(pageable,id);
     }
 
-    @IsPrincipal
     @Override
     @isPrincipal
     public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {

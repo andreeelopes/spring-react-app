@@ -61,4 +61,9 @@ public class Employee {
             mappedBy = "author")
     @JsonIgnore
     private List<Review> reviews = new LinkedList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "approver")
+    @JsonIgnore
+    private List<Proposal> approver = new LinkedList<>();
 }
