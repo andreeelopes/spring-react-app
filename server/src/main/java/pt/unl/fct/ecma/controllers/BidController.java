@@ -15,6 +15,7 @@ import javax.validation.Valid;
 public class BidController implements BidsApi {
 
     private BidService bidService;
+
     public BidController(BidService bidService){
         this.bidService=bidService;
     }
@@ -25,7 +26,7 @@ public class BidController implements BidsApi {
         bidService.updateBid(bid,employeeid,id);
     }
 
-    //fazer parte da team da proposal. E não ser approver?
+    //fazer parte da team da proposale e não ser approver
     @Override
     public void addBidToProposal(@PathVariable Long id, @Valid @RequestBody Bid bid) {
         bidService.addBidToProposal(id, bid);

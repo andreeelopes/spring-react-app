@@ -32,7 +32,6 @@ public class EmployeeController implements EmployeesApi {
 
     //isPrincipal
     @Override
-    @isPrincipal
     public Employee getEmployee(@PathVariable Long id) {
             return employeeService.getEmployeeById(id);
     }

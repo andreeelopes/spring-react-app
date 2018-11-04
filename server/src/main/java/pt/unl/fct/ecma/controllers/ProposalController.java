@@ -20,16 +20,15 @@ public class ProposalController implements ProposalsApi {
     ProposalController(ProposalService proposalService){
         this.proposalService = proposalService;
     }
-
-
+/*
+    // tem de ser membro ou staff
     @Override
     public Page<Proposal> getAllProposals(Pageable pageable, @Valid @RequestParam(value = "search", required = false) String search) {
         if(search == null)
             return proposalService.getAllProposals(pageable);
         else
             return proposalService.getProposalsByStatus(search, pageable);
-
-    }
+    }*/
 
     //staff
     @Override
@@ -37,7 +36,7 @@ public class ProposalController implements ProposalsApi {
         proposalService.addPartner(id,member);
     }
 
-
+    //adicionar o principal a staff da proposta e verificar se o principal e o approver pertence a company do proposal
     @Override
     public void addProposal(@Valid @RequestBody Proposal proposal) {
         proposalService.addProposal(proposal);
@@ -48,20 +47,22 @@ public class ProposalController implements ProposalsApi {
     public void addStaffMember(@PathVariable Long id, @Valid @RequestBody Employee staffMember) {
         proposalService.addStaffMember(id,staffMember);
     }
+    //approver
     //TODO: update proposal
-    //approver?
+
+    //staff
     @Override
     public void deletePartner(@PathVariable("id") Long id, @PathVariable("partnerid") Long partnerid) {
         proposalService.deletePartner(id,partnerid);
     }
 
-    //approver?
+    //staff
     @Override
     public void deleteProposal(@PathVariable("id") Long id) {
         proposalService.deleteProposal(id);
     }
 
-    //approver?
+    //so ele proprio
     @Override
     public void deleteStaff(@PathVariable("id") Long id, @PathVariable("staffid") Long staffid) {
         proposalService.deleteStaff(id,staffid);

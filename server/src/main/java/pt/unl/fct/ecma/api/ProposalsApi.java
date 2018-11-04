@@ -26,7 +26,7 @@ import java.util.List;
 @Api(value = "proposals", description = "the proposals API")
 public interface ProposalsApi {
 
-
+/*
     @ApiOperation(value = "Get all list of all proposals", nickname = "getAllProposals", notes = "Returns all proposals", response = Proposal.class, responseContainer = "List", tags={ "proposals", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class, responseContainer = "List") })
@@ -35,7 +35,7 @@ public interface ProposalsApi {
             method = RequestMethod.GET)
     Page<Proposal> getAllProposals(Pageable pageable, @ApiParam(value = "Filter proposal status") @Valid @RequestParam(value = "search", required = false) String search);
 
-
+*/
     @ApiOperation(value = "Add a new partner member to the proposal", nickname = "addPartner", notes = "", tags = {"proposals",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new Partner"),

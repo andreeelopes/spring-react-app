@@ -21,13 +21,13 @@ public class CommentController implements CommentsApi {
         this.commentService=commentService;
     }
 
-    //pertencer à team da proposal
+    //pertencer à team da proposal e confirmar o autor com o principal
     @Override
     public void addComment(@PathVariable Long id, @Valid @RequestBody Comment comment) {
         commentService.addComment(id, comment);
     }
 
-    //ser autor do comentario ou ter a role admin
+    //ser autor do comentario
     @Override
     public void deleteComment(@PathVariable("id") Long id, @PathVariable("commentid") Long commentid) {
         commentService.deleteComment(id, commentid);

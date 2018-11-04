@@ -21,13 +21,13 @@ public class CompanyController implements CompaniesApi {
         this.companyService = companyService;
     }
 
-    //admin && verificar se é admin da empresa do novo admin
+    //hasRole(ADMIN) && verificar se é admin da empresa do novo admin
     @Override
     public void addAdmin(@Valid @RequestBody Employee employee, @PathVariable Long id) {
         companyService.addAdmin(employee, id);
     }
 
-    //admin && admin da ecma?
+    //hasRole(ADMIN)
     @Override
     public void addCompany(@Valid @RequestBody Company company) {
         companyService.addCompany(company);
@@ -39,13 +39,13 @@ public class CompanyController implements CompaniesApi {
         companyService.addEmployee(employee, id);
     }
 
-    //deviam haver vários níveis de admin então
+    //hasRole(ADMIN)
     @Override
     public void deleteAdmin(@PathVariable("id") Long id, @PathVariable("adminId") Long adminId) {
         companyService.deleteAdmin(id, adminId);
     }
 
-    //admin daquela empresa
+    //hasRole(ADMIN) e admin da empresa
     @Override
     public void deleteCompany(@PathVariable Long id) {
         companyService.deleteCompany(id);
@@ -64,9 +64,9 @@ public class CompanyController implements CompaniesApi {
         return companyService.getAdminsOfCompany(id, pageable);
     }
 
-
     @Override
-    public Page<Company> getCompanies(Pageable pageable,
+    public
+Page<Company> getCompanies(Pageable pageable,
                                       @Valid @RequestParam(value = "search", required = false) String search) {
         return companyService.getAllCompanies(pageable, search);
     }

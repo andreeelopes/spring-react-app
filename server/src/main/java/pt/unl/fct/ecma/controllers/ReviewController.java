@@ -45,7 +45,7 @@ public class ReviewController implements ReviewsApi {
         rbroker.deleteReview(proposalId, reviewId);
     }
 
-    //pertence à team daquela proposal e proposal tem de estar approved
+    //pertence à team daquela proposal e bid tem de estar approved
     @Override
     public void addReview(@PathVariable("id") Long proposalId, @Valid @RequestBody Review review) {
 
