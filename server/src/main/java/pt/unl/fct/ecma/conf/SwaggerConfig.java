@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma;
+package pt.unl.fct.ecma.conf;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

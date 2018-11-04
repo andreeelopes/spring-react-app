@@ -20,6 +20,7 @@ public class SectionController implements SectionsApi {
     @Autowired
     SectionService sectionService;
 
+    //staff
     @Override
     public void addSection(Long id, @Valid Section section) {
         if(id != null)
@@ -27,16 +28,19 @@ public class SectionController implements SectionsApi {
         sectionService.addSection(id, section);
     }
 
+    //staff
     @Override
     public void deleteSection(Long id, Long sectionid) {
         sectionService.deleteSection(id, sectionid);
     }
 
+    //pertencer à team
     @Override
     public Page<Section> getProposalSections(Pageable pageable, Long id) {
         return sectionService.getProposalsSections(pageable, id);
     }
 
+    //staff
     @Override
     public void updateSection(@Valid Section section, Long sectionId, Long proposalId) {
         sectionService.updateSection(section, sectionId, proposalId);

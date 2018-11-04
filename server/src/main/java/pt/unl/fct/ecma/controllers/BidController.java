@@ -19,21 +19,25 @@ public class BidController implements BidsApi {
         this.bidService=bidService;
     }
 
+    //approver daquela proposal
     @Override
     public void updateBid(@Valid @RequestBody Bid bid,  @PathVariable("employeeid") Long employeeid,@PathVariable("id")  Long id) {
         bidService.updateBid(bid,employeeid,id);
     }
 
+    //fazer parte da team da proposal. E não ser approver?
     @Override
     public void addBidToProposal(@PathVariable Long id, @Valid @RequestBody Bid bid) {
         bidService.addBidToProposal(id, bid);
     }
 
+    //autor da bid
     @Override
     public void deleteBid(@PathVariable("id") Long id, @PathVariable("employeeid") Long employeeid) {
         bidService.deleteBid(id, employeeid);
     }
 
+    //approver
     @Override
     public Page<Bid> getBids(Pageable pageable,@PathVariable  Long id) {
         return bidService.getBids(pageable,id);
