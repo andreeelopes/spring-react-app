@@ -46,7 +46,7 @@ public class EcmaApplication implements CommandLineRunner {
         Employee emp2 = new Employee();
         emp2.setEmail("andre@gmail.com");
         emp2.setJob("Canalizador");
-        emp2.setName("andre");
+        emp2.setName("Andre");
         emp2.setUsername("andre");
         emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
         emp2.setAdmin(false);
@@ -89,6 +89,12 @@ public class EcmaApplication implements CommandLineRunner {
             emp.getRolesOnProposal().add(role);
             emp.getBiddedProposals().add(bid);
             emp.getReviews().add(review);
+
+            role = new ProposalRole();
+            role.setEmployee(emp2);
+            role.setProposal(prop);
+            role.setRole("PARTNER");
+            emp2.getRolesOnProposal().add(role);
 
 
 
