@@ -7,6 +7,7 @@ import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
+import pt.unl.fct.ecma.models.EmployeeWithPw;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
@@ -40,13 +41,19 @@ public class CompanyService {
         } else throw new BadRequestException("Invalid input");
     }
 
-    public void addEmployee(Employee employee, Long id) {
+    public void addEmployee(EmployeeWithPw employee, Long id) {
 
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
             Company realCompany = company.get();
-            realCompany.getEmployees().add(employee);
-            employee.setCompany(realCompany);
+            Employee dbemp= new Employee();
+            dbemp.setJob(employee.getJob());
+            dbemp.setName(employee.getName());
+            dbemp.setEmail(employee.getEmail());
+            dbemp.setPassword(employee.getPassword());
+            dbemp.setUsername(employee.getUsername());
+            realCompany.getEmployees().add(dbemp);
+            dbemp.setCompany(realCompany);
             companyRepository.save(realCompany);
         } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }
