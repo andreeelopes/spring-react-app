@@ -24,7 +24,6 @@ public class Bid implements Serializable {
     @Id
     private Proposal proposal;
 
-    @NotNull
     private  String status;
 
 }

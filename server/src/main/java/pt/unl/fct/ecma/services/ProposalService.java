@@ -74,7 +74,7 @@ public class ProposalService {
     public void deletePartner(Long id, Long partnerid) {
         findById(id);
         findEmployeeById(partnerid);
-        List<ProposalRole> r = proposalRepository.PartnerExists(id,partnerid);
+        List<ProposalRole> r = proposalRepository.partnerExists(id,partnerid);
         if(r.size()>0)
         proposalRepository.deletePartner(id,partnerid);
         else throw new NotFoundException(String.format("Proposal with id %d does not have partner with id %d", id,partnerid));

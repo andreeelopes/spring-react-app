@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import pt.unl.fct.ecma.models.Bid;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 public interface BidsApi {
 

@@ -13,6 +13,7 @@ import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,8 @@ public class BidService {
     @Transactional
     public void addBidToProposal(Long id, Bid bid) {
         Long bidid = bid.getBidder().getId();
-
         Optional<Employee> employee = employeeRepository.findById(bidid);
+
         if(employee.isPresent()){
 
             Bid newBid = new Bid();
