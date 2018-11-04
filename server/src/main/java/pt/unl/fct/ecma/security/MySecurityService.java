@@ -44,7 +44,7 @@ public class MySecurityService {
 
     public boolean bidHasPrincipal(User user, Bid bid){
         Employee person = people.findByUsername(user.getUsername());
-        return bid.getBidder().getId().equals(person.getId());
+        return bid.getBidder().getUsername().equals(person.getUsername());
     }
 
     public boolean isAuthorOfComment(User user, Comment comment){
