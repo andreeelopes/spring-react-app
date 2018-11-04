@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize(isPrincipal.Condition)
-public @interface isPrincipal {
+@PreAuthorize(IsPrincipal.Condition)
+public @interface IsPrincipal {
     String Condition = "@mySecurityService.isPrincipal(principal, #id)";
 }
