@@ -30,6 +30,7 @@ public class ProposalController implements ProposalsApi {
             return proposalService.getProposalsByStatus(search, pageable);
     }*/
 
+    @BelongsToProposalStaff
     //staff
     @Override
     public void addPartner(@PathVariable Long id, @Valid @RequestBody Employee member) {
@@ -42,44 +43,53 @@ public class ProposalController implements ProposalsApi {
         proposalService.addProposal(proposal);
     }
 
+    @BelongsToProposalStaff
     //ser do staff da proposal
     @Override
     public void addStaffMember(@PathVariable Long id, @Valid @RequestBody Employee staffMember) {
         proposalService.addStaffMember(id,staffMember);
     }
+
+    @IsProposalApprover
     //approver
     //TODO: update proposal
 
+    @BelongsToProposalStaff
     //staff
     @Override
     public void deletePartner(@PathVariable("id") Long id, @PathVariable("partnerid") Long partnerid) {
         proposalService.deletePartner(id,partnerid);
     }
 
+    @BelongsToProposalStaff
     //staff
     @Override
     public void deleteProposal(@PathVariable("id") Long id) {
         proposalService.deleteProposal(id);
     }
 
+    @IsPrincipalAndStaff
     //so ele proprio
     @Override
     public void deleteStaff(@PathVariable("id") Long id, @PathVariable("staffid") Long staffid) {
         proposalService.deleteStaff(id,staffid);
     }
 
+    @BelongsToProposalTeam
     //pertencer à team
     @Override
     public Proposal getProposal(@PathVariable("id") Long id) {
         return proposalService.getProposal(id);
     }
 
+    @BelongsToProposalTeam
     //pertencer à team
     @Override
     public Page<Employee> getProposalMembers(Pageable pageable,@PathVariable("id") Long id) {
         return proposalService.getProposalMembers(id,pageable);
     }
 
+    @BelongsToProposalTeam
     //pertencer à team
     @Override
     public Page<Employee> getStaffMembers(Pageable pageable,@PathVariable("id") Long id) {
