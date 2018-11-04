@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CommentsApi;
 import pt.unl.fct.ecma.models.Comment;
+import pt.unl.fct.ecma.security.CanAddComment;
 import pt.unl.fct.ecma.services.CommentService;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class CommentController implements CommentsApi {
 
     // @CanAddComment
     //pertencer à team da proposal e confirmar o autor com o principal
+    @CanAddComment
     @Override
     public void addComment(@PathVariable Long id, @Valid @RequestBody Comment comment) {
         commentService.addComment(id, comment);
