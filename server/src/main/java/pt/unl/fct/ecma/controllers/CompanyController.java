@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CompaniesApi;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
+import pt.unl.fct.ecma.models.EmployeeWithPw;
 import pt.unl.fct.ecma.security.annotations.IsAdminOfCompany;
 import pt.unl.fct.ecma.security.annotations.isSuperAdminOrAdmin;
 import pt.unl.fct.ecma.services.CompanyService;
@@ -41,7 +42,7 @@ public class CompanyController implements CompaniesApi {
     @IsAdminOfCompany
     //admin daquela empresa
     @Override
-    public void addEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {
+    public void addEmployee(@Valid @RequestBody EmployeeWithPw employee, @PathVariable Long id) {
         companyService.addEmployee(employee, id);
     }
 

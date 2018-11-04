@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
+import pt.unl.fct.ecma.models.EmployeeWithPw;
 
 import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-25T09:46:01.754Z")
@@ -52,7 +53,7 @@ public interface CompaniesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    void addEmployee(@ApiParam(value = "Employee object that needs to be added to the collection" ,required=true )  @Valid @RequestBody Employee employee,@ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id);
+    void addEmployee(@ApiParam(value = "Employee object that needs to be added to the collection" ,required=true )  @Valid @RequestBody EmployeeWithPw employee, @ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id);
 
 
     @ApiOperation(value = "Delete Admin with the ID provided", nickname = "deleteAdmin", notes = "", tags={ "companies", })

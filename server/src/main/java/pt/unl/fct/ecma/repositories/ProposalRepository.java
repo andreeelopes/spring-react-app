@@ -29,7 +29,7 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
     @Query("select b from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid")
     List<Bid> existsBid(@Param(value = "id")Long id,@Param(value = "employeeid") Long employeeid);
 
-    @Query("select b from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid and b.status = :status")
+    @Query("select b from Bid b where b.proposal.id = :proposalId and b.bidder.id = :employeeid and b.status = :status")
     List<Bid> existsBidOnProposalWithStatus(@Param(value = "proposalId")Long proposalId,
                                           @Param(value = "employeeid") Long employeeid,
                                             @Param(value = "status") String status);
