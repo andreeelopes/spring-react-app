@@ -3,10 +3,8 @@ package pt.unl.fct.ecma.security;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Comment;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.models.*;
+import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
@@ -16,11 +14,13 @@ import java.util.Optional;
 public class MySecurityService {
     private EmployeeRepository people;
     private ProposalRepository proposalRep;
+    private CompanyRepository companyRepository;
 
 
-    public MySecurityService(EmployeeRepository people,ProposalRepository proposalRepository) {
+    public MySecurityService(EmployeeRepository people,ProposalRepository proposalRepository,CompanyRepository companyRepository) {
         this.people = people;
-        proposalRep = proposalRepository;
+        this.proposalRep = proposalRepository;
+        this.companyRepository=companyRepository;
 
     }
 
@@ -50,6 +50,11 @@ public class MySecurityService {
     public boolean isAuthorOfComment(User user, Comment comment){
 
         return comment.getAuthor().getUsername().equals(user.getUsername());
+    }
+    public boolean IsAdminOfCompany(User user,Long id){
+        Employee employee = people.findByUsername(user.getUsername());
+        return employee.isAdmin() && employee.getCompany().getId().equals(id);
+
     }
 
 }
