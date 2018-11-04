@@ -17,3 +17,4 @@ Consider an application that a marketing company called ECMA uses to host and or
 * Mudar a verificação dos pedidos dos serviços para o controlador
 * Implementar os brokers
 * Experimentar meter a tag @Autowired em todos os serviços, repositórios e controladores
+* Colocar a verificação id != null nos POST
