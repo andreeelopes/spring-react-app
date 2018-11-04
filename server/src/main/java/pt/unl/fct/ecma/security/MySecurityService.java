@@ -74,4 +74,15 @@ public class MySecurityService {
         return isAuthor;
     }
 
+
+    public boolean canModifyReview(User user, Review review) {
+
+        return review.getAuthor().getUsername().equals(user.getUsername());
+    }
+
+    public boolean isBidApproved(User user, Long proposalId) {
+        Employee person = peopleRepository.findByUsername(user.getUsername());
+        return proposalRepository.existsBidOnProposalWithStatus
+                (proposalId, person.getId(), Bid.Status.ACCEPTED.toString()).size() > 0;
+    }
 }
