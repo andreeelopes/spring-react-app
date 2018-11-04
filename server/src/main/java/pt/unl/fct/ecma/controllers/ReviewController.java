@@ -11,6 +11,9 @@ import pt.unl.fct.ecma.api.ReviewsApi;
 import pt.unl.fct.ecma.brokers.ReviewBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Review;
+import pt.unl.fct.ecma.security.BelongsToProposalTeam;
+import pt.unl.fct.ecma.security.CanAddReview;
+import pt.unl.fct.ecma.security.CanModifyReview;
 
 import javax.validation.Valid;
 
@@ -20,8 +23,7 @@ public class ReviewController implements ReviewsApi {
     @Autowired
     private ReviewBroker rbroker;
 
-    //@CanModifyReview
-    //eu
+    @CanModifyReview
     @Override
     public void updateReview(@Valid @RequestBody Review review, @PathVariable("reviewId") Long reviewId,
                              @PathVariable("proposalId") Long proposalId) {
@@ -34,22 +36,19 @@ public class ReviewController implements ReviewsApi {
         rbroker.updateReview(review);
     }
 
-    //@BelongsToProposalTeam
-    //pertence à team da proposal
+    @BelongsToProposalTeam
     @Override
     public Page<Review> getProposalReviews(Pageable pageable, @PathVariable("id") Long proposalId) {
         return rbroker.getProposalReviews(proposalId, pageable);
     }
 
-    //@CanModifyReview
-    //eu
+    @CanModifyReview
     @Override
     public void deleteReview(@PathVariable("proposalId") Long proposalId, @PathVariable("reviewid") Long reviewId) {
         rbroker.deleteReview(proposalId, reviewId);
     }
 
-    //@CanAddReview
-    //pertence à team daquela proposal e bid tem de estar approved
+    @CanAddReview
     @Override
     public void addReview(@PathVariable("id") Long proposalId, @Valid @RequestBody Review review) {
 

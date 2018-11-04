@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.errors.NotFoundException;
+import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.models.Review;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
@@ -45,6 +46,10 @@ public class ReviewService {
 
     public void addReview(Review review) {
         rRepo.save(review);
+    }
+
+    public boolean existsReviewOfEmployeeOnProposal(Proposal proposal, Employee reviewer){
+        return rRepo.existsReviewOfEmployeeOnProposal(proposal.getId(), reviewer.getId()).size() > 0;
     }
 
 }
