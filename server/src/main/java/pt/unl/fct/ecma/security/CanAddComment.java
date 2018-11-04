@@ -11,6 +11,6 @@ import java.lang.annotation.*;
 @PreAuthorize(CanAddComment.Condition)
 public @interface CanAddComment {
     String Condition =
-            "@MySecurityService.authorOfComment(principal, #comment) and " +
+            "@MySecurityService.isAuthorOfComment(principal, #comment) and " +
             "@MySecurityService.belongsToTeamProposal(principal, #proposalid)";
 }

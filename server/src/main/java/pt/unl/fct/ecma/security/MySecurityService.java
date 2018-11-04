@@ -4,6 +4,7 @@ package pt.unl.fct.ecma.security;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Bid;
+import pt.unl.fct.ecma.models.Comment;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
@@ -44,6 +45,11 @@ public class MySecurityService {
     public boolean bidHasPrincipal(User user, Bid bid){
         Employee person = people.findByUsername(user.getUsername());
         return bid.getBidder().getId().equals(person.getId());
+    }
+
+    public boolean isAuthorOfComment(User user, Comment comment){
+
+        return comment.getAuthor().getUsername().equals(user.getUsername());
     }
 
 }
