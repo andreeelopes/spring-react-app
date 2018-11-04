@@ -10,14 +10,14 @@ Consider an application that a marketing company called ECMA uses to host and or
 ###Especificação
 
 * Adicionar GET /proposals (TBD)
-* Adicionar PUT /proposals/{id}
+* __Adicionar PUT /proposals/{id}__
 
 ###Servidor
 
 * Mudar a verificação dos pedidos dos serviços para o controlador
 * Implementar os brokers
 * Experimentar meter a tag @Autowired em todos os serviços, repositórios e controladores
-* Colocar a verificação id != null nos POST
+* __Colocar a verificação id != null nos POST__
 * Approver não faz reviews
 * Meter PLACED, REVIEW_PERIOD, ACCEPTED, DECLINED nas propostas e escolher automaticamente bids tendo em conta a mudança de estado de placed -> review_period
 * Meter chave estrangeira da partner company na proposal
@@ -27,3 +27,5 @@ Consider an application that a marketing company called ECMA uses to host and or
 * Verificar se o approver faz parte da company da proosal
 * Enumerado de roles
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
+* __Adicionar testes__
+* __Verificar as politicas de segurança__
