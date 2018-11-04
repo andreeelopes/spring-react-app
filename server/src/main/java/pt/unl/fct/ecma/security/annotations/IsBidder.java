@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.security;
+package pt.unl.fct.ecma.security.annotations;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize(IsAdminOfCompany.Condition)
-public @interface IsAdminOfCompany {
-    String Condition = "@mySecurityService.IsAdminOfCompany(principal,#id)";
+@PreAuthorize(IsBidder.Condition)
+public @interface IsBidder {
+    String Condition = "@mySecurityService.isPrincipal(principal, #employeeid)";
 }

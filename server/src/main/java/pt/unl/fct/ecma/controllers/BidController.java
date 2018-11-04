@@ -7,14 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.BidsApi;
 import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.security.CanAddBidToProposal;
-import pt.unl.fct.ecma.security.IsApproverOfProposal;
-import pt.unl.fct.ecma.security.IsBidder;
+import pt.unl.fct.ecma.security.annotations.CanAddBidToProposal;
+import pt.unl.fct.ecma.security.annotations.IsApproverOfProposal;
+import pt.unl.fct.ecma.security.annotations.IsBidder;
 import pt.unl.fct.ecma.services.BidService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 public class BidController implements BidsApi {

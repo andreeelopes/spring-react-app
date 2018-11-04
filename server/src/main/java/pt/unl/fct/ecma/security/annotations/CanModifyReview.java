@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.security;
+package pt.unl.fct.ecma.security.annotations;
 
 
 import org.springframework.security.access.prepost.PreAuthorize;

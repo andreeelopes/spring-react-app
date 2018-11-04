@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CompaniesApi;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.security.IsAdminOfCompany;
-import pt.unl.fct.ecma.security.isSuperAdminOrAdmin;
+import pt.unl.fct.ecma.security.annotations.IsAdminOfCompany;
+import pt.unl.fct.ecma.security.annotations.isSuperAdminOrAdmin;
 import pt.unl.fct.ecma.services.CompanyService;
 
 import javax.validation.Valid;

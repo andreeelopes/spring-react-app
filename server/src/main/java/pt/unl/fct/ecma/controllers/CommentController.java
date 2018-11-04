@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CommentsApi;
 import pt.unl.fct.ecma.models.Comment;
-import pt.unl.fct.ecma.security.CanAddComment;
-import pt.unl.fct.ecma.security.IsAuthorOfComment;
-import pt.unl.fct.ecma.security.BelongsToProposalTeam;
+import pt.unl.fct.ecma.security.annotations.CanAddComment;
+import pt.unl.fct.ecma.security.annotations.IsAuthorOfComment;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
 import pt.unl.fct.ecma.services.CommentService;
 
 import javax.validation.Valid;
@@ -43,7 +43,7 @@ public class CommentController implements CommentsApi {
 
     @IsAuthorOfComment
     @Override
-    public void updateComment(@Valid @RequestBody Comment comment,@PathVariable("commentid") Long commentId,@PathVariable("id") Long id) {
+    public void updateComment(@Valid @RequestBody Comment comment,@PathVariable("commentid") Long commentid,@PathVariable("id") Long id) {
         commentService.updateComment(comment,commentid,id);
     }
 }

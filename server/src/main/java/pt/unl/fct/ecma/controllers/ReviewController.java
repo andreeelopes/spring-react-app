@@ -11,9 +11,9 @@ import pt.unl.fct.ecma.api.ReviewsApi;
 import pt.unl.fct.ecma.brokers.ReviewBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Review;
-import pt.unl.fct.ecma.security.BelongsToProposalTeam;
-import pt.unl.fct.ecma.security.CanAddReview;
-import pt.unl.fct.ecma.security.CanModifyReview;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
+import pt.unl.fct.ecma.security.annotations.CanAddReview;
+import pt.unl.fct.ecma.security.annotations.CanModifyReview;
 
 import javax.validation.Valid;
 
