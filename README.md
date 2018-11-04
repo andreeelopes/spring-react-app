@@ -10,3 +10,9 @@ Consider an application that a marketing company called ECMA uses to host and or
 ###Especificação
 
 * Adicionar GET /proposals 
+* Adicionar PUT /proposals/{id}
+
+###Servidor
+
+* Mudar a verificação dos pedidos dos serviços para o controlador
+* Implementar os brokers
