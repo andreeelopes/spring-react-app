@@ -18,3 +18,5 @@ Consider an application that a marketing company called ECMA uses to host and or
 * Implementar os brokers
 * Experimentar meter a tag @Autowired em todos os serviços, repositórios e controladores
 * Colocar a verificação id != null nos POST
+* Approver não faz reviews
+* Meter PLACED, REVIEW_PERIOD, ACCEPTED, DECLINED nas propostas e escolher automaticamente bids tendo em conta a mudança de estado de placed ->> review_period
