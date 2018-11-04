@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public interface ReviewsApi {
 
 
-    @ApiOperation(value = "Add a new review to the proposal", nickname = "addReview", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Add a new review to the proposal", nickname = "addReview", notes = "", tags = {"reviews",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new review"),
             @ApiResponse(code = 405, message = "Invalid input")})
@@ -29,7 +29,7 @@ public interface ReviewsApi {
                    @ApiParam(value = "Review object to add to the proposal", required = true) @Valid @RequestBody Review review);
 
 
-    @ApiOperation(value = "Delete review with the ID provided", nickname = "deleteReview", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Delete review with the ID provided", nickname = "deleteReview", notes = "", tags = {"reviews",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -41,7 +41,7 @@ public interface ReviewsApi {
 
 
     @ApiOperation(value = "Get all reviews by the proposal ID", nickname = "getProposalReviews", notes = "Returns all reviews",
-            response = Review.class, responseContainer = "List", tags = {"proposals",})
+            response = Review.class, responseContainer = "List", tags = {"reviews",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Review.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -52,7 +52,7 @@ public interface ReviewsApi {
     Page<Review> getProposalReviews(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Update reviews with ID provided", nickname = "reviewid", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Update reviews with ID provided", nickname = "reviewid", notes = "", tags = {"reviews",})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or review not found"),

@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public interface CommentsApi {
 
 
-    @ApiOperation(value = "Add a new comment to the proposal", nickname = "addComment", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Add a new comment to the proposal", nickname = "addComment", notes = "", tags = {"comments",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new comment"),
             @ApiResponse(code = 405, message = "Invalid input")})
@@ -30,7 +30,7 @@ public interface CommentsApi {
                     @Valid @RequestBody Comment comment);
 
 
-    @ApiOperation(value = "Delete comment with the ID provided", nickname = "deleteComment", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Delete comment with the ID provided", nickname = "deleteComment", notes = "", tags = {"comments",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -42,7 +42,7 @@ public interface CommentsApi {
 
 
     @ApiOperation(value = "Get all comments by the proposal ID", nickname = "getProposalComments",
-            notes = "Returns all comments", response = Comment.class, responseContainer = "List", tags = {"proposals",})
+            notes = "Returns all comments", response = Comment.class, responseContainer = "List", tags = {"comments",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Comment.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -54,7 +54,7 @@ public interface CommentsApi {
                                       @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Update coments with ID provided", nickname = "updateComment", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Update coments with ID provided", nickname = "updateComment", notes = "", tags = {"comments",})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or comment not found"),

@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 public interface BidsApi {
 
-    @ApiOperation(value = "Add a new Bid to the proposal", nickname = "addBidToProposal", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Add a new Bid to the proposal", nickname = "addBidToProposal", notes = "", tags = {"bids",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new bid"),
             @ApiResponse(code = 405, message = "Invalid input")})
@@ -27,7 +27,7 @@ public interface BidsApi {
     void addBidToProposal(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Bid object to add on the proposal", required = true) @Valid @RequestBody Bid bid);
 
 
-    @ApiOperation(value = "Delete Bid with the ID provided", nickname = "deleteBid", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Delete Bid with the ID provided", nickname = "deleteBid", notes = "", tags = {"bids",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -37,7 +37,7 @@ public interface BidsApi {
     void deleteBid(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Bid ID", required = true) @PathVariable("employeeid") Long employeeid);
 
 
-    @ApiOperation(value = "Get all bids by the proposal ID", nickname = "getBids", notes = "Returns all bids", response = Bid.class, responseContainer = "List", tags = {"proposals",})
+    @ApiOperation(value = "Get all bids by the proposal ID", nickname = "getBids", notes = "Returns all bids", response = Bid.class, responseContainer = "List", tags = {"bids",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Bid.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -48,7 +48,7 @@ public interface BidsApi {
     Page<Bid> getBids(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Update bid with ID provided", nickname = "updateBid", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Update bid with ID provided", nickname = "updateBid", notes = "", tags = {"bids",})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or bid not found"),

@@ -25,7 +25,7 @@ import java.util.List;
 public interface SectionsApi {
 
 
-    @ApiOperation(value = "Add a new section to the proposal", nickname = "addSection", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Add a new section to the proposal", nickname = "addSection", notes = "", tags = {"sections",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new Section"),
             @ApiResponse(code = 405, message = "Invalid input")})
@@ -38,7 +38,7 @@ public interface SectionsApi {
                     @Valid @RequestBody Section section);
 
 
-    @ApiOperation(value = "Delete section with the ID provided", nickname = "deleteSection", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Delete section with the ID provided", nickname = "deleteSection", notes = "", tags = {"sections",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -50,7 +50,7 @@ public interface SectionsApi {
 
 
     @ApiOperation(value = "Get all sections by the proposal ID", nickname = "getProposalSections",
-            notes = "Returns all sections", response = Section.class, responseContainer = "List", tags = {"proposals",})
+            notes = "Returns all sections", response = Section.class, responseContainer = "List", tags = {"sections",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Section.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -61,7 +61,7 @@ public interface SectionsApi {
     Page<Section> getProposalSections(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
 
 
-    @ApiOperation(value = "Update sections with ID provided", nickname = "updateSection", notes = "", tags = {"proposals",})
+    @ApiOperation(value = "Update sections with ID provided", nickname = "updateSection", notes = "", tags = {"sections",})
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or section not found"),
