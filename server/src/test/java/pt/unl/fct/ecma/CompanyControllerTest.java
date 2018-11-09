@@ -93,12 +93,12 @@ public class CompanyControllerTest {
 
     }
 
-    private List<Company> getCompanies() throws Exception {
+    private List<Company> getCompanies(int sizeExpected) throws Exception {
 
         final MvcResult result = this.mockMvc.perform(get("/companies"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content", hasSize(sizeExpected)))
                 .andReturn()
         ;
         String list = result.getResponse().getContentAsString();
@@ -117,7 +117,7 @@ public class CompanyControllerTest {
     @Test
     public void testGetCompanies() throws Exception {
 
-        List<Company> companies = getCompanies();
+        List<Company> companies = getCompanies(1);
         assertTrue(companies.stream().anyMatch( (p) -> p.getName().equals("MountainDew")));
     }
     @Test
@@ -127,9 +127,8 @@ public class CompanyControllerTest {
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
         securityContext.setAuthentication(auth);
-        List<Company> companies = getCompanies();
+        List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
-        System.out.println(company.getName());
         this.mockMvc.perform(post("/companies/"+company.getId()+"/admins")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
@@ -142,9 +141,15 @@ public class CompanyControllerTest {
     }
     @Test
     public void testGetAdmins() throws  Exception{
-        List<Company> companies = getCompanies();
+        List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
 
+        List<Employee> admins = getAdmins(company);
+
+        assertTrue(admins.stream().anyMatch( (p) -> p.getName().equals("Simon")));
+    }
+
+    private List<Employee> getAdmins(Company company) throws Exception {
         final MvcResult result = this.mockMvc.perform(get("/companies/"+company.getId()+"/admins"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -159,18 +164,156 @@ public class CompanyControllerTest {
         String content=array.get("content").toString();
 
         ObjectMapper mapper = new ObjectMapper();
-        List<Employee> admins=mapper.readValue(content,new TypeReference<List<Employee>>(){});
-
-        assertTrue(admins.stream().anyMatch( (p) -> p.getName().equals("Simon")));
+        return mapper.readValue(content,new TypeReference<List<Employee>>(){});
     }
-    /*
-            emp.setEmail("simon@gmail.com");
-        emp.setJob("Informatico");
-        emp.setName("Simon");
-        emp.setUsername("simon");
- */
 
+    @Test
+    public void testAddCompany() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("user", "password");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
 
+        securityContext.setAuthentication(auth);
 
+        ObjectMapper mapper = new ObjectMapper();
+
+        Company company = new Company();
+        company.setName("RedBull");
+        company.setEmail("redbull@outlook");
+        company.setAddress("Lisboa");
+        String json = mapper.writeValueAsString(company);
+
+        this.mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().isOk());
+        List<Company> companies = getCompanies(2);
+
+        company = new Company();
+        company.setName("RedBull");
+        company.setEmail("redbull@outlook");
+        company.setAddress("Lisboa");
+        company.setId(2L);
+        json = mapper.writeValueAsString(company);
+
+        this.mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void testAddEmployee() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+        this.mockMvc.perform(post("/companies/"+company.getId()+"/employees")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
+                .andExpect(status().isOk());
+        List<Employee> admins = getEmployees(company,1);
+
+        assertTrue(admins.stream().anyMatch( (p) -> p.getName().equals("Andre")));
+    }
+
+    private List<Employee> getEmployees(Company company,int sizeExpected) throws Exception {
+        final MvcResult result =this.mockMvc.perform(get("/companies/"+company.getId()+"/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.content", hasSize(sizeExpected)))
+        .andReturn();
+
+        String list = result.getResponse().getContentAsString();
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement element = jsonParser.parse(list);
+        JsonObject array=element.getAsJsonObject();
+        String content=array.get("content").toString();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(content,new TypeReference<List<Employee>>(){});
+
+    }
+
+    @Test
+    public void testGetEmployees() throws Exception{
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+
+        getEmployees(company,0);
+
+    }
+
+    @Test
+    public void testGetCompanyById() throws Exception{
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+        this.mockMvc.perform(get("/companies/"+company.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                ;
+        this.mockMvc.perform(get("/companies/"+2))
+                .andExpect(status().isNotFound())
+                ;
+    }
+
+    @Test
+    public void testDeleteAdmin() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("user", "password");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+        List<Employee> admins = getAdmins(company);
+        Employee admin = admins.get(0);
+        Long random =company.getId()+1L;
+        this.mockMvc.perform(delete("/companies/"+random+"/admins/"+admin.getId()))
+                .andExpect(status().isBadRequest());
+        this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))
+                .andExpect(status().isOk());
+        this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void testDeleteEmployee() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+        this.mockMvc.perform(post("/companies/"+company.getId()+"/employees")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
+                .andExpect(status().isOk());
+
+        List<Employee> employees =getEmployees(company,1);
+        Employee employee = employees.get(0);
+        Long random = company.getId()+1L;
+
+        this.mockMvc.perform(delete("/companies/"+company.getId()+"/employees/"+employee.getId()))
+                .andExpect(status().isOk());
+        this.mockMvc.perform(delete("/companies/"+company.getId()+"/employees/"+employee.getId()))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void testDeleteCompany()throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+
+        List<Company> companies = getCompanies(1);
+        Company company=companies.get(0);
+
+        this.mockMvc.perform(delete("/companies/"+company.getId()))
+                .andExpect(status().isOk());
+
+        getCompanies(0);
+    }
 
 }
