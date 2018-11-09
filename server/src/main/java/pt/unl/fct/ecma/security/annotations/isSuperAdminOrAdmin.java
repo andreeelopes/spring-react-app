@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(isSuperAdminOrAdmin.Condition)
 public @interface isSuperAdminOrAdmin {
-    String Condition = "@mySecurityService.IsAdminOfCompany(principal,#id) or hasRole('ADMIN')";
+    String Condition = "hasRole('ADMIN') or "+"@mySecurityService.IsAdminOfCompany(principal,#id)";
 }

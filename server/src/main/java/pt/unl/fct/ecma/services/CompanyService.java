@@ -23,14 +23,20 @@ public class CompanyService {
         this.employeeRepository = employeeRepository;
     }
 
-    public void addAdmin(Employee employee, Long id) {
+    public void addAdmin(EmployeeWithPw employee, Long id) {
 
         Optional<Company> company = companyRepository.findById(id);
         if (company.isPresent()) {
             Company realCompany = company.get();
-            realCompany.getEmployees().add(employee);
-            employee.setAdmin(true);
-            employee.setCompany(realCompany);
+            Employee dbemp= new Employee();
+            dbemp.setJob(employee.getJob());
+            dbemp.setName(employee.getName());
+            dbemp.setEmail(employee.getEmail());
+            dbemp.setPassword(employee.getPassword());
+            dbemp.setUsername(employee.getUsername());
+            realCompany.getEmployees().add(dbemp);
+            dbemp.setAdmin(true);
+            dbemp.setCompany(realCompany);
             companyRepository.save(realCompany);
         } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
     }

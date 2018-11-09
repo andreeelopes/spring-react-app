@@ -33,15 +33,14 @@ public class MyUserDetailsService implements UserDetailsService {
 
         // Some in-memory user authentication with priority 1
         if ( username.equals("user") )
-            return new User(
-                    "user",
-                    encoder().encode("password"),
-                    Arrays.asList(new SimpleGrantedAuthority("ADMIN")));
+            return User.withUsername(username)
+                    .password(encoder().encode("password"))
+                    .roles("ADMIN").build();
         else {
             // Now for the database user searching
             Employee person = employee.findByUsername(username);
             if (person == null) throw new UsernameNotFoundException(username);
-            return new User(username, person.getPassword(), emptyList());
+            return new User(username, person.getPassword(),emptyList());
         }
     }
 

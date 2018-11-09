@@ -80,7 +80,7 @@ public class MySecurityService {
 
         Employee employee = peopleRepository.findByUsername(user.getUsername());
 
-        return employee.isAdmin() && employee.getCompany().getId().equals(id);
+        return employee!=null && employee.isAdmin() && employee.getCompany().getId().equals(id);
 
     }
 

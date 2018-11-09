@@ -28,7 +28,7 @@ public class CompanyController implements CompaniesApi {
     @isSuperAdminOrAdmin
     //hasRole(ADMIN) && verificar se é admin da empresa do novo admin
     @Override
-    public void addAdmin(@Valid @RequestBody Employee employee, @PathVariable Long id) {
+    public void addAdmin( @RequestBody EmployeeWithPw employee, @PathVariable Long id) {
         companyService.addAdmin(employee, id);
     }
 

@@ -27,19 +27,19 @@ public class CommentService {
     }
 
     public void addComment(Long id, Comment comment) {
-
+    if(comment.getId()==null) {
         Proposal realProposal = findProposalById(id);
         Employee author = comment.getAuthor();
-        if(author != null) {
+        if (author != null) {
             Long authorid = author.getId();
             findEmployeeById(authorid);
             if (realProposal.getId() == authorid) {
                 realProposal.getComments().add(comment);
                 comment.setProposal(realProposal);
                 proposalRepository.save(realProposal);
-            }
-            else throw new BadRequestException("The id of comment is invalid");
-        }else throw new BadRequestException("The comment doesnt have author");
+            } else throw new BadRequestException("The id of comment is invalid");
+        } else throw new BadRequestException("The comment doesnt have author");
+    } else throw new BadRequestException("The comment id must be null");
     }
 
     public void deleteComment(Long id, Long commentid) {

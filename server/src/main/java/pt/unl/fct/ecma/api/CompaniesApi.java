@@ -29,7 +29,7 @@ public interface CompaniesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    void addAdmin(@ApiParam(value = "Admin object that needs to be added to the collection" ,required=true )  @Valid @RequestBody Employee employee, @ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id);
+    void addAdmin(@ApiParam(value = "Admin object that needs to be added to the collection" ,required=true )  @Valid @RequestBody EmployeeWithPw employee, @ApiParam(value = "Company ID",required=true) @PathVariable("id") Long id);
 
 
     @ApiOperation(value = "Add a new partner company to the collection", nickname = "addCompany", notes = "", tags={ "companies", })

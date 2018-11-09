@@ -35,7 +35,7 @@ public class EcmaApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        Employee emp = new Employee();
+      /*  Employee emp = new Employee();
         emp.setEmail("simon@gmail.com");
         emp.setJob("Informatico");
         emp.setName("Simon");
@@ -102,7 +102,7 @@ public class EcmaApplication implements CommandLineRunner {
             proposalRepository.save(prop);
 
         }
-
+*/
 
     }
 }
