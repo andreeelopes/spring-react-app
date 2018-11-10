@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.models.SimpleEmployee;
 
 import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-10-25T09:46:01.754Z")
@@ -84,7 +85,7 @@ public interface EmployeesApi {
             consumes = { "application/json" },
             method = RequestMethod.PUT)
     void updateEmployee(@ApiParam(value = "Employee object that needs to be updated in the collection" ,required=true )
-                        @Valid @RequestBody Employee employee,@ApiParam(value = "ID of emoloyee to return",required=true)
+                        @Valid @RequestBody SimpleEmployee employee, @ApiParam(value = "ID of emoloyee to return",required=true)
     @PathVariable("employeeId") Long employeeId);
 
 }

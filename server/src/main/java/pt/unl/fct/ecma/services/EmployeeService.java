@@ -8,6 +8,7 @@ import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
+import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
 import java.util.NoSuchElementException;
@@ -38,11 +39,10 @@ public class EmployeeService {
         return employeeRepository.findByName(search, pageable);
     }
 
-    public void updateEmployee(Employee emp) {
+    public void updateEmployee(SimpleEmployee emp) {
         Optional<Employee> old_emp = employeeRepository.findById(emp.getId());
         if (old_emp.isPresent()) {
             Employee realemp = old_emp.get();
-            realemp.setPassword(emp.getPassword());
             realemp.setAdmin(emp.isAdmin());
             realemp.setEmail(emp.getEmail());
             realemp.setName(emp.getName());

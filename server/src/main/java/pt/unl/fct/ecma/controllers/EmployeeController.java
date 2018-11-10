@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.EmployeesApi;
 import pt.unl.fct.ecma.errors.BadRequestException;
+import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.security.annotations.IsPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
@@ -73,7 +74,7 @@ public class EmployeeController implements EmployeesApi {
 
     @Override
     @IsPrincipal
-    public void updateEmployee(@Valid @RequestBody Employee employee,
+    public void updateEmployee(@Valid @RequestBody SimpleEmployee employee,
                                @PathVariable("employeeId") Long employeeId) {
 
         if (!employee.getId().equals(employeeId))
