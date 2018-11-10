@@ -29,7 +29,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -185,7 +184,6 @@ public class EmployeeControllerTest {
 
 
     private void requestUpdateEmployee(long employeeId, Employee updatedEmployee) throws Exception {
-        this.mockMvc.perform(formLogin("/employees/"+ employeeId).user("test").password("password"));
         this.mockMvc.perform(put("/employees/"+ employeeId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(updatedEmployee)))
