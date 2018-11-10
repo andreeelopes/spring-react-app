@@ -49,7 +49,7 @@ public interface EmployeesApi {
     @RequestMapping(value = "/employees",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    Page<Employee> getEmployees(@ApiParam(value = "Filter employees by name, email, job, company or address")
+    Page<Employee> getEmployees(@ApiParam(value = "Filter employees by name")
                                 @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable);
 
 
