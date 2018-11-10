@@ -10,11 +10,7 @@ import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pt.unl.fct.ecma.models.*;
 
 
@@ -138,4 +134,6 @@ public interface ProposalsApi {
             method = RequestMethod.GET)
     Page<Employee> getStaffMembers(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
+    @PutMapping("/proposals/{proposalId}")
+    public void updateProposal(@PathVariable Long proposalId, @Valid @RequestBody Proposal proposal);
 }
