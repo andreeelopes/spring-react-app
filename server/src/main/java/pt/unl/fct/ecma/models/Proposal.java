@@ -53,6 +53,10 @@ public class Proposal {
     @ManyToOne
     private Company companyProposed;
 
+    @NotNull
+    @ManyToOne
+    private Company targetCompany;
+
     private Status status = Status.PLACED;
 
     public enum Status{

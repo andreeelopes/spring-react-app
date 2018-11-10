@@ -38,4 +38,9 @@ public class Company {
     @JsonIgnore
     private List<Proposal> proposals;
 
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "targetCompany")
+    @JsonIgnore
+    private List<Proposal> proposalsTargeted;
+
 }
