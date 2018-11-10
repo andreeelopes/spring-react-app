@@ -49,7 +49,7 @@ public class Employee {
     private List<ProposalRole> rolesOnProposal = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "bidder")
+            mappedBy = "pk.bidder")
     @JsonIgnore
     private List<Bid> biddedProposals = new LinkedList<>();
 

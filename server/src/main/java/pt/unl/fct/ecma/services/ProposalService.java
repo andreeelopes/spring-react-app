@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -7,51 +8,43 @@ import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.*;
 
+import javax.xml.ws.soap.Addressing;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProposalService {
 
-    private EmployeeRepository employeeRepository;
+    @Autowired
     private ProposalRepository proposalRepository;
 
-    public ProposalService(ProposalRepository proposalRepository, EmployeeRepository employeeRepository) {
-        this.proposalRepository = proposalRepository;
-        this.employeeRepository = employeeRepository;
-    }
 
-
-    public void addPartner(Long proposalId, Employee member) {
-        Proposal realProposal = getProposal(proposalId);
-        findEmployeeById(member.getId());
+    public void addPartner(Proposal proposal, Employee member) {
         ProposalRole proposalRole = new ProposalRole();
 
         proposalRole.setEmployee(member);
-        proposalRole.setProposal(realProposal);
+        proposalRole.setProposal(proposal);
         proposalRole.setRole("PARTNER");
 
-        realProposal.getTeam().add(proposalRole);
+        proposal.getTeam().add(proposalRole);
 
-        proposalRepository.save(realProposal);
+        proposalRepository.save(proposal);
     }
 
     public void addProposal(Proposal proposal) {
         proposalRepository.save(proposal);
     }
 
-    public void addStaffMember(Long proposalId, Employee staffMember) {
-        Proposal realProposal = getProposal(proposalId);
-        findEmployeeById(staffMember.getId());
+    public void addStaffMember(Proposal proposal, Employee staffMember) {
         ProposalRole proposalRole = new ProposalRole();
 
         proposalRole.setEmployee(staffMember);
-        proposalRole.setProposal(realProposal);
+        proposalRole.setProposal(proposal);
         proposalRole.setRole("STAFF");
 
-        realProposal.getTeam().add(proposalRole);
+        proposal.getTeam().add(proposalRole);
 
-        proposalRepository.save(realProposal);
+        proposalRepository.save(proposal);
     }
 
     public Proposal getProposal(Long proposalId) {
@@ -61,50 +54,48 @@ public class ProposalService {
         } else throw new NotFoundException(String.format("Proposal with id %d does not exist", proposalId));
     }
 
-    public void deletePartner(Long proposalId, Long partnerId) {
-        getProposal(proposalId);
-        findEmployeeById(partnerId);
-        List<ProposalRole> r = proposalRepository.partnerExists(proposalId, partnerId);
+    public void deletePartner(Proposal proposal, Employee partnerMember) {
+        proposalRepository.deletePartner(proposal.getId(), partnerMember.getId());
+    }
+
+    public void deleteStaff(Proposal proposal, Employee staffMember) {
+        proposalRepository.deleteStaff(proposal.getId(), staffMember.getId());
+    }
+
+    public void deleteProposal(Proposal proposal) {
+        proposalRepository.delete(proposal);
+    }
+
+    public Page<Employee> getProposalMembers(Proposal proposal, Pageable pageable) {
+        return proposalRepository.getProposalMembers(proposal.getId(), pageable);
+    }
+
+    public Page<Employee> getProposalStaff(Proposal proposal, Pageable pageable) {
+        return proposalRepository.getProposalStaff(proposal.getId(), pageable);
+    }
+
+    public void updateProposal(Proposal proposal, Proposal oldProposal) {
+        oldProposal.setStatus(proposal.getStatus());
+        proposalRepository.save(oldProposal);
+    }
+
+    public boolean belongsToProposalPartners(Proposal proposal, Employee partnerMember) {
+
+        List<ProposalRole> r = proposalRepository.partnerExists(proposal.getId(), partnerMember.getId());
         if (r.size() > 0)
-            proposalRepository.deletePartner(proposalId, partnerId);
+            return true;
         else
-            throw new NotFoundException(String.format("Proposal with id %d does not have partner with id %d", proposalId, partnerId));
+            throw new NotFoundException(String.format("Proposal with id %d does not have partner member with id %d",
+                    proposal.getId(), partnerMember.getId()));
     }
 
-    public void deleteStaff(Long proposalId, Long staffId) {
-        getProposal(proposalId);
-        findEmployeeById(staffId);
-        List<ProposalRole> r = proposalRepository.staffExists(proposalId, staffId);
+    public boolean belongsToProposalStaff(Proposal proposal, Employee staffMember) {
+
+        List<ProposalRole> r = proposalRepository.staffExists(proposal.getId(), staffMember.getId());
         if (r.size() > 0)
-            proposalRepository.deleteStaff(proposalId, staffId);
+            return true;
         else
-            throw new NotFoundException(String.format("Proposal with id %d does not have partner with id %d", proposalId, staffId));
-    }
-
-    public void deleteProposal(Long proposalId) {
-        Proposal prop = getProposal(proposalId);
-        proposalRepository.delete(prop);
-    }
-
-    public Page<Employee> getProposalMembers(Long proposalId, Pageable pageable) {
-        return proposalRepository.getProposalMembers(proposalId, pageable);
-    }
-
-    public Page<Employee> getProposalStaff(Long proposalId, Pageable pageable) {
-        return proposalRepository.getProposalStaff(proposalId, pageable);
-    }
-
-
-    private Employee findEmployeeById(Long employeeId) {
-        Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if (employee.isPresent()) {
-            return employee.get();
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
-    }
-
-    public void updateProposal(Long proposalId, Proposal proposal) {
-        Proposal dbProposal=getProposal(proposalId);
-        dbProposal.setStatus(proposal.getStatus());
-        proposalRepository.save(dbProposal);
+            throw new NotFoundException(String.format("Proposal with id %d does not have staff member with id %d",
+                    proposal.getId(), staffMember.getId()));
     }
 }

@@ -45,7 +45,7 @@ public class Proposal {
     private List<Section> sections = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "proposal")
+            mappedBy = "pk.proposal")
     @JsonIgnore
     private List<Bid> bids = new LinkedList<>();
 

@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.CompaniesApi;
+import pt.unl.fct.ecma.brokers.CompanyBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
@@ -20,18 +22,17 @@ import javax.validation.Valid;
 
 @RestController
 public class CompanyController implements CompaniesApi {
-    private CompanyService companyService;
 
-    public CompanyController(CompanyService companyService) { //companyService should be static
-        this.companyService = companyService;
-    }
+    @Autowired
+    private CompanyBroker companyBroker;
+
 
     @isSuperAdminOrAdmin
     //hasRole(ADMIN) && verificar se é admin da empresa do novo admin
     @Override
     public void addAdmin(@Valid @RequestBody EmployeeWithPw employee,
                          @PathVariable("companyId") Long companyId) {
-        companyService.addAdmin(employee, companyId);
+        companyBroker.addAdmin(employee, companyId);
     }
 
     //@IsSuperAdmin
@@ -42,7 +43,7 @@ public class CompanyController implements CompaniesApi {
         if (company.getId() != null)
             throw new BadRequestException("Can not define id of new company");
 
-        companyService.addCompany(company);
+        companyBroker.addCompany(company);
     }
 
     @IsAdminOfCompany
@@ -50,7 +51,7 @@ public class CompanyController implements CompaniesApi {
     @Override
     public void addEmployee(@Valid @RequestBody EmployeeWithPw employee,
                             @PathVariable("companyId") Long companyId) {
-        companyService.addEmployee(employee, companyId);
+        companyBroker.addEmployee(employee, companyId);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -58,14 +59,14 @@ public class CompanyController implements CompaniesApi {
     @Override
     public void deleteAdmin(@PathVariable("companyId") Long companyId,
                             @PathVariable("adminId") Long adminId) {
-        companyService.deleteAdmin(companyId, adminId);
+        companyBroker.deleteAdmin(companyId, adminId);
     }
 
     @isSuperAdminOrAdmin
     //hasRole(ADMIN) e admin da empresa
     @Override
     public void deleteCompany(@PathVariable("companyId") Long companyId) {
-        companyService.deleteCompany(companyId);
+        companyBroker.deleteCompany(companyId);
     }
 
     @IsAdminOfCompany
@@ -73,27 +74,27 @@ public class CompanyController implements CompaniesApi {
     @Override
     public void fireEmployee(@PathVariable("companyId") Long companyId,
                              @PathVariable("employeeId") Long employeeId) {
-        companyService.deleteEmployee(companyId, employeeId);
+        companyBroker.deleteEmployee(companyId, employeeId);
     }
 
     @Override
     public Page<Employee> getAdminsOfCompany(Pageable pageable,
                                              @PathVariable("companyId") Long companyId) {
-        return companyService.getAdminsOfCompany(companyId, pageable);
+        return companyBroker.getAdminsOfCompany(companyId, pageable);
     }
 
     @Override
     public Page<Company> getCompanies(Pageable pageable,
                                       @Valid @RequestParam(value = "search", required = false) String search) {
         if (search == null)
-            return companyService.getAllCompanies(pageable);
+            return companyBroker.getAllCompanies(pageable);
         else
-            return companyService.getCompaniesByName(pageable, search);
+            return companyBroker.getCompaniesByName(pageable, search);
     }
 
     @Override
     public Company getCompany(@PathVariable("companyId") Long companyId) {
-        return companyService.getCompany(companyId);
+        return companyBroker.getCompany(companyId);
     }
 
     @Override
@@ -101,9 +102,9 @@ public class CompanyController implements CompaniesApi {
                                                 @PathVariable("companyId") Long companyId,
                                                 @Valid @RequestParam(value = "search", required = false) String search) {
         if (search == null)
-            return companyService.getAllEmployeesOfCompany(pageable, companyId);
+            return companyBroker.getAllEmployeesOfCompany(pageable, companyId);
         else
-            return companyService.getAllEmployeesOfCompanyByName(pageable, companyId, search);
+            return companyBroker.getAllEmployeesOfCompanyByName(pageable, companyId, search);
     }
 
     @IsAdminOfCompany
@@ -115,6 +116,6 @@ public class CompanyController implements CompaniesApi {
         if (!company.getId().equals(companyId))
             throw new BadRequestException("Ids of company do not match");
 
-        companyService.updateCompany(company);
+        companyBroker.updateCompany(company);
     }
 }

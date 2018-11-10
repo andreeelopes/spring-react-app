@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,84 +16,52 @@ import java.util.Optional;
 
 @Service
 public class CompanyService {
+
+    @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
     private EmployeeRepository employeeRepository;
 
-    public CompanyService(CompanyRepository companyRepository, EmployeeRepository employeeRepository) {
-        this.companyRepository = companyRepository;
-        this.employeeRepository = employeeRepository;
-    }
-
-    public void addAdmin(EmployeeWithPw employee, Long companyId) {
-
-        Optional<Company> company = companyRepository.findById(companyId);
-        if (company.isPresent()) {
-            Company realCompany = company.get();
-            Employee dbemp = new Employee();
-            dbemp.setJob(employee.getJob());
-            dbemp.setName(employee.getName());
-            dbemp.setEmail(employee.getEmail());
-            dbemp.setPassword(employee.getPassword());
-            dbemp.setUsername(employee.getUsername());
-            realCompany.getEmployees().add(dbemp);
-            dbemp.setAdmin(true);
-            dbemp.setCompany(realCompany);
-            companyRepository.save(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    public void addAdmin(EmployeeWithPw employee, Company company) {
+        Employee dbemp = new Employee();
+        dbemp.setJob(employee.getJob());
+        dbemp.setName(employee.getName());
+        dbemp.setEmail(employee.getEmail());
+        dbemp.setPassword(employee.getPassword());
+        dbemp.setUsername(employee.getUsername());
+        company.getEmployees().add(dbemp);
+        dbemp.setAdmin(true);
+        dbemp.setCompany(company);
+        companyRepository.save(company);
     }
 
     public void addCompany(Company company) {
         companyRepository.save(company);
     }
 
-    public void addEmployee(EmployeeWithPw employee, Long companyId) {
-
-        Optional<Company> company = companyRepository.findById(companyId);
-        if (company.isPresent()) {
-            Company realCompany = company.get();
-            Employee dbemp = new Employee();
-            dbemp.setJob(employee.getJob());
-            dbemp.setName(employee.getName());
-            dbemp.setEmail(employee.getEmail());
-            dbemp.setPassword(employee.getPassword());
-            dbemp.setUsername(employee.getUsername());
-            realCompany.getEmployees().add(dbemp);
-            dbemp.setCompany(realCompany);
-            companyRepository.save(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    public void addEmployee(EmployeeWithPw employee, Company company) {
+        Employee dbemp = new Employee();
+        dbemp.setJob(employee.getJob());
+        dbemp.setName(employee.getName());
+        dbemp.setEmail(employee.getEmail());
+        dbemp.setPassword(employee.getPassword());
+        dbemp.setUsername(employee.getUsername());
+        company.getEmployees().add(dbemp);
+        dbemp.setCompany(company);
+        companyRepository.save(company);
     }
 
-    public void deleteAdmin(Long companyId, Long adminId) {
-        Optional<Employee> employee = employeeRepository.findById(adminId);
-        if (employee.isPresent()) {
-            Employee realEmpoyee = employee.get();
-            if (realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId().equals(companyId)) {
-                employeeRepository.delete(realEmpoyee);
-            } else throw new BadRequestException("User is not admin of this company");
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", companyId));
+    public void deleteEmployee(Employee employee) {
+        employeeRepository.delete(employee);
     }
 
-    public void deleteCompany(Long companyId) {
-        Optional<Company> company = companyRepository.findById(companyId);
-        if (company.isPresent()) {
-            Company realCompany = company.get();
-            companyRepository.delete(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    public void deleteCompany(Company company) {
+        companyRepository.delete(company);
     }
 
-    public void deleteEmployee(Long companyId, Long employeeId) {
-        Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if (employee.isPresent()) {
-            Employee realEmpoyee = employee.get();
-            if (realEmpoyee.getCompany().getId().equals(companyId)) {
-
-                employeeRepository.delete(realEmpoyee);
-            } else throw new BadRequestException("User does not belong to this company");
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", companyId));
-    }
-
-    public Page<Employee> getAdminsOfCompany(Long companyId, Pageable pageable) {
-        return companyRepository.getAdminsOfCompany(companyId, pageable);
+    public Page<Employee> getAdminsOfCompany(Company company, Pageable pageable) {
+        return companyRepository.getAdminsOfCompany(company.getId(), pageable);
     }
 
     public Page<Company> getAllCompanies(Pageable pageable) {
@@ -111,29 +80,27 @@ public class CompanyService {
     }
 
 
-    public Page<Employee> getAllEmployeesOfCompany(Pageable pageable, Long companyId) {
-        Optional<Company> company = companyRepository.findById(companyId);
-        if (company.isPresent()) {
-            return companyRepository.getAllEmployees(companyId, pageable);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    public Page<Employee> getAllEmployeesOfCompany(Pageable pageable, Company company) {
+        return companyRepository.getAllEmployees(company.getId(), pageable);
     }
 
-    public Page<Employee> getAllEmployeesOfCompanyByName(Pageable pageable, Long companyId, String name) {
-        Optional<Company> company = companyRepository.findById(companyId);
-        if (company.isPresent()) {
-            return companyRepository.getEmployeesByName(name, companyId, pageable);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    public Page<Employee> getAllEmployeesOfCompanyByName(Pageable pageable, Company company, String name) {
+        return companyRepository.getEmployeesByName(name, company.getId(), pageable);
     }
 
-    public void updateCompany(Company companyToBeUpdated) {
-        Optional<Company> company = companyRepository.findById(companyToBeUpdated.getId());
-        if (company.isPresent()) {
-            Company realcompany = company.get();
-            realcompany.setAddress(companyToBeUpdated.getAddress());
-            realcompany.setEmail(companyToBeUpdated.getEmail());
-            realcompany.setName(companyToBeUpdated.getName());
-            companyRepository.save(realcompany);
-        } else
-            throw new NotFoundException(String.format("Company with id %d does not exist", companyToBeUpdated.getId()));
+    public void updateCompany(Company company, Company oldCompany) {
+        oldCompany.setAddress(company.getAddress());
+        oldCompany.setEmail(company.getEmail());
+        oldCompany.setName(company.getName());
+        companyRepository.save(oldCompany);
+    }
+
+
+    public boolean isAdminOfCompany(Employee employee, Company company) {
+        return employee.isAdmin() && employee.getCompany().getId().equals(company.getId());
+    }
+
+    public boolean employeeBelongsToCompany(Employee employee, Company company) {
+        return employee.getCompany().getId().equals(company.getId());
     }
 }

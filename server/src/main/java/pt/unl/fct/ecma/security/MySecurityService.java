@@ -67,7 +67,7 @@ public class MySecurityService {
 
         Employee person = peopleRepository.findByUsername(user.getUsername());
 
-        return bid.getBidder().getUsername().equals(person.getUsername());
+        return bid.getPk().getBidder().getId().equals(person.getId());
     }
 
     public boolean isAuthorOfComment(User user, Comment comment) {

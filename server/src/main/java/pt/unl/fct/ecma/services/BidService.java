@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Comment;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.repositories.BidKey;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
@@ -19,73 +21,44 @@ import java.util.Optional;
 
 @Service
 public class BidService {
-    private final EmployeeRepository employeeRepository;
-    private final ProposalRepository proposalRepository;
 
-    public BidService(EmployeeRepository employeeRepository, ProposalRepository proposalRepository) {
-        this.proposalRepository = proposalRepository;
-        this.employeeRepository = employeeRepository;
-    }
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private ProposalRepository proposalRepository;
+
 
     @Transactional
-    public void addBidToProposal(Bid bid) {
-        Long bidderId = bid.getBidder().getId();
-        Optional<Employee> employee = employeeRepository.findById(bidderId);
+    public void addBidToProposal(Proposal proposal, Employee bidder) {
+        Bid newBid = new Bid();
+        BidKey key=new BidKey();
+        key.setBidder(bidder);
+        key.setProposal(proposal);
+        newBid.setPk(key);
+        newBid.setStatus("WAITING");
 
-        if (employee.isPresent()) {
-            if (!(proposalRepository.existsBid(bid.getProposal().getId(), bidderId).size() > 0)) {
-                Bid newBid = new Bid();
-                Proposal realProposal = findProposalById(bid.getProposal().getId());
-                Employee realEmployee = employee.get();
+        proposal.getBids().add(newBid);
 
-                newBid.setBidder(realEmployee);
-                newBid.setProposal(realProposal);
-                newBid.setStatus("WAITING");
-
-                realProposal.getBids().add(newBid);
-
-                employeeRepository.save(realEmployee);
-            } else throw new BadRequestException("The user already did the bid");
-        } else throw new BadRequestException("The id of employee in bid is invalid");
-
+        proposalRepository.save(proposal);
     }
 
-    public void deleteBid(Long proposalId, Long employeeId) {
-        findProposalById(proposalId);
-        findEmployeeById(employeeId);
-        List<Bid> bids = proposalRepository.existsBid(proposalId, employeeId);
-        if (bids.size() > 0)
-            proposalRepository.deleteBidById(proposalId, employeeId);
-        else
-            throw new NotFoundException(String.format("Proposal with id %d does not have a bidder with id %d", proposalId, employeeId));
+    public void deleteBid(Proposal proposal, Employee employee) {
+        proposalRepository.deleteBidById(proposal.getId(), employee.getId());
     }
 
-    public Page<Bid> getBids(Pageable pageable, Long proposalId) {
-        findProposalById(proposalId);
-        return proposalRepository.findAllBids(pageable, proposalId);
+    public Page<Bid> getBids(Pageable pageable, Proposal proposal) {
+        return proposalRepository.findAllBids(pageable, proposal.getId());
     }
 
     public void updateBid(Bid bid) {
-        findProposalById(bid.getProposal().getId());
+        proposalRepository.changeBidStatus(bid.getStatus(), bid.getPk().getBidder().getId(), bid.getPk().getProposal().getId());
+    }
 
-        List<Bid> bids = proposalRepository.existsBid(bid.getProposal().getId(), bid.getBidder().getId());
+    public boolean bidBelongsToProposal(Long proposal, Long bidder) {
+        List<Bid> bids = proposalRepository.existsBid(proposal, bidder);
         if (bids.size() > 0) {
-            proposalRepository.changeBidStatus(bid.getStatus(), bid.getBidder().getId(), bid.getProposal().getId());
-        } else throw new BadRequestException("This bid does not exist");
-    }
-
-
-    private Employee findEmployeeById(Long employeeId) {
-        Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if (employee.isPresent()) {
-            return employee.get();
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
-    }
-
-    private Proposal findProposalById(Long proposalId) {
-        Optional<Proposal> proposal = proposalRepository.findById(proposalId);
-        if (proposal.isPresent()) {
-            return proposal.get();
-        } else throw new NotFoundException(String.format("Proposal with id %d does not exist", proposalId));
+            return true;
+        } else return false;
     }
 }

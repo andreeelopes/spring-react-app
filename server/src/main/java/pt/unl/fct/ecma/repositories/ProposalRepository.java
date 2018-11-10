@@ -23,22 +23,22 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
 
     @Transactional
     @Modifying
-    @Query("delete from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid")
+    @Query("delete from Bid b where b.pk.proposal.id = :id and b.pk.bidder.id = :employeeid")
     void deleteBidById(@Param(value = "id")Long id,@Param(value = "employeeid") Long employeeid);
 
-    @Query("select b from Bid b where b.proposal.id = :id and b.bidder.id = :employeeid")
+    @Query("select b from Bid b where b.pk.proposal.id = :id and b.pk.bidder.id = :employeeid")
     List<Bid> existsBid(@Param(value = "id")Long id,@Param(value = "employeeid") Long employeeid);
 
-    @Query("select b from Bid b where b.proposal.id = :proposalId and b.bidder.id = :employeeid and b.status = :status")
+    @Query("select b from Bid b where b.pk.proposal.id = :proposalId and b.pk.bidder.id = :employeeid and b.status = :status")
     List<Bid> existsBidOnProposalWithStatus(@Param(value = "proposalId")Long proposalId,
                                           @Param(value = "employeeid") Long employeeid,
                                             @Param(value = "status") String status);
 
-    @Query("SELECT b FROM Bid b where b.proposal.id = :proposalid ")
+    @Query("SELECT b FROM Bid b where b.pk.proposal.id = :proposalid ")
     Page<Bid> findAllBids(Pageable pageable, @Param(value = "proposalid") Long id);
 
     @Modifying
-    @Query("update Bid b set b.status = :status where b.bidder.id = :employeeid and b.proposal.id = :proposalid")
+    @Query("update Bid b set b.status = :status where b.pk.bidder.id = :employeeid and b.pk.proposal.id = :proposalid")
     @Transactional
     void changeBidStatus(@Param(value = "status") String status,@Param(value = "employeeid")Long employeeId, @Param(value = "proposalid") Long proposalid );
 
