@@ -98,6 +98,31 @@ public class EmployeeControllerTest {
         return null;
     }
 
+    @Test
+    public void testGetEmployees() throws Exception {
+
+    }
+
+    @Test
+    public void testUpdateEmployee() throws Exception {
+
+    }
+
+    @Test
+    public void testGetEmployeeBids() throws Exception {
+
+    }
+
+    @Test
+    public void testGetProposalPartner() throws Exception {
+
+    }
+
+    @Test
+    public void testGetProposalStaff() throws Exception {
+
+    }
+
 }
 
 
