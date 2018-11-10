@@ -17,10 +17,10 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
     Page<Employee> findByName(String name, Pageable pageable);
 
-    @Query("SELECT b FROM Bid b WHERE b.status LIKE CONCAT('%',:name,'%') AND  b.bidder.id = :employeeid ")
+    @Query("SELECT b FROM Bid b WHERE b.status LIKE CONCAT('%',:name,'%') AND  b.pk.bidder.id = :employeeid ")
     Page<Bid> findBidsByStatus(@Param(value = "name") String name, @Param(value = "employeeid") Long id, Pageable pageable);
 
-    @Query("SELECT b FROM Bid b where b.bidder.id = :employeeid ")
+    @Query("SELECT b FROM Bid b where b.pk.bidder.id = :employeeid ")
     Page<Bid> findAllBids(Pageable pageable, @Param(value = "employeeid") Long id);
 
     @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','PARTNER','%')")

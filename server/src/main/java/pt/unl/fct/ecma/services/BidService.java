@@ -10,6 +10,7 @@ import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Comment;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.repositories.BidKey;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
@@ -31,9 +32,10 @@ public class BidService {
     @Transactional
     public void addBidToProposal(Proposal proposal, Employee bidder) {
         Bid newBid = new Bid();
-
-        newBid.setBidder(bidder);
-        newBid.setProposal(proposal);
+        BidKey key=new BidKey();
+        key.setBidder(bidder);
+        key.setProposal(proposal);
+        newBid.setPk(key);
         newBid.setStatus("WAITING");
 
         proposal.getBids().add(newBid);
@@ -50,13 +52,13 @@ public class BidService {
     }
 
     public void updateBid(Bid bid) {
-        proposalRepository.changeBidStatus(bid.getStatus(), bid.getBidder().getId(), bid.getProposal().getId());
+        proposalRepository.changeBidStatus(bid.getStatus(), bid.getPk().getBidder().getId(), bid.getPk().getProposal().getId());
     }
 
-    public boolean bidBelongsToProposal(Proposal proposal, Employee bidder) {
-        List<Bid> bids = proposalRepository.existsBid(proposal.getId(), bidder.getId());
+    public boolean bidBelongsToProposal(Long proposal, Long bidder) {
+        List<Bid> bids = proposalRepository.existsBid(proposal, bidder);
         if (bids.size() > 0) {
             return true;
-        } else throw new BadRequestException("This bid does not exist");
+        } else return false;
     }
 }

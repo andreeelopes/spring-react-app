@@ -30,10 +30,10 @@ public class BidController implements BidsApi {
                           @PathVariable("employeeId") Long employeeId,
                           @PathVariable("proposalId") Long proposalId) {
 
-        if (!bid.getProposal().getId().equals(proposalId))
+        if (!bid.getPk().getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
 
-        if (!bid.getBidder().getId().equals(employeeId))
+        if (!bid.getPk().getBidder().getId().equals(employeeId))
             throw new BadRequestException("Ids of employee do not match");
 
         bidBroker.updateBid(bid);
@@ -45,7 +45,7 @@ public class BidController implements BidsApi {
     public void addBidToProposal(@PathVariable("proposalId") Long proposalId,
                                  @Valid @RequestBody Bid bid) {
 
-        if (!bid.getProposal().getId().equals(proposalId))
+        if (!bid.getPk().getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
 
         bidBroker.addBidToProposal(bid);

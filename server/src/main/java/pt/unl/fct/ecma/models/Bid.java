@@ -3,26 +3,20 @@ package pt.unl.fct.ecma.models;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import pt.unl.fct.ecma.repositories.BidKey;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
-public class Bid implements Serializable {
+public class Bid  {
     public enum Status{DENIED,WAITING,ACCEPTED}
 
-    @ManyToOne
-    @Id
-    private Employee bidder;
-
-    @ManyToOne
-    @Id
-    private Proposal proposal;
+    @EmbeddedId
+    private BidKey pk;
 
     private  String status;
 
