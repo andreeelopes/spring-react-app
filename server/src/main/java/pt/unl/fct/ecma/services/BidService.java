@@ -36,9 +36,9 @@ public class BidService {
         newBid.setProposal(proposal);
         newBid.setStatus("WAITING");
 
-        proposal.getBids().add(newBid); //TODO save?
+        proposal.getBids().add(newBid);
 
-        employeeRepository.save(bidder);
+        proposalRepository.save(proposal);
     }
 
     public void deleteBid(Proposal proposal, Employee employee) {
