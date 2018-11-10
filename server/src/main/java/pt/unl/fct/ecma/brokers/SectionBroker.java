@@ -19,8 +19,8 @@ public class SectionBroker {
     private ProposalService proposalService;
 
     public void addSection(Section section) {
-        Proposal proposal = proposalService.getProposal(section.getProposal().getId());
-        sectionService.addSection(section, proposal);
+        proposalService.getProposal(section.getProposal().getId());
+        sectionService.addSection(section);
     }
 
     public void deleteSection(Long proposalId, Long sectionId) {

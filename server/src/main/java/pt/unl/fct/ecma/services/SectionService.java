@@ -18,19 +18,14 @@ public class SectionService {
 
     @Autowired
     private SectionRepository sectionRepository;
-    @Autowired
-    private ProposalRepository proposalRepository;
-
 
     public void deleteSection(Section section) {
         sectionRepository.delete(section);
     }
 
-    public void addSection(Section section, Proposal proposal) {//TODO sectionRepository.save(section)?
-        proposal.getSections().add(section);
-        proposalRepository.save(proposal);
+    public void addSection(Section section) {
+        sectionRepository.save(section);
     }
-
 
     public void updateSection(Section section, Section oldSection) {
         oldSection.setText(section.getText());

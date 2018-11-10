@@ -49,13 +49,13 @@ public class ProposalController implements ProposalsApi {
         proposalService.addStaffMember(proposalId, staffMember);
     }
 
-    /*
+
     @IsApproverOfProposal
     @Override
     public void updateProposal(@PathVariable Long proposalId, @Valid @RequestBody Proposal proposal){
-        //TODO implementar
+        proposalService.updateProposal(proposalId,proposal);
     }
-    */
+
 
     @BelongsToProposalStaff
     @Override

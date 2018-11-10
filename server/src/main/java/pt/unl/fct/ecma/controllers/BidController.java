@@ -27,7 +27,9 @@ public class BidController implements BidsApi {
     @IsApproverOfProposal
     //approver daquela proposal
     @Override
-    public void updateBid(Bid bid, Long employeeId, Long proposalId) {
+    public void updateBid(@Valid @RequestBody Bid bid,
+                          @PathVariable("employeeId") Long employeeId,
+                          @PathVariable("proposalId") Long proposalId) {
 
         if (!bid.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
@@ -41,7 +43,8 @@ public class BidController implements BidsApi {
     @CanAddBidToProposal
     //fazer parte da team da proposale e não ser approver
     @Override
-    public void addBidToProposal(Long proposalId, Bid bid) {
+    public void addBidToProposal(@PathVariable("proposalId") Long proposalId,
+                                 @Valid @RequestBody Bid bid) {
 
         if (!bid.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
@@ -52,14 +55,16 @@ public class BidController implements BidsApi {
     @IsBidder
     //autor da bid
     @Override
-    public void deleteBid(Long proposalId, Long employeeId) {
+    public void deleteBid(@PathVariable("proposalId") Long proposalId,
+                          @PathVariable("employeeId") Long employeeId) {
         bidService.deleteBid(proposalId, employeeId);
     }
 
     @IsApproverOfProposal
     //approver
     @Override
-    public Page<Bid> getBids(Pageable pageable, Long proposalId) {
+    public Page<Bid> getBids(Pageable pageable,
+                             @PathVariable("proposalId")Long proposalId) {
         return bidService.getBids(pageable, proposalId);
     }
 

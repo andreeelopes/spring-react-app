@@ -101,4 +101,10 @@ public class ProposalService {
             return employee.get();
         } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
     }
+
+    public void updateProposal(Long proposalId, Proposal proposal) {
+        Proposal dbProposal=getProposal(proposalId);
+        dbProposal.setStatus(proposal.getStatus());
+        proposalRepository.save(dbProposal);
+    }
 }
