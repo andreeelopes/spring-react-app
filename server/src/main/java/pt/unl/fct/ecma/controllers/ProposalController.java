@@ -29,13 +29,14 @@ public class ProposalController implements ProposalsApi {
 
     @BelongsToProposalStaff
     @Override
-    public void addPartner(Long proposalId, Employee member) {
+    public void addPartner(@PathVariable("proposalId") Long proposalId,
+                           @Valid @RequestBody Employee member) {
         proposalService.addPartner(proposalId, member);
     }
 
     //TODO (não e politica de seguranca) adicionar o principal a staff da proposta e verificar se o principal e o approver pertence a company do proposal
     @Override
-    public void addProposal(Proposal proposal) {
+    public void addProposal(@Valid @RequestBody Proposal proposal) {
 
         if (proposal.getId() != null)
             throw new BadRequestException("Can not define id of new proposal");
@@ -45,51 +46,57 @@ public class ProposalController implements ProposalsApi {
 
     @BelongsToProposalStaff
     @Override
-    public void addStaffMember(Long proposalId, Employee staffMember) {
+    public void addStaffMember(@PathVariable("proposalId") Long proposalId,
+                               @Valid @RequestBody Employee staffMember) {
         proposalService.addStaffMember(proposalId, staffMember);
     }
 
 
     @IsApproverOfProposal
     @Override
-    public void updateProposal(@PathVariable Long proposalId, @Valid @RequestBody Proposal proposal){
-        proposalService.updateProposal(proposalId,proposal);
+    public void updateProposal(@PathVariable Long proposalId,
+                               @Valid @RequestBody Proposal proposal) {
+        proposalService.updateProposal(proposalId, proposal);
     }
 
 
     @BelongsToProposalStaff
     @Override
-    public void deletePartner(Long proposalId, Long partnerId) {
+    public void deletePartner(@PathVariable("proposalId") Long proposalId,
+                              @PathVariable("partnerId") Long partnerId) {
         proposalService.deletePartner(proposalId, partnerId);
     }
 
     @BelongsToProposalStaff
     @Override
-    public void deleteProposal(Long proposalId) {
+    public void deleteProposal(@PathVariable("proposalId") Long proposalId) {
         proposalService.deleteProposal(proposalId);
     }
 
     @IsPrincipal //TODO verificar isto
     @Override
-    public void deleteStaff(Long proposalId, Long staffId) {
+    public void deleteStaff(@PathVariable("proposalId") Long proposalId,
+                            @PathVariable("staffId") Long staffId) {
         proposalService.deleteStaff(proposalId, staffId);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Proposal getProposal(Long proposalId) {
+    public Proposal getProposal(@PathVariable("proposalId") Long proposalId) {
         return proposalService.getProposal(proposalId);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Page<Employee> getProposalMembers(Pageable pageable, Long proposalId) {
+    public Page<Employee> getProposalMembers(Pageable pageable,
+                                             @PathVariable("proposalId") Long proposalId) {
         return proposalService.getProposalMembers(proposalId, pageable);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Page<Employee> getStaffMembers(Pageable pageable, Long proposalId) {
+    public Page<Employee> getStaffMembers(Pageable pageable,
+                                          @PathVariable("proposalId") Long proposalId) {
         return proposalService.getProposalStaff(proposalId, pageable);
     }
 
