@@ -22,72 +22,70 @@ public class BidService {
     private final EmployeeRepository employeeRepository;
     private final ProposalRepository proposalRepository;
 
-    public BidService(EmployeeRepository employeeRepository,ProposalRepository proposalRepository){
+    public BidService(EmployeeRepository employeeRepository, ProposalRepository proposalRepository) {
         this.proposalRepository = proposalRepository;
         this.employeeRepository = employeeRepository;
     }
 
-    //Employee é inviado pela bid
     @Transactional
-    public void addBidToProposal(Long id, Bid bid) {
-        Long bidid = bid.getBidder().getId();
-        Optional<Employee> employee = employeeRepository.findById(bidid);
+    public void addBidToProposal(Bid bid) {
+        Long bidderId = bid.getBidder().getId();
+        Optional<Employee> employee = employeeRepository.findById(bidderId);
 
-        if(employee.isPresent()){
-            if(!(proposalRepository.existsBid(id,bidid).size()>0)){
+        if (employee.isPresent()) {
+            if (!(proposalRepository.existsBid(bid.getProposal().getId(), bidderId).size() > 0)) {
                 Bid newBid = new Bid();
-                Proposal realProposal = findProposalById(id);
+                Proposal realProposal = findProposalById(bid.getProposal().getId());
                 Employee realEmployee = employee.get();
 
                 newBid.setBidder(realEmployee);
                 newBid.setProposal(realProposal);
                 newBid.setStatus("WAITING");
 
-
                 realProposal.getBids().add(newBid);
 
                 employeeRepository.save(realEmployee);
             } else throw new BadRequestException("The user already did the bid");
-        }else throw new BadRequestException("The id of employee in bid is invalid");
+        } else throw new BadRequestException("The id of employee in bid is invalid");
 
     }
 
-    public void deleteBid(Long id,Long employeeid) {
-        findProposalById(id);
-        findEmployeeById(employeeid);
-        List<Bid> bids=proposalRepository.existsBid(id,employeeid);
-        if(bids.size()>0)
-            proposalRepository.deleteBidById(id,employeeid);
-        else throw new NotFoundException(String.format("Proposal with id %d does not have a bidder with id %d", id,employeeid));
+    public void deleteBid(Long proposalId, Long employeeId) {
+        findProposalById(proposalId);
+        findEmployeeById(employeeId);
+        List<Bid> bids = proposalRepository.existsBid(proposalId, employeeId);
+        if (bids.size() > 0)
+            proposalRepository.deleteBidById(proposalId, employeeId);
+        else
+            throw new NotFoundException(String.format("Proposal with id %d does not have a bidder with id %d", proposalId, employeeId));
     }
 
-    public Page<Bid> getBids(Pageable pageable, Long id) {
-        findProposalById(id);
-        return proposalRepository.findAllBids(pageable,id);
+    public Page<Bid> getBids(Pageable pageable, Long proposalId) {
+        findProposalById(proposalId);
+        return proposalRepository.findAllBids(pageable, proposalId);
     }
 
-    public void updateBid(Bid bid, Long employeeid, Long id) {
-        findProposalById(id);
+    public void updateBid(Bid bid) {
+        findProposalById(bid.getProposal().getId());
 
-        List<Bid> bids = proposalRepository.existsBid(id,employeeid);
-        if(bids.size()>0) {
-            proposalRepository.changeBidStatus(bid.getStatus(),employeeid,id);
-        }
-        else  throw new BadRequestException("This bid doesnt exist");
+        List<Bid> bids = proposalRepository.existsBid(bid.getProposal().getId(), bid.getBidder().getId());
+        if (bids.size() > 0) {
+            proposalRepository.changeBidStatus(bid.getStatus(), bid.getBidder().getId(), bid.getProposal().getId());
+        } else throw new BadRequestException("This bid does not exist");
     }
 
 
-    private Employee findEmployeeById(Long id){
-        Optional<Employee> employee = employeeRepository.findById(id);
-        if(employee.isPresent()) {
+    private Employee findEmployeeById(Long employeeId) {
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if (employee.isPresent()) {
             return employee.get();
-        }else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
     }
 
-    private Proposal findProposalById(Long id){
-        Optional<Proposal> proposal = proposalRepository.findById(id);
-        if(proposal.isPresent()) {
+    private Proposal findProposalById(Long proposalId) {
+        Optional<Proposal> proposal = proposalRepository.findById(proposalId);
+        if (proposal.isPresent()) {
             return proposal.get();
-        }else throw new NotFoundException(String.format("Proposal with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Proposal with id %d does not exist", proposalId));
     }
 }

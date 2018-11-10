@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.ProposalsApi;
+import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.security.annotations.BelongsToProposalStaff;
 import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
 import pt.unl.fct.ecma.security.annotations.IsApproverOfProposal;
@@ -21,35 +22,31 @@ public class ProposalController implements ProposalsApi {
 
     private ProposalService proposalService;
 
-    ProposalController(ProposalService proposalService){
+    ProposalController(ProposalService proposalService) {
         this.proposalService = proposalService;
     }
-/*
-    // tem de ser membro ou staff
-    @Override
-    public Page<Proposal> getAllProposals(Pageable pageable, @Valid @RequestParam(value = "search", required = false) String search) {
-        if(search == null)
-            return proposalService.getAllProposals(pageable);
-        else
-            return proposalService.getProposalsByStatus(search, pageable);
-    }*/
+
 
     @BelongsToProposalStaff
     @Override
-    public void addPartner(@PathVariable Long proposalId, @Valid @RequestBody Employee member) {
+    public void addPartner(Long proposalId, Employee member) {
         proposalService.addPartner(proposalId, member);
     }
 
     //TODO (não e politica de seguranca) adicionar o principal a staff da proposta e verificar se o principal e o approver pertence a company do proposal
     @Override
-    public void addProposal(@Valid @RequestBody Proposal proposal) {
+    public void addProposal(Proposal proposal) {
+
+        if (proposal.getId() != null)
+            throw new BadRequestException("Can not define id of new proposal");
+
         proposalService.addProposal(proposal);
     }
 
     @BelongsToProposalStaff
     @Override
-    public void addStaffMember(@PathVariable Long id, @Valid @RequestBody Employee staffMember) {
-        proposalService.addStaffMember(id, staffMember);
+    public void addStaffMember(Long proposalId, Employee staffMember) {
+        proposalService.addStaffMember(proposalId, staffMember);
     }
 
     /*
@@ -62,41 +59,39 @@ public class ProposalController implements ProposalsApi {
 
     @BelongsToProposalStaff
     @Override
-    public void deletePartner(@PathVariable("id") Long id, @PathVariable("partnerid") Long partnerid) {
-        proposalService.deletePartner(id, partnerid);
+    public void deletePartner(Long proposalId, Long partnerId) {
+        proposalService.deletePartner(proposalId, partnerId);
     }
 
     @BelongsToProposalStaff
     @Override
-    public void deleteProposal(@PathVariable("id") Long id) {
-        proposalService.deleteProposal(id);
+    public void deleteProposal(Long proposalId) {
+        proposalService.deleteProposal(proposalId);
     }
 
     @IsPrincipal //TODO verificar isto
     @Override
-    public void deleteStaff(@PathVariable("id") Long proposalId, @PathVariable("staffid") Long id) {
-        proposalService.deleteStaff(proposalId, id);
+    public void deleteStaff(Long proposalId, Long staffId) {
+        proposalService.deleteStaff(proposalId, staffId);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Proposal getProposal(@PathVariable("id") Long id) {
-        return proposalService.getProposal(id);
+    public Proposal getProposal(Long proposalId) {
+        return proposalService.getProposal(proposalId);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Page<Employee> getProposalMembers(Pageable pageable, @PathVariable("id") Long id) {
-        return proposalService.getProposalMembers(id, pageable);
+    public Page<Employee> getProposalMembers(Pageable pageable, Long proposalId) {
+        return proposalService.getProposalMembers(proposalId, pageable);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Page<Employee> getStaffMembers(Pageable pageable, @PathVariable("id") Long id) {
-        return proposalService.getProposalStaff(id, pageable);
+    public Page<Employee> getStaffMembers(Pageable pageable, Long proposalId) {
+        return proposalService.getProposalStaff(proposalId, pageable);
     }
-
-
 
 
 }

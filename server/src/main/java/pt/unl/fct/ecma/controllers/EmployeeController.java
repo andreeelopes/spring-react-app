@@ -2,74 +2,70 @@ package pt.unl.fct.ecma.controllers;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.EmployeesApi;
+import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.security.annotations.IsPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.services.EmployeeService;
 
-import javax.validation.Valid;
-
 @RestController
 
 public class EmployeeController implements EmployeesApi {
 
-    public static final String BASE_URL="/employees";
-
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService){
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
 
     @Override
-    public Employee getEmployee(@PathVariable Long id) {
-            return employeeService.getEmployeeById(id);
+    public Employee getEmployee(Long employeeId) {
+        return employeeService.getEmployee(employeeId);
     }
 
     @Override
     @IsPrincipal
-    public Page<Bid> getEmployeeBids(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable) {
-        if(search == null) {
-            return employeeService.getAllBid(id,pageable);
-        }
-        else{
-            return employeeService.getAllBidByStatus(id,search,pageable);
+    public Page<Bid> getEmployeeBids(Long employeeId, String search, Pageable pageable) {
+        if (search == null) {
+            return employeeService.getAllBids(employeeId, pageable);
+        } else {
+            return employeeService.getAllBidsByStatus(employeeId, search, pageable);
         }
     }
 
 
     @Override
-    public Page<Employee> getEmployees(@Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
-        if(search == null) {
+    public Page<Employee> getEmployees(String search, Pageable pageable) {
+        if (search == null) {
             return employeeService.getAllEmployees(pageable);
+        } else {
+            return employeeService.getEmployeeByName(search, pageable);
         }
-        else{
-            return employeeService.getEmployeeByName(search,pageable);
-        }
     }
 
     @Override
     @IsPrincipal
-    public Page<Proposal> getProposalPartner(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
-        return  employeeService.getProposalPartner(pageable,id);
+    public Page<Proposal> getProposalPartner(Long employeeId, String search, Pageable pageable) { //TODO search?
+        return employeeService.getProposalPartner(pageable, employeeId);
     }
 
     @Override
     @IsPrincipal
-    public Page<Proposal> getProposalStaff(@PathVariable Long id, @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable) {
-        return  employeeService.getProposalStaff(pageable,id);
+    public Page<Proposal> getProposalStaff(Long employeeId, String search, Pageable pageable) { //TODO search?
+        return employeeService.getProposalStaff(pageable, employeeId);
     }
 
     @Override
     @IsPrincipal
-    public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable Long id) {
-        employeeService.updateEmployee(id,employee);
+    public void updateEmployee(Employee employee, Long employeeId) {
+
+        if(!employee.getId().equals(employeeId))
+            throw new BadRequestException("Ids of employee do not match");
+
+        employeeService.updateEmployee(employee);
     }
 }

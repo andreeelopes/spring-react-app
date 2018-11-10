@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(IsPrincipal.Condition)
 public @interface IsPrincipal {
-    String Condition = "@mySecurityService.isPrincipal(principal, #id)";
+    String Condition = "@mySecurityService.isPrincipal(principal, #employeeId)";
 }

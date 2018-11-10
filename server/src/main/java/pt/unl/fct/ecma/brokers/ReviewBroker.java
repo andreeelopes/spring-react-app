@@ -25,18 +25,18 @@ public class ReviewBroker {
     }
 
     public Page<Review> getProposalReviews(Long proposalId, Pageable pageable) {
-        Proposal proposal = pService.findById(proposalId);
+        Proposal proposal = pService.getProposal(proposalId);
         return rService.getProposalReviews(proposal, pageable);
     }
 
     public void deleteReview(Long proposalId, Long reviewId) {
-        Proposal proposal = pService.findById(proposalId);
+        Proposal proposal = pService.getProposal(proposalId);
         Review review = rService.findById(reviewId);
         rService.deleteReview(review);
     }
 
     public void addReview(Review review) {
-        Proposal proposal = pService.findById(review.getProposal().getId());
+        Proposal proposal = pService.getProposal(review.getProposal().getId());
         if (!rService.existsReviewOfEmployeeOnProposal(proposal, review.getAuthor()))
             rService.addReview(review);
         else

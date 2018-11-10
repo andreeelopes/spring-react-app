@@ -24,27 +24,39 @@ public class SectionController implements SectionsApi {
 
     @BelongsToProposalStaff
     @Override
-    public void addSection(Long id, @Valid Section section) {
-        if(id != null)
-            throw new BadRequestException("Invalid id supplied");
-        sectionService.addSection(id, section);
+    public void addSection(Long proposalId, Section section) {
+
+        if(!section.getProposal().getId().equals(proposalId))
+            throw new BadRequestException("Ids of proposal do not match");
+
+        if(section.getId() != null)
+            throw new BadRequestException("Can not define id of new section");
+
+        sectionService.addSection(section);
     }
 
     @BelongsToProposalStaff
     @Override
-    public void deleteSection(Long id, Long sectionid) {
-        sectionService.deleteSection(id, sectionid);
+    public void deleteSection(Long proposalId, Long sectionId) {
+        sectionService.deleteSection(proposalId, sectionId);
     }
 
     @BelongsToProposalTeam
     @Override
-    public Page<Section> getProposalSections(Pageable pageable, Long id) {
-        return sectionService.getProposalsSections(pageable, id);
+    public Page<Section> getProposalSections(Pageable pageable, Long proposalId) {
+        return sectionService.getProposalsSections(pageable, proposalId);
     }
 
     @BelongsToProposalStaff
     @Override
-    public void updateSection(@Valid Section section, Long sectionId, Long proposalId) {
-        sectionService.updateSection(section, sectionId, proposalId);
+    public void updateSection(Section section, Long sectionId, Long proposalId) {
+
+        if(!section.getProposal().getId().equals(proposalId))
+            throw new BadRequestException("Ids of proposal do not match");
+
+        if(!section.getId().equals(sectionId))
+            throw new BadRequestException("Ids of section do not match");
+
+        sectionService.updateSection(section);
     }
 }

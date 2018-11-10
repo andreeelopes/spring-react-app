@@ -10,5 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(CanAddBidToProposal.Condition)
 public @interface CanAddBidToProposal {
-    String Condition = "@mySecurityService.belongsToTeamProposal(principal,#id) and @mySecurityService.bidHasPrincipal(principal,#bid) and not @mySecurityService.isApproverOfProposal(principal,#id)";
+    String Condition = "@mySecurityService.belongsToTeamProposal(principal,#proposalId) and" +
+            " @mySecurityService.bidHasPrincipal(principal,#bid) and" +
+            " not @mySecurityService.isApproverOfProposal(principal,#proposalId)";
 }

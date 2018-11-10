@@ -29,11 +29,10 @@ public interface SectionsApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new Section"),
             @ApiResponse(code = 405, message = "Invalid input")})
-    @RequestMapping(value = "/proposals/{id}/sections/",
-            produces = {"application/json"},
+    @RequestMapping(value = "/proposals/{proposalId}/sections/",
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
+    void addSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
                     @ApiParam(value = "Section object to add to the proposal", required = true)
                     @Valid @RequestBody Section section);
 
@@ -45,8 +44,8 @@ public interface SectionsApi {
             @ApiResponse(code = 404, message = "Proposal not found")})
     @RequestMapping(value = "/proposals/{proposalId}/sections/{sectionId}",
             method = RequestMethod.DELETE)
-    void deleteSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
-                       @ApiParam(value = "Section ID", required = true) @PathVariable("sectionid") Long sectionid);
+    void deleteSection(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                       @ApiParam(value = "Section ID", required = true) @PathVariable("sectionId") Long sectionId);
 
 
     @ApiOperation(value = "Get all sections by the proposal ID", nickname = "getProposalSections",
@@ -55,10 +54,10 @@ public interface SectionsApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Section.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/sections/",
+    @RequestMapping(value = "/proposals/{proposalId}/sections/",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    Page<Section> getProposalSections(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
+    Page<Section> getProposalSections(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
 
     @ApiOperation(value = "Update sections with ID provided", nickname = "updateSection", notes = "", tags = {"sections",})

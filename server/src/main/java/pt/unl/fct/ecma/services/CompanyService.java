@@ -23,12 +23,12 @@ public class CompanyService {
         this.employeeRepository = employeeRepository;
     }
 
-    public void addAdmin(EmployeeWithPw employee, Long id) {
+    public void addAdmin(EmployeeWithPw employee, Long companyId) {
 
-        Optional<Company> company = companyRepository.findById(id);
+        Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             Company realCompany = company.get();
-            Employee dbemp= new Employee();
+            Employee dbemp = new Employee();
             dbemp.setJob(employee.getJob());
             dbemp.setName(employee.getName());
             dbemp.setEmail(employee.getEmail());
@@ -38,21 +38,19 @@ public class CompanyService {
             dbemp.setAdmin(true);
             dbemp.setCompany(realCompany);
             companyRepository.save(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
     }
 
     public void addCompany(Company company) {
-        if (company.getId() == null) {
-            companyRepository.save(company);
-        } else throw new BadRequestException("Invalid input");
+        companyRepository.save(company);
     }
 
-    public void addEmployee(EmployeeWithPw employee, Long id) {
+    public void addEmployee(EmployeeWithPw employee, Long companyId) {
 
-        Optional<Company> company = companyRepository.findById(id);
+        Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             Company realCompany = company.get();
-            Employee dbemp= new Employee();
+            Employee dbemp = new Employee();
             dbemp.setJob(employee.getJob());
             dbemp.setName(employee.getName());
             dbemp.setEmail(employee.getEmail());
@@ -61,77 +59,81 @@ public class CompanyService {
             realCompany.getEmployees().add(dbemp);
             dbemp.setCompany(realCompany);
             companyRepository.save(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
     }
 
-    public void deleteAdmin(Long id, Long adminId) {
+    public void deleteAdmin(Long companyId, Long adminId) {
         Optional<Employee> employee = employeeRepository.findById(adminId);
         if (employee.isPresent()) {
             Employee realEmpoyee = employee.get();
-            if (realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId() == id) {
+            if (realEmpoyee.isAdmin() && realEmpoyee.getCompany().getId().equals(companyId)) {
                 employeeRepository.delete(realEmpoyee);
-            } else throw new BadRequestException("O utilizador não é admin da empresa");
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+            } else throw new BadRequestException("User is not admin of this company");
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", companyId));
     }
 
-    public void deleteCompany(Long id) {
-        Optional<Company> company = companyRepository.findById(id);
+    public void deleteCompany(Long companyId) {
+        Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             Company realCompany = company.get();
             companyRepository.delete(realCompany);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
     }
 
-    public void deleteEmployee(Long id, Long employeeid) {
-            Optional<Employee> employee = employeeRepository.findById(employeeid);
+    public void deleteEmployee(Long companyId, Long employeeId) {
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
         if (employee.isPresent()) {
             Employee realEmpoyee = employee.get();
-            if (realEmpoyee.getCompany().getId() == id) {
+            if (realEmpoyee.getCompany().getId().equals(companyId)) {
 
                 employeeRepository.delete(realEmpoyee);
-            } else throw new BadRequestException("O utilizador não pertence á empresa");
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+            } else throw new BadRequestException("User does not belong to this company");
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", companyId));
     }
 
-    public Page<Employee> getAdminsOfCompany(Long id, Pageable pageable) {
-        return companyRepository.getAdminsOfCompany(id, pageable);
+    public Page<Employee> getAdminsOfCompany(Long companyId, Pageable pageable) {
+        return companyRepository.getAdminsOfCompany(companyId, pageable);
     }
 
-    public Page<Company> getAllCompanies(Pageable pageable, String search) {
-        if (search == null) {
-            return companyRepository.findAll(pageable);
-        } else {
-            return companyRepository.findByName(search, pageable);
-        }
+    public Page<Company> getAllCompanies(Pageable pageable) {
+        return companyRepository.findAll(pageable);
     }
 
-    public Company getCompanyById(Long id) {
-        Optional<Company> company = companyRepository.findById(id);
+    public Page<Company> getCompaniesByName(Pageable pageable, String name) {
+        return companyRepository.findByName(name, pageable);
+    }
+
+    public Company getCompany(Long companyId) {
+        Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
             return company.get();
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
     }
 
-    public Page<Employee> getEmployeesOfCompany(Pageable pageable, Long id, String search) {
-        Optional<Company> company = companyRepository.findById(id);
+
+    public Page<Employee> getAllEmployeesOfCompany(Pageable pageable, Long companyId) {
+        Optional<Company> company = companyRepository.findById(companyId);
         if (company.isPresent()) {
-
-            if (search == null) {
-                return companyRepository.getAllEmployees(id, pageable);
-            } else return companyRepository.getEmployeesByName(search, id, pageable);
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+            return companyRepository.getAllEmployees(companyId, pageable);
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
     }
 
-    public void updateCompany(Company companyToBeUpdated, Long id) {
+    public Page<Employee> getAllEmployeesOfCompanyByName(Pageable pageable, Long companyId, String name) {
+        Optional<Company> company = companyRepository.findById(companyId);
+        if (company.isPresent()) {
+            return companyRepository.getEmployeesByName(name, companyId, pageable);
+        } else throw new NotFoundException(String.format("Company with id %d does not exist", companyId));
+    }
+
+    public void updateCompany(Company companyToBeUpdated) {
         Optional<Company> company = companyRepository.findById(companyToBeUpdated.getId());
         if (company.isPresent()) {
             Company realcompany = company.get();
-            if (realcompany.getId() == id) {
-                realcompany.setAddress(companyToBeUpdated.getAddress());
-                realcompany.setEmail(companyToBeUpdated.getEmail());
-                realcompany.setName(companyToBeUpdated.getName());
-                companyRepository.save(realcompany);
-            } else throw new BadRequestException("O id é invalido");
-        } else throw new NotFoundException(String.format("Company with id %d does not exist", id));
+            realcompany.setAddress(companyToBeUpdated.getAddress());
+            realcompany.setEmail(companyToBeUpdated.getEmail());
+            realcompany.setName(companyToBeUpdated.getName());
+            companyRepository.save(realcompany);
+        } else
+            throw new NotFoundException(String.format("Company with id %d does not exist", companyToBeUpdated.getId()));
     }
 }

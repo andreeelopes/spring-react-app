@@ -22,22 +22,21 @@ public class SectionService {
     private ProposalRepository proposalRepository;
 
 
-    public void deleteSection(Long id, Long sectionid) {
-        Section section = findSectionById(sectionid);
-        Proposal proposal = findProposalById(id);
+    public void deleteSection(Long proposalId, Long sectionId) {
+        Section section = findSectionById(sectionId);
+        Proposal proposal = findProposalById(proposalId);
 
         if(!sectionBelongsToProposal(section, proposal)){
             throw new BadRequestException(
                     String.format("Section with id %d does not belong to proposal with id %d",
-                            sectionid, id));
+                            sectionId, proposalId));
         }
 
         sectionRepository.delete(section);
     }
 
-    public void addSection(Long id, Section section) {
-
-        Proposal p = findProposalById(id);
+    public void addSection(Section section) {
+        Proposal p = findProposalById(section.getProposal().getId());
 
         p.getSections().add(section);
 
@@ -45,15 +44,15 @@ public class SectionService {
     }
 
 
-    public void updateSection(Section section, Long sectionId, Long proposalId) {
+    public void updateSection(Section section) {
 
-        Section oldSection = findSectionById(sectionId);
-        Proposal oldProposal = findProposalById(proposalId);
+        Section oldSection = findSectionById(section.getId());
+        Proposal oldProposal = findProposalById(section.getProposal().getId());
 
         if(!sectionBelongsToProposal(oldSection, oldProposal)){
             throw new BadRequestException(
                     String.format("Section with id %d does not belong to proposal with id %d",
-                            sectionId, proposalId));
+                            section.getId(), section.getProposal().getId()));
         }
 
         oldSection.setText(section.getText());
@@ -62,10 +61,10 @@ public class SectionService {
         sectionRepository.save(oldSection);
     }
 
-    public Page<Section> getProposalsSections(Pageable pageable, Long id) {
-        findProposalById(id);
+    public Page<Section> getProposalsSections(Pageable pageable, Long proposalId) {
+        findProposalById(proposalId);
 
-        return sectionRepository.findAllByProposal_Id(id, pageable);
+        return sectionRepository.findAllByProposal_Id(proposalId, pageable);
 
     }
 

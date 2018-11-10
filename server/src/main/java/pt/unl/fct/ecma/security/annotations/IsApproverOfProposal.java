@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(IsApproverOfProposal.Condition)
 public @interface IsApproverOfProposal {
-    String Condition = "@mySecurityService.isApproverOfProposal(principal,#id)";
+    String Condition = "@mySecurityService.isApproverOfProposal(principal,#proposalId)";
 }

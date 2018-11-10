@@ -25,8 +25,7 @@ public class ReviewController implements ReviewsApi {
 
     @CanModifyReview
     @Override
-    public void updateReview(@Valid @RequestBody Review review, @PathVariable("reviewId") Long reviewId,
-                             @PathVariable("proposalId") Long proposalId) {
+    public void updateReview(Review review, Long reviewId, Long proposalId) {
 
         if (!review.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");
@@ -38,21 +37,21 @@ public class ReviewController implements ReviewsApi {
 
     @BelongsToProposalTeam
     @Override
-    public Page<Review> getProposalReviews(Pageable pageable, @PathVariable("id") Long proposalId) {
+    public Page<Review> getProposalReviews(Pageable pageable, Long proposalId) {
         return rbroker.getProposalReviews(proposalId, pageable);
     }
 
     @CanModifyReview
     @Override
-    public void deleteReview(@PathVariable("proposalId") Long proposalId, @PathVariable("reviewid") Long reviewId) {
+    public void deleteReview(Long proposalId, Long reviewId) {
         rbroker.deleteReview(proposalId, reviewId);
     }
 
     @CanAddReview
     @Override
-    public void addReview(@PathVariable("id") Long proposalId, @Valid @RequestBody Review review) {
+    public void addReview(Long proposalId, Review review) {
 
-        if(review.getId() != null)
+        if (review.getId() != null)
             throw new BadRequestException("Cannot submit id of review");
         if (!review.getProposal().getId().equals(proposalId))
             throw new BadRequestException("Ids of proposal do not match");

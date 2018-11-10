@@ -25,20 +25,22 @@ public interface EmployeesApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Employee.class),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Employee not found") })
-    @RequestMapping(value = "/employees/{id}",
+    @RequestMapping(value = "/employees/{employeeId}",
             produces = { "application/json" },
             method = RequestMethod.GET)
 
-    Employee getEmployee(@ApiParam(value = "ID of employee to return",required=true) @PathVariable("id") Long id);
+    Employee getEmployee(@ApiParam(value = "ID of employee to return",required=true) @PathVariable("employeeId") Long employeeId);
 
 
     @ApiOperation(value = "Get the list of all bids where this employee bid", nickname = "getEmployeeBids", notes = "", response = Bid.class, responseContainer = "List", tags={ "employees", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Bid.class, responseContainer = "List") })
-    @RequestMapping(value = "/employees/{id}/bids",
+    @RequestMapping(value = "/employees/{employeeId}/bids",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    Page<Bid> getEmployeeBids(@ApiParam(value = "Employee ID",required=true) @PathVariable("id") Long id, @ApiParam(value = "Filter bids by the status") @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable);
+    Page<Bid> getEmployeeBids(@ApiParam(value = "Employee ID",required=true) @PathVariable("employeeId") Long employeeId,
+                              @ApiParam(value = "Filter bids by the status") @Valid @RequestParam(value = "search", required = false) String search,
+                              Pageable pageable);
 
 
     @ApiOperation(value = "Get the list of all employees", nickname = "getEmployees", notes = "", response = Employee.class, responseContainer = "List", tags={ "employees", })
@@ -47,25 +49,30 @@ public interface EmployeesApi {
     @RequestMapping(value = "/employees",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    Page<Employee> getEmployees(@ApiParam(value = "Filter employees by name, email, job, company or address") @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable);
+    Page<Employee> getEmployees(@ApiParam(value = "Filter employees by name, email, job, company or address")
+                                @Valid @RequestParam(value = "search", required = false) String search, Pageable pageable);
 
 
     @ApiOperation(value = "Get the list of all proposals where this employee is partner", nickname = "getProposalPartner", notes = "", response = Proposal.class, responseContainer = "List", tags={ "employees", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class, responseContainer = "List") })
-    @RequestMapping(value = "/employees/{id}/partnerproposals",
+    @RequestMapping(value = "/employees/{employeeId}/partnerproposals",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    Page<Proposal> getProposalPartner(@ApiParam(value = "Employee ID",required=true) @PathVariable("id") Long id,@ApiParam(value = "Filter proposal by the status") @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable);
+    Page<Proposal> getProposalPartner(@ApiParam(value = "Employee ID",required=true) @PathVariable("employeeId") Long employeeId,
+                                      @ApiParam(value = "Filter proposal by the status")
+                                      @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable);
 
 
     @ApiOperation(value = "Get the list of all proposals where this employee is staff", nickname = "getProposalStaff", notes = "", response = Proposal.class, responseContainer = "List", tags={ "employees", })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class, responseContainer = "List") })
-    @RequestMapping(value = "/employees/{id}/staffproposals",
+    @RequestMapping(value = "/employees/{employeeId}/staffproposals",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    Page<Proposal> getProposalStaff(@ApiParam(value = "Employee ID",required=true) @PathVariable("id") Long id,@ApiParam(value = "Filter proposal by the status") @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable);
+    Page<Proposal> getProposalStaff(@ApiParam(value = "Employee ID",required=true) @PathVariable("employeeId") Long employeeId,
+                                    @ApiParam(value = "Filter proposal by the status")
+                                    @Valid @RequestParam(value = "search", required = false) String search,Pageable pageable);
 
 
     @ApiOperation(value = "Update employee with ID provided", nickname = "updateEmployee", notes = "", tags={ "employees", })
@@ -73,9 +80,11 @@ public interface EmployeesApi {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Employee not found"),
             @ApiResponse(code = 405, message = "Validation exception") })
-    @RequestMapping(value = "/employees/{id}",
+    @RequestMapping(value = "/employees/{employeeId}",
             consumes = { "application/json" },
             method = RequestMethod.PUT)
-    void updateEmployee(@ApiParam(value = "Employee object that needs to be updated in the collection" ,required=true )  @Valid @RequestBody Employee employee,@ApiParam(value = "ID of emoloyee to return",required=true) @PathVariable("id") Long id);
+    void updateEmployee(@ApiParam(value = "Employee object that needs to be updated in the collection" ,required=true )
+                        @Valid @RequestBody Employee employee,@ApiParam(value = "ID of emoloyee to return",required=true)
+    @PathVariable("employeeId") Long employeeId);
 
 }

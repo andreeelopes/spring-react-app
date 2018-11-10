@@ -22,12 +22,12 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getEmployeeById(long id) {
-            Optional<Employee> employeeOpt =  employeeRepository.findById(id);
-            if(employeeOpt.isPresent())
-                return employeeOpt.get();
-            else
-                throw new NotFoundException("Employee not found.");
+    public Employee getEmployee(Long employeeId) {
+        Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
+        if (employeeOpt.isPresent())
+            return employeeOpt.get();
+        else
+            throw new NotFoundException("Employee not found");
     }
 
     public Page<Employee> getAllEmployees(Pageable pageable) {
@@ -38,49 +38,46 @@ public class EmployeeService {
         return employeeRepository.findByName(search, pageable);
     }
 
-    public void updateEmployee(Long id, Employee emp) {
-        if (emp.getId() == id) {
-            Optional<Employee> old_emp = employeeRepository.findById(id);
-            if (old_emp.isPresent()) {
-                Employee realemp = old_emp.get();
-                realemp.setPassword(emp.getPassword());
-                realemp.setAdmin(emp.isAdmin());
-                realemp.setEmail(emp.getEmail());
-                realemp.setName(emp.getName());
-                realemp.setJob(emp.getJob());
-                employeeRepository.save(realemp);
-
-            } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
-        } else throw new BadRequestException("Invalid request");
+    public void updateEmployee(Employee emp) {
+        Optional<Employee> old_emp = employeeRepository.findById(emp.getId());
+        if (old_emp.isPresent()) {
+            Employee realemp = old_emp.get();
+            realemp.setPassword(emp.getPassword());
+            realemp.setAdmin(emp.isAdmin());
+            realemp.setEmail(emp.getEmail());
+            realemp.setName(emp.getName());
+            realemp.setJob(emp.getJob());
+            employeeRepository.save(realemp);
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", emp.getId()));
     }
 
-    public Page<Bid> getAllBid(Long id, Pageable pageable) {
-        Optional<Employee> emp = employeeRepository.findById(id);
+    public Page<Bid> getAllBids(Long employeeId, Pageable pageable) {
+        Optional<Employee> emp = employeeRepository.findById(employeeId);
         if (emp.isPresent()) {
-            return employeeRepository.findAllBids(pageable, id);
+            return employeeRepository.findAllBids(pageable, employeeId);
             //  return new PageImpl<Bid>(bid,pageable,bid.size());
 
-        } else throw new NotFoundException(String.format("Person with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Person with id %d does not exist", employeeId));
     }
 
-    public Page<Bid> getAllBidByStatus(Long id, String search, Pageable pageable) {
-        Optional<Employee> emp = employeeRepository.findById(id);
+    public Page<Bid> getAllBidsByStatus(Long employeeId, String search, Pageable pageable) {
+        Optional<Employee> emp = employeeRepository.findById(employeeId);
         if (emp.isPresent()) {
-            return employeeRepository.findBidsByStatus(search, id, pageable);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+            return employeeRepository.findBidsByStatus(search, employeeId, pageable);
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
     }
 
-    public Page<Proposal> getProposalPartner(Pageable pageable, Long id) {
-        Optional<Employee> emp = employeeRepository.findById(id);
+    public Page<Proposal> getProposalPartner(Pageable pageable, Long employeeId) {
+        Optional<Employee> emp = employeeRepository.findById(employeeId);
         if (emp.isPresent()) {
-            return employeeRepository.findProposalPartner(pageable, id);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+            return employeeRepository.findProposalPartner(pageable, employeeId);
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
     }
 
-    public Page<Proposal> getProposalStaff(Pageable pageable, Long id) {
-        Optional<Employee> emp = employeeRepository.findById(id);
+    public Page<Proposal> getProposalStaff(Pageable pageable, Long employeeId) {
+        Optional<Employee> emp = employeeRepository.findById(employeeId);
         if (emp.isPresent()) {
-            return employeeRepository.findProposalStaff(pageable, id);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+            return employeeRepository.findProposalStaff(pageable, employeeId);
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
     }
 }

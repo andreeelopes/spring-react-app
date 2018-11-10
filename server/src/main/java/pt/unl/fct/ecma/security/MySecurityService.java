@@ -20,7 +20,6 @@ public class MySecurityService {
     private CommentRepository commentRepository;
 
 
-
     public MySecurityService(EmployeeRepository peopleRepository, ProposalRepository proposalRepository,
                              CompanyRepository companyRepository, CommentRepository commentRepository) {
 
@@ -38,7 +37,7 @@ public class MySecurityService {
         return person.isPresent() && person.get().getUsername().equals(user.getUsername());
     }
 
-    public boolean isApproverOfProposal(User user,Long proposalId){
+    public boolean isApproverOfProposal(User user, Long proposalId) {
 
         Employee person = peopleRepository.findByUsername(user.getUsername());
         Optional<Proposal> proposal = proposalRepository.findById(proposalId);
@@ -46,7 +45,7 @@ public class MySecurityService {
         return proposal.isPresent() && proposal.get().getApprover().getId().equals(person.getId());
     }
 
-    public boolean belongsToTeamProposal(User user,Long proposalId){
+    public boolean belongsToTeamProposal(User user, Long proposalId) {
 
         Employee person = peopleRepository.findByUsername(user.getUsername());
         Optional<Proposal> proposal = proposalRepository.findById(proposalId);
@@ -55,7 +54,7 @@ public class MySecurityService {
                 || proposalRepository.staffExists(proposalId, person.getId()).size() > 0);
     }
 
-    public boolean belongsToStaffProposal(User user,Long proposalId){
+    public boolean belongsToStaffProposal(User user, Long proposalId) {
 
         Employee person = peopleRepository.findByUsername(user.getUsername());
         Optional<Proposal> proposal = proposalRepository.findById(proposalId);
@@ -64,32 +63,32 @@ public class MySecurityService {
                 || proposalRepository.staffExists(proposalId, person.getId()).size() > 0);
     }
 
-    public boolean bidHasPrincipal(User user, Bid bid){
+    public boolean bidHasPrincipal(User user, Bid bid) {
 
         Employee person = peopleRepository.findByUsername(user.getUsername());
 
         return bid.getBidder().getUsername().equals(person.getUsername());
     }
 
-    public boolean isAuthorOfComment(User user, Comment comment){
+    public boolean isAuthorOfComment(User user, Comment comment) {
 
         return comment.getAuthor().getUsername().equals(user.getUsername());
     }
 
-    public boolean IsAdminOfCompany(User user,Long id){
+    public boolean IsAdminOfCompany(User user, Long id) {
 
         Employee employee = peopleRepository.findByUsername(user.getUsername());
 
-        return employee!=null && employee.isAdmin() && employee.getCompany().getId().equals(id);
+        return employee != null && employee.isAdmin() && employee.getCompany().getId().equals(id);
 
     }
 
-    public boolean isAuthorOfExistingComment(User user, Long commentId){
+    public boolean isAuthorOfExistingComment(User user, Long commentId) {
 
         Optional<Comment> comment = commentRepository.findById(commentId);
         boolean isAuthor = false;
 
-        if(comment.isPresent()){
+        if (comment.isPresent()) {
             isAuthor = isAuthorOfComment(user, comment.get());
         }
 

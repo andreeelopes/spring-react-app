@@ -10,5 +10,5 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(IsBidder.Condition)
 public @interface IsBidder {
-    String Condition = "@mySecurityService.isPrincipal(principal, #employeeid)";
+    String Condition = "@mySecurityService.isPrincipal(principal, #employeeId)";
 }

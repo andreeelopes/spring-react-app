@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 public @interface CanAddComment {
     String Condition =
             "@mySecurityService.isAuthorOfComment(principal, #comment) and " +
-            "@mySecurityService.belongsToTeamProposal(principal, #id)";
+            "@mySecurityService.belongsToTeamProposal(principal, #proposalId)";
 }

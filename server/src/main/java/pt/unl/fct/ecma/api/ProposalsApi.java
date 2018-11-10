@@ -40,11 +40,12 @@ public interface ProposalsApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new Partner"),
             @ApiResponse(code = 405, message = "Invalid input")})
-    @RequestMapping(value = "/proposals/{id}/partnermembers/",
+    @RequestMapping(value = "/proposals/{proposalId}/partnermembers/",
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addPartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Partner member object to add on the proposal", required = true) @Valid @RequestBody Employee member);
+    void addPartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                    @ApiParam(value = "Partner member object to add on the proposal", required = true) @Valid @RequestBody Employee member);
 
 
     @ApiOperation(value = "Add a new proposal to the system", nickname = "addProposal", notes = "", tags = {"proposals",})
@@ -63,11 +64,13 @@ public interface ProposalsApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new staff member"),
             @ApiResponse(code = 405, message = "Invalid input")})
-    @RequestMapping(value = "/proposals/{id}/staff/",
+    @RequestMapping(value = "/proposals/{proposalId}/staff/",
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addStaffMember(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Staff member object to add on the proposal", required = true) @Valid @RequestBody Employee staffMember);
+    void addStaffMember(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                        @ApiParam(value = "Staff member object to add on the proposal", required = true)
+                        @Valid @RequestBody Employee staffMember);
 
 
     @ApiOperation(value = "Delete partner with the ID provided", nickname = "deletePartner", notes = "", tags = {"proposals",})
@@ -75,9 +78,10 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Company not found")})
-    @RequestMapping(value = "/proposals/{id}/partnermembers/{partnerid}",
+    @RequestMapping(value = "/proposals/{proposalId}/partnermembers/{partnerId}",
             method = RequestMethod.DELETE)
-    void deletePartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Partner ID", required = true) @PathVariable("partnerid") Long partnerid);
+    void deletePartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                       @ApiParam(value = "Partner ID", required = true) @PathVariable("partnerId") Long partnerId);
 
 
     @ApiOperation(value = "Delete proposal with the ID provided", nickname = "deleteProposal", notes = "Deletes a single proposal", tags = {"proposals",})
@@ -85,9 +89,9 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Company not found")})
-    @RequestMapping(value = "/proposals/{id}",
+    @RequestMapping(value = "/proposals/{proposalId}",
             method = RequestMethod.DELETE)
-    void deleteProposal(@ApiParam(value = "ID of proposal to return", required = true) @PathVariable("id") Long id);
+    void deleteProposal(@ApiParam(value = "ID of proposal to return", required = true) @PathVariable("proposalId") Long proposalId);
 
 
     @ApiOperation(value = "Delete Staff with the ID provided", nickname = "deleteStaff", notes = "", tags = {"proposals",})
@@ -95,9 +99,10 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or staff not found")})
-    @RequestMapping(value = "/proposals/{id}/staff/{staffid}",
+    @RequestMapping(value = "/proposals/{proposalId}/staff/{staffId}",
             method = RequestMethod.DELETE)
-    void deleteStaff(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id, @ApiParam(value = "Staff ID", required = true) @PathVariable("staffid") Long staffid);
+    void deleteStaff(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                     @ApiParam(value = "Staff ID", required = true) @PathVariable("staffId") Long staffId);
 
 
     @ApiOperation(value = "Find proposal by ID", nickname = "getProposal", notes = "Returns a single proposal", response = Proposal.class, tags = {"proposals",})
@@ -105,10 +110,10 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Proposal.class),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}",
+    @RequestMapping(value = "/proposals/{proposalId}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    Proposal getProposal(@ApiParam(value = "ID of proposal to return", required = true) @PathVariable("id") Long id);
+    Proposal getProposal(@ApiParam(value = "ID of proposal to return", required = true) @PathVariable("proposalId") Long proposalId);
 
 
     @ApiOperation(value = "Get all partner members by the proposal ID", nickname = "getProposalMembers", notes = "Returns all partner members", response = Employee.class, responseContainer = "List", tags = {"proposals",})
@@ -116,10 +121,11 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Employee.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/partnermembers/",
+    @RequestMapping(value = "/proposals/{proposalId}/partnermembers/",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    Page<Employee> getProposalMembers(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
+    Page<Employee> getProposalMembers(Pageable pageable,
+                                      @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
 
     @ApiOperation(value = "Get all staff members by the proposal ID", nickname = "getStaffMembers", notes = "Returns all staff members", response = Employee.class, responseContainer = "List", tags = {"proposals",})
@@ -127,9 +133,9 @@ public interface ProposalsApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Employee.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/staff/",
+    @RequestMapping(value = "/proposals/{proposalId}/staff/",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    Page<Employee> getStaffMembers(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
+    Page<Employee> getStaffMembers(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
 }

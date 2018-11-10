@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 public @interface IsAuthorOfComment {
 
     String Condition =
-            "@mySecurityService.isAuthorOfExistingComment(principal, #commentid)";
+            "@mySecurityService.isAuthorOfExistingComment(principal, #commentId)";
 }

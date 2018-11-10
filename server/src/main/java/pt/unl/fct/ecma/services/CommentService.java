@@ -20,65 +20,65 @@ public class CommentService {
     private final EmployeeRepository employeeRepository;
     private CommentRepository commentRepository;
 
-    public CommentService(CommentRepository commentRepository, ProposalRepository proposalRepository, EmployeeRepository employeeRepository){
+    public CommentService(CommentRepository commentRepository, ProposalRepository proposalRepository, EmployeeRepository employeeRepository) {
         this.commentRepository = commentRepository;
         this.proposalRepository = proposalRepository;
         this.employeeRepository = employeeRepository;
     }
 
-    public void addComment(Long id, Comment comment) {
-    if(comment.getId()==null) {
-        Proposal realProposal = findProposalById(id);
+    public void addComment(Comment comment) {
+        Proposal realProposal = findProposalById(comment.getProposal().getId());
         Employee author = comment.getAuthor();
         if (author != null) {
             Long authorid = author.getId();
             findEmployeeById(authorid);
-            if (realProposal.getId() == authorid) {
+            if (realProposal.getId().equals(authorid)) { //TODO something wrong here
                 realProposal.getComments().add(comment);
                 comment.setProposal(realProposal);
                 proposalRepository.save(realProposal);
-            } else throw new BadRequestException("The id of comment is invalid");
-        } else throw new BadRequestException("The comment doesnt have author");
-    } else throw new BadRequestException("The comment id must be null");
+            } else throw new BadRequestException("The id of the comment is invalid");
+        } else throw new BadRequestException("The comment does not have author");
     }
 
-    public void deleteComment(Long id, Long commentid) {
-        Comment comment = findCommentById(commentid);
-        if(comment.getId()==id) {
+    public void deleteComment(Long proposalId, Long commentId) {
+        Comment comment = findCommentById(commentId);
+        if (comment.getProposal().getId().equals(proposalId)) {
             commentRepository.delete(comment);
-        }else throw new NotFoundException(String.format("Comment with id %d does not have a proposal with id %d", commentid,id));
+        } else
+            throw new NotFoundException(String.format("Comment with id %d does not have a proposal with id %d", commentId, proposalId));
     }
 
-    public Page<Comment> getProposalComments(Pageable pageable, Long id) {
-        findProposalById(id);
-        return commentRepository.findAllByProposal_Id(id,pageable);
-
+    public Page<Comment> getProposalComments(Pageable pageable, Long proposalId) {
+        findProposalById(proposalId);
+        return commentRepository.findAllByProposal_Id(proposalId, pageable);
     }
 
-    public void updateComment(Comment comment, Long commentid, Long id) {
-        findProposalById(id);
-        Comment dbcomment = findCommentById(commentid);
-            dbcomment.setComment(comment.getComment());
-            commentRepository.save(dbcomment);
+    public void updateComment(Comment comment) { //TODO this update does not set variables like the others?
+        findProposalById(comment.getProposal().getId());
+        Comment dbcomment = findCommentById(comment.getId());
+        dbcomment.setComment(comment.getComment());
+        commentRepository.save(dbcomment);
     }
 
 
-    private Employee findEmployeeById(Long id){
+    private Employee findEmployeeById(Long id) {
         Optional<Employee> employee = employeeRepository.findById(id);
-        if(employee.isPresent()) {
+        if (employee.isPresent()) {
             return employee.get();
-        }else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Employee with id %d does not exist", id));
     }
-    private Proposal findProposalById(Long id){
+
+    private Proposal findProposalById(Long id) {
         Optional<Proposal> proposal = proposalRepository.findById(id);
-        if(proposal.isPresent()) {
+        if (proposal.isPresent()) {
             return proposal.get();
-        }else throw new NotFoundException(String.format("Proposal with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Proposal with id %d does not exist", id));
     }
-    private Comment findCommentById(Long id){
+
+    private Comment findCommentById(Long id) {
         Optional<Comment> comment = commentRepository.findById(id);
-        if(comment.isPresent()) {
+        if (comment.isPresent()) {
             return comment.get();
-        }else throw new NotFoundException(String.format("Comment with id %d does not exist", id));
+        } else throw new NotFoundException(String.format("Comment with id %d does not exist", id));
     }
 }

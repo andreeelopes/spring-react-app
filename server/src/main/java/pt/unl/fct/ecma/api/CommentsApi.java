@@ -21,11 +21,11 @@ public interface CommentsApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new comment"),
             @ApiResponse(code = 405, message = "Invalid input")})
-    @RequestMapping(value = "/proposals/{id}/comments/",
+    @RequestMapping(value = "/proposals/{proposalId}/comments/",
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addComment(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
+    void addComment(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
                     @ApiParam(value = "Comment object to add to the proposal", required = true)
                     @Valid @RequestBody Comment comment);
 
@@ -35,10 +35,10 @@ public interface CommentsApi {
             @ApiResponse(code = 200, message = "Successful operation"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/comments/{commentid}",
+    @RequestMapping(value = "/proposals/{proposalId}/comments/{commentId}",
             method = RequestMethod.DELETE)
-    void deleteComment(@ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id,
-                       @ApiParam(value = "comment ID", required = true) @PathVariable("commentid") Long commentid);
+    void deleteComment(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                       @ApiParam(value = "comment ID", required = true) @PathVariable("commentId") Long commentId);
 
 
     @ApiOperation(value = "Get all comments by the proposal ID", nickname = "getProposalComments",
@@ -47,11 +47,11 @@ public interface CommentsApi {
             @ApiResponse(code = 200, message = "Successful operation", response = Comment.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal not found")})
-    @RequestMapping(value = "/proposals/{id}/comments/",
+    @RequestMapping(value = "/proposals/{proposalId}/comments/",
             produces = {"application/json"},
             method = RequestMethod.GET)
     Page<Comment> getProposalComments(Pageable pageable,
-                                      @ApiParam(value = "Proposal ID", required = true) @PathVariable("id") Long id);
+                                      @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
 
     @ApiOperation(value = "Update coments with ID provided", nickname = "updateComment", notes = "", tags = {"comments",})
@@ -59,13 +59,13 @@ public interface CommentsApi {
             @ApiResponse(code = 400, message = "Invalid ID supplied"),
             @ApiResponse(code = 404, message = "Proposal or comment not found"),
             @ApiResponse(code = 405, message = "Validation exception")})
-    @RequestMapping(value = "/proposals/{id}/comments/{commentid}",
+    @RequestMapping(value = "/proposals/{proposalId}/comments/{commentId}",
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     void updateComment(@ApiParam(value = "Comment object that needs to be updated in the collection", required = true)
                        @Valid @RequestBody Comment comment, @ApiParam(value = "Comment ID", required = true)
-                       @PathVariable("commentid") Long commentid, @ApiParam(value = "ID of proposal to return", required = true)
-                       @PathVariable("id") Long id);
+                       @PathVariable("commentId") Long commentId, @ApiParam(value = "ID of proposal to return", required = true)
+                       @PathVariable("proposalId") Long proposalId);
 
 
 }
