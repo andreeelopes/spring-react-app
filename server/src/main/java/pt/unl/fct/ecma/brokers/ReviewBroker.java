@@ -14,31 +14,31 @@ import pt.unl.fct.ecma.services.ReviewService;
 public class ReviewBroker {
 
     @Autowired
-    private ReviewService rService;
+    private ReviewService reviewService;
 
     @Autowired
-    private ProposalService pService;
+    private ProposalService proposalService;
 
 
     public void updateReview(Review review) {
-        rService.updateReview(review);
+        reviewService.updateReview(review);
     }
 
     public Page<Review> getProposalReviews(Long proposalId, Pageable pageable) {
-        Proposal proposal = pService.getProposal(proposalId);
-        return rService.getProposalReviews(proposal, pageable);
+        Proposal proposal = proposalService.getProposal(proposalId);
+        return reviewService.getProposalReviews(proposal, pageable);
     }
 
     public void deleteReview(Long proposalId, Long reviewId) {
-        Proposal proposal = pService.getProposal(proposalId);
-        Review review = rService.findById(reviewId);
-        rService.deleteReview(review);
+        Proposal proposal = proposalService.getProposal(proposalId);
+        Review review = reviewService.findById(reviewId);
+        reviewService.deleteReview(review);
     }
 
     public void addReview(Review review) {
-        Proposal proposal = pService.getProposal(review.getProposal().getId());
-        if (!rService.existsReviewOfEmployeeOnProposal(proposal, review.getAuthor()))
-            rService.addReview(review);
+        Proposal proposal = proposalService.getProposal(review.getProposal().getId());
+        if (!reviewService.existsReviewOfEmployeeOnProposal(proposal, review.getAuthor()))
+            reviewService.addReview(review);
         else
             throw new BadRequestException("Already exists a review of that employee on that proposal");
     }
