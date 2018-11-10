@@ -271,7 +271,7 @@ public class CompanyControllerTest {
         Employee admin = admins.get(0);
         Long random =company.getId()+1L;
         this.mockMvc.perform(delete("/companies/"+random+"/admins/"+admin.getId()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
         this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))
                 .andExpect(status().isOk());
         this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))

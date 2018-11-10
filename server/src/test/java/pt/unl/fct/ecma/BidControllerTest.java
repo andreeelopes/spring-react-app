@@ -1,6 +1,10 @@
 package pt.unl.fct.ecma;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pt.unl.fct.ecma.models.*;
@@ -22,10 +27,13 @@ import pt.unl.fct.ecma.repositories.*;
 
 import javax.transaction.Transactional;
 import java.util.Iterator;
+import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -136,10 +144,7 @@ public class BidControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    private Employee getEmployee() {
-        Iterator<Employee> itEmployee = employeeRepository.findAll().iterator();
-        return itEmployee.next();
-    }
+
 
     @Test
     public void testAddBid() throws Exception{
@@ -213,5 +218,49 @@ public class BidControllerTest {
     private Company getCompany() {
         Iterator<Company> itCompany =companyRepository.findAll().iterator();
         return itCompany.next();
+    }
+    private Employee getEmployee() {
+        Iterator<Employee> itEmployee =employeeRepository.findAll().iterator();
+        return itEmployee.next();
+    }
+    @Test
+    public void testGetBids() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+
+        Proposal proposal= getProposal();
+        final MvcResult result =this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/bids"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andReturn();
+
+        String list = result.getResponse().getContentAsString();
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement element = jsonParser.parse(list);
+        JsonObject array=element.getAsJsonObject();
+        String content=array.get("content").toString();
+        ObjectMapper mapper = new ObjectMapper();
+        List<Bid> bids=mapper.readValue(content,new TypeReference<List<Bid>>(){});
+        assertTrue(bids.stream().anyMatch( (p) -> p.getPk().getBidder().getName().equals("Simon")));
+    }
+    @Test
+    public void testDeleteBid() throws Exception{
+        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
+        Proposal proposal = getProposal();
+        Employee employee = getEmployee();
+        Long random= proposal.getId()+1L;
+        this.mockMvc.perform(delete("/proposals/"+random+"/bids/"+employee.getId()))
+                .andExpect(status().isNotFound());
+        this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/bids/"+employee.getId()))
+                .andExpect(status().isOk());
+        this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/bids/"+employee.getId()))
+                .andExpect(status().isBadRequest());
     }
 }
