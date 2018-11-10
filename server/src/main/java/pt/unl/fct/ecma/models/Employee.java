@@ -20,7 +20,7 @@ public class Employee {
     private Long id;
 
     @NotNull
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
 
     @NotNull
@@ -66,4 +66,18 @@ public class Employee {
             mappedBy = "approver")
     @JsonIgnore
     private List<Proposal> approver = new LinkedList<>();
+
+
+    public Employee(){
+    }
+
+
+    public Employee(@NotNull String username, @NotNull String name, @NotNull String email, @NotNull String job, boolean isAdmin, @NotNull String password) {
+        this.username = username;
+        this.name = name;
+        this.email = email;
+        this.job = job;
+        this.isAdmin = isAdmin;
+        this.password = password;
+    }
 }
