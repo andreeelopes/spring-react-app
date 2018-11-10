@@ -22,15 +22,23 @@ import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,6 +51,10 @@ public class EmployeeControllerTest {
     @Autowired
     private EmployeeRepository employeeRepository;
     private MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
 
     @Before
     public void init() {
@@ -60,52 +72,65 @@ public class EmployeeControllerTest {
         company1.setEmail("company1@mail.com");
         company1.setAddress("Lisboa");
 
-        Employee employeeAdmin = new Employee("JohnDoeUserName", "John",
-                "johndoe@gmail.com", "Tile Painter", true,
+        Employee employee1 = new Employee("test", "test",
+                "test@gmail.com", "Tile Painter", true,
                 new BCryptPasswordEncoder().encode("password"));
 
-        employeeAdmin.setCompany(company1);
+        Employee employee2 = new Employee("JaneDoeUserName", "Jane",
+                "janedoe@gmail.com", "Nails Painter", false,
+                new BCryptPasswordEncoder().encode("password"));
+
+        employee1.setCompany(company1);
+        employee2.setCompany(company1);
+
         companyRepository.save(company1);
-        employeeRepository.save(employeeAdmin);
+        employeeRepository.save(employee1);
+        employeeRepository.save(employee2);
+
     }
 
     @Test
     public void testGetEmployee() throws Exception {
         long id = 1;
         Employee testEmployee = employeeRepository.findById(id).get();
-        Employee requestedEmployee = getTestEmployee(id);
+        Employee requestedEmployee = requestGetEmployee(id);
 
-        assertTrue(requestedEmployee.equals(testEmployee));
-
-    }
-
-    private Employee getTestEmployee(long employeeId) throws Exception {
-        final MvcResult result = this.mockMvc.perform(get("/employees/" +employeeId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.content", hasSize(1)))
-                .andReturn();
-
-        String response = result.getResponse().getContentAsString();
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(response);
-
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        return mapper.readValue(content,new TypeReference<List<Company>>(){});
-
-
-        return null;
+        assertEquals(requestedEmployee.getUsername(), testEmployee.getUsername());
     }
 
     @Test
     public void testGetEmployees() throws Exception {
 
+        int expectedSize = 2;
+
+        Employee employee1 = employeeRepository.findById(1L).get();
+        Employee employee2 = employeeRepository.findById(2L).get();
+
+
+        List<Employee> requestedEmployees =  requestGetEmployees(expectedSize);
+
+        assertEquals(requestedEmployees.size(), expectedSize);
+        assertTrue(requestedEmployees.stream()
+                .anyMatch((p) -> p.getUsername().equals(employee1.getUsername())));
+        assertTrue(requestedEmployees.stream()
+                .anyMatch((p) -> p.getUsername().equals(employee2.getUsername())));
     }
 
     @Test
     public void testUpdateEmployee() throws Exception {
 
+        long employeeId = 1L;
+        Employee employee = employeeRepository.findById(employeeId).get();
+        String previousName = employee.getName();
+        String newName = "David Gilmour";
+        employee.setName(newName);
+
+        authenticateUser("test", "test");
+        requestUpdateEmployee(employeeId, employee);
+        Employee updatedEmployee = requestGetEmployee(employeeId);
+
+        assertNotEquals(updatedEmployee.getName(), previousName);
+        assertEquals(updatedEmployee.getName(), newName);
     }
 
     @Test
@@ -121,6 +146,57 @@ public class EmployeeControllerTest {
     @Test
     public void testGetProposalStaff() throws Exception {
 
+    }
+
+
+    /**
+     * Performs a GET request for a single employee with id equals too employeeId
+     * @param employeeId
+     * @return
+     * @throws Exception
+     */
+    private Employee requestGetEmployee(long employeeId) throws Exception {
+        final MvcResult result = this.mockMvc.perform(get("/employees/" +employeeId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        String json = result.getResponse().getContentAsString();
+
+        return objectMapper.readValue(json, Employee.class);
+    }
+
+    private List<Employee> requestGetEmployees(int exceptedSize) throws Exception {
+
+        final MvcResult result = this.mockMvc.perform(get("/employees"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn();
+
+        String list = result.getResponse().getContentAsString();
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement element = jsonParser.parse(list);
+        JsonObject array=element.getAsJsonObject();
+        String content=array.get("content").toString();
+
+        return objectMapper.readValue(content,new TypeReference<List<Employee>>(){});
+    }
+
+
+    private void requestUpdateEmployee(long employeeId, Employee updatedEmployee) throws Exception {
+        this.mockMvc.perform(formLogin("/employees/"+ employeeId).user("test").password("password"));
+        this.mockMvc.perform(put("/employees/"+ employeeId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(objectMapper.writeValueAsString(updatedEmployee)))
+                .andExpect(status().isOk());
+    }
+
+    private void authenticateUser(String username, String password){
+        Authentication auth = new UsernamePasswordAuthenticationToken(username, "password");
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
     }
 
 }
