@@ -16,7 +16,7 @@ import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
 public class SectionController implements SectionsApi {
 
     @Autowired
-    SectionBroker sectionBroker;
+    private SectionBroker sectionBroker;
 
     @BelongsToProposalStaff
     @Override

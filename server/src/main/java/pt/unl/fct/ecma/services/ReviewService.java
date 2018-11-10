@@ -8,7 +8,6 @@ import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.models.Review;
-import pt.unl.fct.ecma.repositories.ProposalRepository;
 import pt.unl.fct.ecma.repositories.ReviewRepository;
 
 import java.util.Optional;
@@ -17,21 +16,21 @@ import java.util.Optional;
 public class ReviewService {
 
     @Autowired
-    private ReviewRepository rRepo;
+    private ReviewRepository reviewRepository;
 
     public void updateReview(Review review) {
         Review realReview = findById(review.getId());
         realReview.setScore(review.getScore());
         realReview.setText(review.getText());
-        rRepo.save(realReview);
+        reviewRepository.save(realReview);
     }
 
     public Page<Review> getProposalReviews(Proposal proposal, Pageable pageable) {
-        return rRepo.findAllByProposal_Id(proposal.getId(), pageable);
+        return reviewRepository.findAllByProposal_Id(proposal.getId(), pageable);
     }
 
     public Review findById(Long reviewId) {
-        Optional<Review> reviewOpt = rRepo.findById(reviewId);
+        Optional<Review> reviewOpt = reviewRepository.findById(reviewId);
         if (reviewOpt.isPresent()) {
             return reviewOpt.get();
         } else
@@ -40,16 +39,16 @@ public class ReviewService {
 
 
     public void deleteReview(Review review) {
-        rRepo.delete(review);
+        reviewRepository.delete(review);
     }
 
 
     public void addReview(Review review) {
-        rRepo.save(review);
+        reviewRepository.save(review);
     }
 
     public boolean existsReviewOfEmployeeOnProposal(Proposal proposal, Employee reviewer){
-        return rRepo.existsReviewOfEmployeeOnProposal(proposal.getId(), reviewer.getId()).size() > 0;
+        return reviewRepository.existsReviewOfEmployeeOnProposal(proposal.getId(), reviewer.getId()).size() > 0;
     }
 
 }

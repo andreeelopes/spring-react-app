@@ -30,7 +30,7 @@ public class ReviewBroker {
     }
 
     public void deleteReview(Long proposalId, Long reviewId) {
-        Proposal proposal = proposalService.getProposal(proposalId);
+        proposalService.getProposal(proposalId);
         Review review = reviewService.findById(reviewId);
         reviewService.deleteReview(review);
     }
