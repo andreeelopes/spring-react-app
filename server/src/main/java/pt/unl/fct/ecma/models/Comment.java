@@ -25,4 +25,12 @@ public class Comment {
     @NotNull
     @ManyToOne
     private Proposal proposal;
+
+    public Comment(){}
+
+    public Comment(@NotNull Employee author, @NotNull String comment, @NotNull Proposal proposal) {
+        this.author = author;
+        this.comment = comment;
+        this.proposal = proposal;
+    }
 }
