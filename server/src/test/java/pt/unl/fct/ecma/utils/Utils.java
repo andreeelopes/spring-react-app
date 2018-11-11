@@ -16,11 +16,7 @@ import java.util.List;
 
 public class Utils {
 
-
-    @Autowired
-    private static ObjectMapper  objectMapper;
-
-    public static <T> List<T> toList(String jsonArray, JavaType type) throws IOException {
+    public static <T> List<T> toList(ObjectMapper objectMapper, String jsonArray, JavaType type) throws IOException {
 
         JsonParser jsonParser = new JsonParser();
         JsonElement element = jsonParser.parse(jsonArray);

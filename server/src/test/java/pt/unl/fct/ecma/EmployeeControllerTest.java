@@ -2,6 +2,9 @@ package pt.unl.fct.ecma;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,12 +26,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pt.unl.fct.ecma.utils.Utils.toList;
 
 import pt.unl.fct.ecma.utils.Utils;
 
@@ -260,7 +265,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Employee.class);
 
-        return Utils.toList(jsonList, type);
+        return toList(objectMapper, jsonList, type);
     }
 
 
@@ -284,7 +289,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Bid.class);
 
-        return Utils.toList(bidsJson, type);
+        return toList(objectMapper, bidsJson, type);
     }
 
     private List<Proposal> requestGetProposalPartner(long employeeId) throws Exception {
@@ -299,7 +304,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Proposal.class);
 
-        return Utils.toList(proposalsJson, type);
+        return toList(objectMapper, proposalsJson, type);
     }
 
     private List<Proposal> requestGetProposalStaff(long employeeId) throws Exception {
@@ -314,7 +319,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Proposal.class);
 
-        return Utils.toList(proposalsJson, type);
+        return toList(objectMapper, proposalsJson, type);
     }
 
 
