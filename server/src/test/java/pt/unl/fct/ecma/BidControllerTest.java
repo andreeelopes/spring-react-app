@@ -99,8 +99,7 @@ public class BidControllerTest {
         prop.setTargetCompany(company);
 
         proposalRepository.save(prop);
-        Long employeeid = employeeRepository.findAll().iterator().next().getId();
-        Long proposalid =proposalRepository.findAll().iterator().next().getId();
+
 
         Bid bid = new Bid();
         BidKey bidKey= new BidKey();
