@@ -103,8 +103,11 @@ public class SectionControllerTest {
         Proposal prop = new Proposal();
 
         ProposalRole role = new ProposalRole();
-        role.setEmployee(employee12);
-        role.setProposal(prop);
+        ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
+        proposalRoleKey.setEmployee(employee12);
+        proposalRoleKey.setProposal(prop);
+
+        role.setPk(proposalRoleKey);
         role.setRole(ProposalRole.Role.STAFF.toString());
 
         prop.setCompanyProposed(company1);

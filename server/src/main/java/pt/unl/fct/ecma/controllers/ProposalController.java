@@ -29,7 +29,7 @@ public class ProposalController implements ProposalsApi {
     @BelongsToProposalStaff
     @Override
     public void addPartner(@PathVariable("proposalId") Long proposalId,
-                           @Valid @RequestBody Employee member) {
+                            @RequestBody Employee member) {
         proposalBroker.addPartner(proposalId, member);
     }
 

@@ -191,8 +191,10 @@ public class BidControllerTest {
         bid.getPk().setBidder(emp2);
 
         ProposalRole role = new ProposalRole();
-        role.setEmployee(emp2);
-        role.setProposal(proposal);
+        ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
+        proposalRoleKey.setEmployee(emp2);
+        proposalRoleKey.setProposal(proposal);
+        role.setPk(proposalRoleKey);
         role.setRole(ProposalRole.Role.PARTNER.toString());
 
         emp2.getRolesOnProposal().add(role);

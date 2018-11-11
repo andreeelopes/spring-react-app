@@ -22,8 +22,11 @@ public class ProposalService {
     public void addPartner(Proposal proposal, Employee member) {
         ProposalRole proposalRole = new ProposalRole();
 
-        proposalRole.setEmployee(member);
-        proposalRole.setProposal(proposal);
+        ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
+        proposalRoleKey.setEmployee(member);
+        proposalRoleKey.setProposal(proposal);
+
+        proposalRole.setPk(proposalRoleKey);
         proposalRole.setRole(ProposalRole.Role.PARTNER.toString());
 
         proposal.getTeam().add(proposalRole);
@@ -37,9 +40,11 @@ public class ProposalService {
 
     public void addStaffMember(Proposal proposal, Employee staffMember) {
         ProposalRole proposalRole = new ProposalRole();
+        ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
+        proposalRoleKey.setEmployee(staffMember);
+        proposalRoleKey.setProposal(proposal);
 
-        proposalRole.setEmployee(staffMember);
-        proposalRole.setProposal(proposal);
+        proposalRole.setPk(proposalRoleKey);
         proposalRole.setRole(ProposalRole.Role.STAFF.toString());
 
         proposal.getTeam().add(proposalRole);

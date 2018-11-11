@@ -44,7 +44,7 @@ public class Employee {
     private Company company;
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "employee")
+            mappedBy = "pk.employee")
     @JsonIgnore
     private List<ProposalRole> rolesOnProposal = new LinkedList<>();
 
