@@ -113,7 +113,7 @@ public class SectionControllerTest {
         prop.setCompanyProposed(company1);
         prop.setApprover(employee1);
         prop.getTeam().add(role);
-        prop.setStatus(Proposal.Status.PLACED);
+        prop.setStatus(Proposal.Status.PLACED.toString());
         prop.setTargetCompany(company2);
 
         proposalRepository.save(prop);

@@ -26,8 +26,10 @@ import javax.transaction.Transactional;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,7 +52,7 @@ public class ProposalControllerTest {
     private ProposalRepository proposalRepository;
 
     @Autowired
-    private BidRepository bidRepository;
+    private ProposalRoleRepository proposalRoleRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -96,11 +98,11 @@ public class ProposalControllerTest {
         Proposal prop = new Proposal();
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
-        prop.setStatus(Proposal.Status.APPROVED);
+        prop.setStatus(Proposal.Status.APPROVED.toString());
         prop.setTargetCompany(company);
         ProposalRole role = new ProposalRole();
         ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
-        proposalRoleKey.setEmployee(emp2);
+        proposalRoleKey.setEmployee(emp);
         proposalRoleKey.setProposal(prop);
 
         role.setPk(proposalRoleKey);
@@ -155,7 +157,7 @@ public class ProposalControllerTest {
         Proposal prop = new Proposal();
         prop.setCompanyProposed(getCompany());
         prop.setApprover(getEmployee());
-        prop.setStatus(Proposal.Status.APPROVED);
+        prop.setStatus(Proposal.Status.APPROVED.toString());
         prop.setTargetCompany(getCompany());
 
         String json = objectMapper.writeValueAsString(prop);
@@ -168,10 +170,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testAddMember() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        LoginWithSimon();
 
         Employee emp = employeeRepository.findById(2L).get();
 
@@ -180,6 +179,34 @@ public class ProposalControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isOk());
+        long size = proposalRoleRepository.count();
+        assertEquals(size, 2L);
+    }
+    @Test
+    public void testAddStaff() throws Exception{
+        LoginWithSimon();
 
+        Employee emp = employeeRepository.findById(2L).get();
+
+        String json = objectMapper.writeValueAsString(emp);
+        this.mockMvc.perform(post("/proposals/"+getProposal().getId()+"/staff/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().isOk());
+        long size = proposalRoleRepository.count();
+        assertEquals(size, 2L);
+    }
+    @Test
+    public void testUpdateProposal() throws Exception{
+        LoginWithSimon();
+        Proposal proposal = getProposal();
+        proposal.setStatus(Proposal.Status.APPROVED.toString());
+        String json = objectMapper.writeValueAsString(proposal);
+        this.mockMvc.perform(put("/proposals/"+proposal.getId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(json))
+                .andExpect(status().isOk());
+        proposal = getProposal();
+        assertTrue(proposal.getStatus().equals(Proposal.Status.APPROVED.toString()));
     }
 }
