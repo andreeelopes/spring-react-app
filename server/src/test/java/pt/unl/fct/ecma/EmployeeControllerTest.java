@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.*;
@@ -55,7 +54,8 @@ public class EmployeeControllerTest {
     private ProposalRepository proposalRepository;
     @Autowired
     private BidRepository bidRepository;
-
+    @Autowired
+    private ProposalRoleRepository proposalRoleRepository;
 
     private MockMvc mockMvc;
 
@@ -70,12 +70,14 @@ public class EmployeeControllerTest {
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build();
 
-        // Data Fixture
+        // Clean test database
         companyRepository.deleteAll();
         employeeRepository.deleteAll();
         proposalRepository.deleteAll();
         bidRepository.deleteAll();
+        proposalRoleRepository.deleteAll();
 
+        //Insert test data
         Company company1 = new Company();
         company1.setName("Company1");
         company1.setEmail("company1@mail.com");
@@ -139,49 +141,32 @@ public class EmployeeControllerTest {
         bidRepository.save(bid1);
         bidRepository.save(bid2);
 
-
+        //employee 1 staff role
+        ProposalRoleKey compoundKey1 = new ProposalRoleKey();
+        compoundKey1.setEmployee(employee1);
+        compoundKey1.setProposal(proposal1);
 
         ProposalRole employee1role1 = new ProposalRole();
-        employee1role1.setProposal(proposal1);
-        employee1role1.setEmployee(employee1);
-        employee1role1.setRole("STAFF");
-        List<ProposalRole> a = employee1.getRolesOnProposal();
-        a.add(employee1role1);
-        proposal1.getTeam().add(employee1role1);
-        proposal1 = proposalRepository.save(proposal1);
+        employee1role1.setPk(compoundKey1);
+        employee1role1.setRole(ProposalRole.Role.STAFF.toString());
 
+        //employee 1 partner role
+        ProposalRoleKey compoundKey2 = new ProposalRoleKey();
+        compoundKey2.setEmployee(employee1);
+        compoundKey2.setProposal(proposal2);
 
+        ProposalRole employee1role2 = new ProposalRole();
+        employee1role2.setPk(compoundKey2);
+        employee1role2.setRole(ProposalRole.Role.PARTNER.toString());
 
-        /*
-        prop.setCompanyProposed(company1);
-
-+        prop.setApprover(employee1);
-
-+        prop.getTeam().add(role);
-
-+        prop.setStatus(Proposal.Status.PLACED);
-
-+        prop.setTargetCompany(company2);
-         */
-
-//        ProposalRole employee1role2 = new ProposalRole(proposal2, employee1, "PARTNER");
-//
-//        ProposalRole employee2role1 = new ProposalRole(proposal2, employee2, "STAFF");
-//        ProposalRole employee2role2 = new ProposalRole(proposal1, employee2, "PARTNER");
-//
-//        employee1.getRolesOnProposal().add(employee1role1);
-//        employee1.getRolesOnProposal().add(employee1role2);
-//        employee2.getRolesOnProposal().add(employee2role1);
-//        employee2.getRolesOnProposal().add(employee2role2);
-//
-//        employeeRepository.save(employee2);
-
-
+        proposalRoleRepository.save(employee1role1);
+        proposalRoleRepository.save(employee1role2);
     }
 
     @Test
     public void testGetEmployee() throws Exception {
         long id = 1;
+
         Employee testEmployee = employeeRepository.findById(id).get();
         Employee requestedEmployee = requestGetEmployee(id);
 
@@ -250,19 +235,17 @@ public class EmployeeControllerTest {
         long employeeId = 1L;
 
         authenticateUser("test1", "password");
-        List<Proposal> staffProposalsOfEmployee = requestGetStaffPartner(employeeId);
+        List<Proposal> staffProposalsOfEmployee = requestGetProposalStaff(employeeId);
         assertEquals(staffProposalsOfEmployee.size(), 1);
     }
 
 
-    /**
-     * Performs a GET request for a single employee with id equals too employeeId
-     *
-     * @param employeeId
-     * @return
-     * @throws Exception
-     */
+
+    //Auxiliary Methods
+
+
     private Employee requestGetEmployee(long employeeId) throws Exception {
+
         final MvcResult result = this.mockMvc.perform(get("/employees/" + employeeId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -290,20 +273,15 @@ public class EmployeeControllerTest {
 
 
     private void requestUpdateEmployee(long employeeId, Employee updatedEmployee) throws Exception {
+
         this.mockMvc.perform(put("/employees/" + employeeId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .content(objectMapper.writeValueAsString(updatedEmployee)))
                 .andExpect(status().isOk());
     }
 
-    private void authenticateUser(String username, String password) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, "password");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
-    }
-
     private List<Bid> requestGetEmployeeBids(long employeeId) throws Exception {
+
         final MvcResult result = this.mockMvc.perform(get("/employees/" + employeeId + "/bids"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -317,7 +295,7 @@ public class EmployeeControllerTest {
         return toList(bidsJson, type);
     }
 
-    private List<Proposal> requestGetStaffPartner(long employeeId) throws Exception {
+    private List<Proposal> requestGetProposalPartner(long employeeId) throws Exception {
 
         final MvcResult result = this.mockMvc.perform(get("/employees/" + employeeId + "/partnerproposals"))
                 .andExpect(status().isOk())
@@ -332,7 +310,7 @@ public class EmployeeControllerTest {
         return toList(proposalsJson, type);
     }
 
-    private List<Proposal> requestGetProposalPartner(long employeeId) throws Exception {
+    private List<Proposal> requestGetProposalStaff(long employeeId) throws Exception {
 
         final MvcResult result = this.mockMvc.perform(get("/employees/" + employeeId + "/staffproposals"))
                 .andExpect(status().isOk())
@@ -355,6 +333,14 @@ public class EmployeeControllerTest {
         String content = array.get("content").toString();
 
         return objectMapper.readValue(content, type);
+    }
+
+    private void authenticateUser(String username, String password) {
+
+        Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+
+        securityContext.setAuthentication(auth);
     }
 
 }
