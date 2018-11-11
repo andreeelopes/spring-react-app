@@ -45,24 +45,24 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
 
     @Transactional
     @Modifying
-    @Query("delete FROM ProposalRole r WHERE r.employee.id = :partnerid AND r.role LIKE CONCAT('%','PARTNER','%') AND r.proposal.id = :id")
+    @Query("delete FROM ProposalRole r WHERE r.pk.employee.id = :partnerid AND r.role LIKE CONCAT('%','PARTNER','%') AND r.pk.proposal.id = :id")
     void deletePartner(@Param(value = "id")Long id, @Param(value = "partnerid") Long partnerid);
 
-    @Query("select r FROM ProposalRole r WHERE r.employee.id = :partnerid AND r.role LIKE CONCAT('%','PARTNER','%') AND r.proposal.id = :id")
+    @Query("select r FROM ProposalRole r WHERE r.pk.employee.id = :partnerid AND r.role LIKE CONCAT('%','PARTNER','%') AND r.pk.proposal.id = :id")
     List<ProposalRole> partnerExists(@Param(value = "id")Long id, @Param(value = "partnerid") Long partnerid);
 
     @Transactional
     @Modifying
-    @Query("delete FROM ProposalRole r WHERE r.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
+    @Query("delete FROM ProposalRole r WHERE r.pk.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.pk.proposal.id = :id")
     void deleteStaff(@Param(value = "id")Long id, @Param(value = "staffid") Long partnerid);
 
-    @Query("select r FROM ProposalRole r WHERE r.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
+    @Query("select r FROM ProposalRole r WHERE r.pk.employee.id = :staffid AND r.role LIKE CONCAT('%','STAFF','%') AND r.pk.proposal.id = :id")
     List<ProposalRole> staffExists(@Param(value = "id")Long id, @Param(value = "staffid") Long staffId);
 
-    @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','PARTNER','%') AND r.proposal.id = :id")
+    @Query("select r.pk.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','PARTNER','%') AND r.pk.proposal.id = :id")
     Page<Employee> getProposalMembers(@Param(value = "id")Long id, Pageable pageable);
 
-    @Query("select r.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','STAFF','%') AND r.proposal.id = :id")
+    @Query("select r.pk.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','STAFF','%') AND r.pk.proposal.id = :id")
     Page<Employee> getProposalStaff(@Param(value = "id")Long id, Pageable pageable);
 
 }

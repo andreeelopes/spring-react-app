@@ -24,7 +24,7 @@ public class EmployeeWithPw {
     private String job;
 
     private boolean isAdmin = false;
-
+    private Company company;
     @NotNull
     private String password;
 }

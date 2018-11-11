@@ -25,7 +25,7 @@ public class Proposal {
     private Employee approver;
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "proposal")
+            mappedBy = "pk.proposal")
     @JsonIgnore
     private List<ProposalRole> team = new LinkedList<>();
 

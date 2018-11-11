@@ -23,10 +23,10 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
     @Query("SELECT b FROM Bid b where b.pk.bidder.id = :employeeid ")
     Page<Bid> findAllBids(Pageable pageable, @Param(value = "employeeid") Long id);
 
-    @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','PARTNER','%')")
+    @Query("SELECT r.pk.proposal FROM ProposalRole r WHERE r.pk.employee.id = :employeeid AND r.role LIKE CONCAT('%','PARTNER','%')")
     Page<Proposal> findProposalPartner(Pageable pageable,@Param(value = "employeeid") Long id);
 
-    @Query("SELECT r.proposal FROM ProposalRole r WHERE r.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
+    @Query("SELECT r.pk.proposal FROM ProposalRole r WHERE r.pk.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
     Page<Proposal> findProposalStaff(Pageable pageable,@Param(value = "employeeid") Long id);
 
 }

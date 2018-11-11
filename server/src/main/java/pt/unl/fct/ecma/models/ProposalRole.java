@@ -2,7 +2,9 @@ package pt.unl.fct.ecma.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import pt.unl.fct.ecma.repositories.ProposalRoleKey;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,15 +14,8 @@ import java.io.Serializable;
 @Data
 public class ProposalRole  implements Serializable {
 
-    @Id
-    @ManyToOne
-    @JsonIgnore
-    private Proposal proposal;
-
-    @Id
-    @ManyToOne
-    @JsonIgnore
-    private Employee employee;
+    @EmbeddedId
+    private ProposalRoleKey pk;
 
     private String role;
 
