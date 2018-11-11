@@ -2,7 +2,9 @@ package pt.unl.fct.ecma;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,11 +32,13 @@ import pt.unl.fct.ecma.repositories.*;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pt.unl.fct.ecma.utils.Utils.authenticateUser;
+import static pt.unl.fct.ecma.utils.Utils.toList;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
@@ -128,8 +132,25 @@ public class SectionControllerTest {
 
     @Test
     public void testAddSection() throws Exception {
+        authenticateUser("test12", "password");
+
+        Section section = new Section();
+        section.setType(Section.Type.BUDGET.toString());
+        section.setText("0");
+        section.setProposal(proposalRepository.findById(1L).get());
+
+        requestAddSection(section);
+
+        List<Section> sections = requestProposalSections(1L);
+
+        assertEquals(sections.size(), 2);
+
+        assertTrue(sections.stream().anyMatch((p) ->
+                p.getType().equals(section.getType())
+                        && p.getText().equals(section.getText())));
 
     }
+
 
     @Test
     public void testDeleteSection() throws Exception {
@@ -141,11 +162,6 @@ public class SectionControllerTest {
         assertEquals(sections.size(), 0);
     }
 
-    private void requestDeleteSection() throws Exception {
-        MvcResult result = this.mockMvc.perform(delete("/proposals/" + 1L + "/sections/" + 1L))
-                .andExpect(status().isOk())
-                .andReturn();
-    }
 
     @Test
     public void testProposalSections() throws Exception {
@@ -165,30 +181,39 @@ public class SectionControllerTest {
 
     @Test
     public void testUpdateSection() throws Exception {
+        Section section = sectionRepository.findById(1L).get();
+
+        String newText = "Boring...";
+        section.setText(newText);
+
+        authenticateUser("test12", "password");
+        requestUpdateSection(section);
+
+        assertEquals(requestProposalSections(1L).size(), 1);
+        assertEquals(sectionRepository.findById(1L).get().getText(), newText);
 
     }
 
-//
-//    private List<Section> requestDeleteSection(Long proposalId) throws Exception {
-//
-//        authenticateUser("test12", "password");
-//
-//        final MvcResult result = this.mockMvc.perform(get("/proposals/" + proposalId + "/sections/"))
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-//                .andReturn();
-//
-//        String json = result.getResponse().getContentAsString();
-//
-//        JsonParser jsonParser = new JsonParser();
-//        JsonElement element = jsonParser.parse(json);
-//        JsonObject array = element.getAsJsonObject();
-//        String content = array.get("content").toString();
-//
-//        return objectMapper.readValue(content, new TypeReference<List<Section>>() {
-//        });
-//
-//    }
+    private void requestUpdateSection(Section section) throws Exception {
+
+        this.mockMvc.perform(put("/proposals/" + 1L + "/sections/" + 1L)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(objectMapper.writeValueAsString(section)))
+                .andExpect(status().isOk());
+    }
+
+    private void requestAddSection(Section section) throws Exception {
+        this.mockMvc.perform(post("/proposals/" + 1L + "/sections/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(section)))
+                .andExpect(status().isOk());
+    }
+
+    private void requestDeleteSection() throws Exception {
+        this.mockMvc.perform(delete("/proposals/" + 1L + "/sections/" + 1L))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
 
 
     private List<Section> requestProposalSections(Long proposalId) throws Exception {
@@ -198,24 +223,12 @@ public class SectionControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
-        String json = result.getResponse().getContentAsString();
+        String sectionsJson = result.getResponse().getContentAsString();
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(json);
-        JsonObject array = element.getAsJsonObject();
-        String content = array.get("content").toString();
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Section.class);
 
-        return objectMapper.readValue(content, new TypeReference<List<Section>>() {
-        });
-
-    }
-
-
-    private void authenticateUser(String username, String password) {
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        return toList(objectMapper, sectionsJson, type);
     }
 
 }
