@@ -109,11 +109,22 @@ public class ProposalControllerTest {
         emp3.setJob("Pintor de Azuleijos");
         emp3.setName("Nelson");
         emp3.setUsername("nelson");
-        emp3.setPassword(new BCryptPasswordEncoder().encode("nelson"));
+        emp3.setPassword(new BCryptPasswordEncoder().encode("password"));
         emp3.setAdmin(false);
         emp3.setCompany(company);
 
         employeeRepository.save(emp3);
+
+        Employee emp4 = new Employee();
+        emp4.setEmail("maria@sapo.pt");
+        emp4.setJob("Pintora de Azuleijos");
+        emp4.setName("Maria");
+        emp4.setUsername("maria");
+        emp4.setPassword(new BCryptPasswordEncoder().encode("password"));
+        emp4.setAdmin(false);
+        emp4.setCompany(company);
+
+        employeeRepository.save(emp4);
 
         Proposal prop = new Proposal();
         prop.setCompanyProposed(company);
@@ -128,16 +139,6 @@ public class ProposalControllerTest {
         role.setPk(proposalRoleKey);
         role.setRole(ProposalRole.Role.STAFF.toString());
         prop.getTeam().add(role);
-
-        //role for the second employee
-        ProposalRole role2 = new ProposalRole();
-        ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
-        proposalRoleKey2.setEmployee(emp2);
-        proposalRoleKey2.setProposal(prop);
-
-        role2.setPk(proposalRoleKey2);
-        role2.setRole(ProposalRole.Role.STAFF.toString());
-        prop.getTeam().add(role2);
 
         //role for the third employee
         ProposalRole role3 = new ProposalRole();
@@ -224,9 +225,9 @@ public class ProposalControllerTest {
     }
     @Test
     public void testAddMember() throws Exception{
+        long sizeBefore = proposalRoleRepository.count();
         AddAndreAsMember();
-        long size = proposalRoleRepository.count();
-        assertEquals(size, 2L);
+        assertEquals(proposalRoleRepository.count(), sizeBefore + 1);
     }
 
     private void AddAndreAsMember() throws Exception {
@@ -243,17 +244,19 @@ public class ProposalControllerTest {
 
     @Test
     public void testAddStaff() throws Exception{
+
         authenticateUser("simon","simon");
+
+        long sizeBefore = proposalRoleRepository.count();
 
         Employee emp = employeeRepository.findById(2L).get();
 
         String json = objectMapper.writeValueAsString(emp);
-        this.mockMvc.perform(post("/proposals/"+getProposal().getId()+"/staff/")
+        this.mockMvc.perform(post("/proposals/" + getProposal().getId() + "/staff/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isOk());
-        long size = proposalRoleRepository.count();
-        assertEquals(size, 2L);
+        assertEquals(sizeBefore + 1, proposalRoleRepository.count());
     }
     @Test
     public void testUpdateProposal() throws Exception{
@@ -285,7 +288,7 @@ public class ProposalControllerTest {
         MvcResult result = this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/staff/"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andExpect(jsonPath("$.content", hasSize(2)))
                 .andReturn();
         String list = result.getResponse().getContentAsString();
 
@@ -304,18 +307,22 @@ public class ProposalControllerTest {
         AddAndreAsMember();
         Proposal proposal = getProposal();
         Employee emp = employeeRepository.findById(2L).get();
+        int beforeDelete = proposalRepository.getProposalMembersWithoutPage(proposal.getId()).size();
         this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/partnermembers/"+emp.getId()))
                 .andExpect(status().isOk());
-        assertEquals(proposalRoleRepository.count(),1L);
+        assertEquals(proposalRepository.getProposalMembersWithoutPage(proposal.getId()).size(),beforeDelete - 1);
     }
     @Test
     public void testDeleteStaff() throws Exception{
         authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         Employee employee = getEmployee();
+        long teamSizeBefore = proposalRoleRepository.count();
+
+
         this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/staff/"+employee.getId()))
                 .andExpect(status().isOk());
-        assertEquals(proposalRoleRepository.count(),0L);
+        assertEquals(proposalRoleRepository.count(),teamSizeBefore-1);
     }
     @Test
     public void testDeleteProposal() throws Exception{
