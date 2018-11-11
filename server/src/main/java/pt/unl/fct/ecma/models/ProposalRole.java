@@ -21,5 +21,10 @@ public class ProposalRole  implements Serializable {
     @ManyToOne
     @JsonIgnore
     private Employee employee;
-    private String role;
+
+    private Role role;
+
+    public enum Role {
+        STAFF, PARTNER
+    }
 }

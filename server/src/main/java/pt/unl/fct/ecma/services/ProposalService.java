@@ -24,7 +24,7 @@ public class ProposalService {
 
         proposalRole.setEmployee(member);
         proposalRole.setProposal(proposal);
-        proposalRole.setRole("PARTNER");
+        proposalRole.setRole(ProposalRole.Role.PARTNER);
 
         proposal.getTeam().add(proposalRole);
 
@@ -40,7 +40,7 @@ public class ProposalService {
 
         proposalRole.setEmployee(staffMember);
         proposalRole.setProposal(proposal);
-        proposalRole.setRole("STAFF");
+        proposalRole.setRole(ProposalRole.Role.STAFF);
 
         proposal.getTeam().add(proposalRole);
 
