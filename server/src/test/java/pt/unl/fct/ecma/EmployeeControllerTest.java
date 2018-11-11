@@ -1,6 +1,6 @@
 package pt.unl.fct.ecma;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,17 +18,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Company;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -56,6 +55,7 @@ public class EmployeeControllerTest {
     private ProposalRepository proposalRepository;
     @Autowired
     private BidRepository bidRepository;
+
 
     private MockMvc mockMvc;
 
@@ -86,6 +86,9 @@ public class EmployeeControllerTest {
         company2.setEmail("company2@mail.com");
         company2.setAddress("Porto");
 
+        company1 = companyRepository.save(company1);
+        company2 = companyRepository.save(company2);
+
         Employee employee1 = new Employee("test1", "test1",
                 "test1@gmail.com", "Tile Painter", true,
                 new BCryptPasswordEncoder().encode("password"));
@@ -97,11 +100,8 @@ public class EmployeeControllerTest {
         employee1.setCompany(company1);
         employee2.setCompany(company2);
 
-        companyRepository.save(company1);
-        companyRepository.save(company2);
-
-        employeeRepository.save(employee1);
-        employeeRepository.save(employee2);
+        employee1 = employeeRepository.save(employee1);
+        employee2 = employeeRepository.save(employee2);
 
         //first proposal
         Proposal proposal1 = new Proposal();
@@ -109,6 +109,7 @@ public class EmployeeControllerTest {
         proposal1.setApprover(employee1);
         proposal1.setStatus(Proposal.Status.APPROVED);
         proposal1.setTargetCompany(company2);
+
         //second proposal
         Proposal proposal2 = new Proposal();
         proposal2.setCompanyProposed(company2);
@@ -116,8 +117,8 @@ public class EmployeeControllerTest {
         proposal2.setStatus(Proposal.Status.APPROVED);
         proposal2.setTargetCompany(company1);
 
-        proposalRepository.save(proposal1);
-        proposalRepository.save(proposal2);
+        proposal1 = proposalRepository.save(proposal1);
+        proposal2 = proposalRepository.save(proposal2);
 
         //Bid 1 for proposal 1
         Bid bid1 = new Bid();
@@ -125,7 +126,7 @@ public class EmployeeControllerTest {
         bid1Key.setProposal(proposal1);
         bid1Key.setBidder(employee2);
         bid1.setPk(bid1Key);
-        bid1.setStatus(Bid.Status.WAITING.toString());
+        bid1.setStatus(Bid.Status.ACCEPTED.toString());
 
         //Bid 2 for proposal 2
         Bid bid2 = new Bid();
@@ -133,13 +134,47 @@ public class EmployeeControllerTest {
         bid2Key.setProposal(proposal2);
         bid2Key.setBidder(employee1);
         bid2.setPk(bid2Key);
-        bid2.setStatus(Bid.Status.WAITING.toString());
+        bid2.setStatus(Bid.Status.ACCEPTED.toString());
 
         bidRepository.save(bid1);
         bidRepository.save(bid2);
 
-        proposalRepository.save(proposal1);
-        proposalRepository.save(proposal2);
+
+
+        ProposalRole employee1role1 = new ProposalRole();
+        employee1role1.setProposal(proposal1);
+        employee1role1.setEmployee(employee1);
+        employee1role1.setRole("STAFF");
+        List<ProposalRole> a = employee1.getRolesOnProposal();
+        a.add(employee1role1);
+        proposal1.getTeam().add(employee1role1);
+        proposal1 = proposalRepository.save(proposal1);
+
+
+
+        /*
+        prop.setCompanyProposed(company1);
+
++        prop.setApprover(employee1);
+
++        prop.getTeam().add(role);
+
++        prop.setStatus(Proposal.Status.PLACED);
+
++        prop.setTargetCompany(company2);
+         */
+
+//        ProposalRole employee1role2 = new ProposalRole(proposal2, employee1, "PARTNER");
+//
+//        ProposalRole employee2role1 = new ProposalRole(proposal2, employee2, "STAFF");
+//        ProposalRole employee2role2 = new ProposalRole(proposal1, employee2, "PARTNER");
+//
+//        employee1.getRolesOnProposal().add(employee1role1);
+//        employee1.getRolesOnProposal().add(employee1role2);
+//        employee2.getRolesOnProposal().add(employee2role1);
+//        employee2.getRolesOnProposal().add(employee2role2);
+//
+//        employeeRepository.save(employee2);
 
 
     }
@@ -172,12 +207,13 @@ public class EmployeeControllerTest {
     public void testUpdateEmployee() throws Exception {
 
         long employeeId = 1L;
+
         Employee employee = employeeRepository.findById(employeeId).get();
         String previousName = employee.getName();
         String newName = "David Gilmour";
         employee.setName(newName);
 
-        authenticateUser("test", "test");
+        authenticateUser("test1", "password");
         requestUpdateEmployee(employeeId, employee);
         Employee updatedEmployee = requestGetEmployee(employeeId);
 
@@ -190,13 +226,10 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        Employee employee = employeeRepository.findById(employeeId).get();
-
+        authenticateUser("test1", "password");
         List<Bid> bidsOfEmployee = requestGetEmployeeBids(employeeId);
 
         assertEquals(bidsOfEmployee.size(), 1);
-        assertEquals(bidsOfEmployee.size(), employee.getBiddedProposals().size());
-
     }
 
 
@@ -205,8 +238,7 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        Employee employee = employeeRepository.findById(employeeId).get();
-
+        authenticateUser("test1", "password");
         List<Proposal> partnerProposalsOfEmployee = requestGetProposalPartner(employeeId);
 
         assertEquals(partnerProposalsOfEmployee.size(), 1);
@@ -217,8 +249,7 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        Employee employee = employeeRepository.findById(employeeId).get();
-
+        authenticateUser("test1", "password");
         List<Proposal> staffProposalsOfEmployee = requestGetStaffPartner(employeeId);
         assertEquals(staffProposalsOfEmployee.size(), 1);
     }
@@ -249,15 +280,12 @@ public class EmployeeControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
-        String list = result.getResponse().getContentAsString();
+        String jsonList = result.getResponse().getContentAsString();
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(list);
-        JsonObject array = element.getAsJsonObject();
-        String content = array.get("content").toString();
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Employee.class);
 
-        return objectMapper.readValue(content, new TypeReference<List<Employee>>() {
-        });
+        return toList(jsonList, type);
     }
 
 
@@ -283,8 +311,10 @@ public class EmployeeControllerTest {
 
         String bidsJson = result.getResponse().getContentAsString();
 
-        return objectMapper.readValue(bidsJson, new TypeReference<List<Bid>>() {
-        });
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Bid.class);
+
+        return toList(bidsJson, type);
     }
 
     private List<Proposal> requestGetStaffPartner(long employeeId) throws Exception {
@@ -294,10 +324,12 @@ public class EmployeeControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
-        String bidsJson = result.getResponse().getContentAsString();
+        String proposalsJson = result.getResponse().getContentAsString();
 
-        return objectMapper.readValue(bidsJson, new TypeReference<List<Proposal>>() {
-        });
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Proposal.class);
+
+        return toList(proposalsJson, type);
     }
 
     private List<Proposal> requestGetProposalPartner(long employeeId) throws Exception {
@@ -307,10 +339,22 @@ public class EmployeeControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn();
 
-        String bidsJson = result.getResponse().getContentAsString();
+        String proposalsJson = result.getResponse().getContentAsString();
 
-        return objectMapper.readValue(bidsJson, new TypeReference<List<Proposal>>() {
-        });
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Proposal.class);
+
+        return toList(proposalsJson, type);
+    }
+
+    private <T> List<T> toList(String jsonArray, JavaType type) throws IOException {
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement element = jsonParser.parse(jsonArray);
+        JsonObject array = element.getAsJsonObject();
+        String content = array.get("content").toString();
+
+        return objectMapper.readValue(content, type);
     }
 
 }
