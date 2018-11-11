@@ -29,3 +29,10 @@ Consider an application that a marketing company called ECMA uses to host and or
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
 * ~~Adicionar testes~~
 * __Verificar as politicas de segurança__
+
+
+###Developers
+
+* André Lopes nº 45617
+* Nelson Coquenim nº 45694
+* Simão Dolores nº 45020
