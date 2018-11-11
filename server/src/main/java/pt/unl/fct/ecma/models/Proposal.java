@@ -59,7 +59,7 @@ public class Proposal {
 
     private String status = Status.PLACED.toString();
 
-    public enum Status{
-        PLACED,APPROVED,DECLINED
+    public enum Status {
+        PLACED, REVIEW_PERIOD, APPROVED, DECLINED
     }
 }
