@@ -193,7 +193,7 @@ public class BidControllerTest {
         ProposalRole role = new ProposalRole();
         role.setEmployee(emp2);
         role.setProposal(proposal);
-        role.setRole("PARTNER");
+        role.setRole(ProposalRole.Role.PARTNER);
 
         emp2.getRolesOnProposal().add(role);
         employeeRepository.save(emp2);
