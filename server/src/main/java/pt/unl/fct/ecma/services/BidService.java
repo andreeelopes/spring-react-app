@@ -77,6 +77,7 @@ public class BidService {
             if (numberOfPicks == 0)
                 numberOfPicks = 1;
 
+
             for (int i = 0; i < numberOfPicks; i++) {
                 int randomIndex = rand.nextInt(bids.size());
                 Bid randomBid = bids.get(randomIndex);
@@ -84,6 +85,12 @@ public class BidService {
                 updateBid(randomBid);
                 bids.remove(randomBid);
             }
+
+            for (Bid bid : bids) { //Set the remaining bids to DENIED
+                bid.setStatus(Bid.Status.DENIED.toString());
+                updateBid(bid);
+            }
+
         }
     }
 
