@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.ProposalsApi;
 import pt.unl.fct.ecma.brokers.ProposalBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
-import pt.unl.fct.ecma.security.annotations.BelongsToProposalStaff;
-import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
-import pt.unl.fct.ecma.security.annotations.IsApproverOfProposal;
-import pt.unl.fct.ecma.security.annotations.IsPrincipal;
+import pt.unl.fct.ecma.security.annotations.*;
 import pt.unl.fct.ecma.services.ProposalService;
 import pt.unl.fct.ecma.models.*;
 
@@ -72,7 +69,7 @@ public class ProposalController implements ProposalsApi {
         proposalBroker.deleteProposal(proposalId);
     }
 
-    @IsPrincipal //TODO verificar isto
+    @StaffIsPrincipal
     @Override
     public void deleteStaff(@PathVariable("proposalId") Long proposalId,
                             @PathVariable("staffId") Long staffId) {
