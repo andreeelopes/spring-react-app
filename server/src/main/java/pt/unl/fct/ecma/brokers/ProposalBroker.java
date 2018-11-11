@@ -32,9 +32,9 @@ public class ProposalBroker {
 
     public void addStaffMember(Long proposalId, Employee staffMember) {
         Proposal proposal = proposalService.getProposal(proposalId);
-        employeeService.getEmployee(staffMember.getId());
+        Employee dbEmployee = employeeService.getEmployee(staffMember.getId());
 
-        proposalService.addStaffMember(proposal, staffMember);
+        proposalService.addStaffMember(proposal, dbEmployee);
     }
 
     public void updateProposal(Long proposalId, Proposal proposal) {

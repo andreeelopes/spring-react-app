@@ -89,7 +89,7 @@ public class BidControllerTest {
         Proposal prop = new Proposal();
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
-        prop.setStatus(Proposal.Status.APPROVED);
+        prop.setStatus(Proposal.Status.APPROVED.toString());
         prop.setTargetCompany(company);
 
         proposalRepository.save(prop);

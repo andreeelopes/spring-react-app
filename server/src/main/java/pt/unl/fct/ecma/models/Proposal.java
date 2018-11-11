@@ -57,7 +57,7 @@ public class Proposal {
     @ManyToOne
     private Company targetCompany;
 
-    private Status status = Status.PLACED;
+    private String status = Status.PLACED.toString();
 
     public enum Status{
         PLACED,APPROVED,DECLINED
