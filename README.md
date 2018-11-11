@@ -9,7 +9,7 @@ Consider an application that a marketing company called ECMA uses to host and or
 
 ###Especificação
 
-* Adicionar GET /proposals (TBD)
+* ~~Adicionar GET /proposals (TBD)~~
 * __Adicionar PUT /proposals/{id}__
 
 ###Servidor
@@ -17,9 +17,9 @@ Consider an application that a marketing company called ECMA uses to host and or
 * ~~Mudar a verificação dos pedidos dos serviços para o controlador~~
 * ~~Implementar os brokers~~
 * ~~Experimentar meter a tag @Autowired em todos os serviços, repositórios e controladores~~
-* ~~__Colocar a verificação id != null nos POST__~~
+* ~~Colocar a verificação id != null nos POST~~
 * Approver não faz reviews
-* Meter PLACED, REVIEW_PERIOD, ACCEPTED, DECLINED nas propostas e escolher automaticamente bids tendo em conta a mudança de estado de placed -> review_period
+* ~~Meter PLACED, REVIEW_PERIOD, ACCEPTED, DECLINED nas propostas e escolher automaticamente bids tendo em conta a mudança de estado de placed -> review_period~~
 * ~~Meter chave estrangeira da partner company na proposal~~
 * ~~Distinguir o ADMIN do spring do admin de uma emppresa~~
 * ~~Remover GET /proposals (TBD)~~
@@ -27,5 +27,5 @@ Consider an application that a marketing company called ECMA uses to host and or
 * Verificar se o approver faz parte da company da proosal
 * Enumerado de roles
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
-* __Adicionar testes__
+* ~~Adicionar testes~~
 * __Verificar as politicas de segurança__
