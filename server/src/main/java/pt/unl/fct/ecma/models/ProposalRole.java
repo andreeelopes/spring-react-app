@@ -22,7 +22,7 @@ public class ProposalRole  implements Serializable {
     @JsonIgnore
     private Employee employee;
 
-    private Role role;
+    private String role;
 
     public enum Role {
         STAFF, PARTNER

@@ -25,4 +25,10 @@ public class Section {
 
     @NotNull
     private String type;
+
+    public enum Type {
+        TITLE, DESCRIPTION, GOALS, MATERIALS,
+        BUDGET, WORKPLAN
+    }
+
 }
