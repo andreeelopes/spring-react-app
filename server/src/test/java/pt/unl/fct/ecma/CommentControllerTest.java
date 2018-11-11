@@ -1,4 +1,4 @@
-package pt.unl.fct.ecma.utils;
+package pt.unl.fct.ecma;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
