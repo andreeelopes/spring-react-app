@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +31,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -133,20 +133,33 @@ public class SectionControllerTest {
 
     @Test
     public void testDeleteSection() throws Exception {
+        authenticateUser("test12", "password");
 
+        requestDeleteSection();
+
+        List<Section> sections = requestProposalSections(1L);
+        assertEquals(sections.size(), 0);
+    }
+
+    private void requestDeleteSection() throws Exception {
+        MvcResult result = this.mockMvc.perform(delete("/proposals/" + 1L + "/sections/" + 1L))
+                .andExpect(status().isOk())
+                .andReturn();
     }
 
     @Test
     public void testProposalSections() throws Exception {
-        Section title = sectionRepository.findById(1L).get();
+        authenticateUser("test12", "password");
+
+        Section titleSection = sectionRepository.findById(1L).get();
 
         List<Section> requestedSections = requestProposalSections(1L);
 
         assertEquals(requestedSections.size(), 1);
 
         assertTrue(requestedSections.stream()
-                .anyMatch((s) -> s.getText().equals(title.getText())
-                        && s.getType().equals(title.getType())));
+                .anyMatch((s) -> s.getText().equals(titleSection.getText())
+                        && s.getType().equals(titleSection.getType())));
     }
 
 
@@ -177,9 +190,8 @@ public class SectionControllerTest {
 //
 //    }
 
-    private List<Section> requestProposalSections(Long proposalId) throws Exception {
 
-        authenticateUser("test12", "password");
+    private List<Section> requestProposalSections(Long proposalId) throws Exception {
 
         final MvcResult result = this.mockMvc.perform(get("/proposals/" + proposalId + "/sections/"))
                 .andExpect(status().isOk())
