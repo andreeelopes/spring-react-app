@@ -89,7 +89,7 @@ public class BidControllerTest {
         Proposal prop = new Proposal();
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
-        prop.setStatus(Proposal.Status.APPROVED);
+        prop.setStatus(Proposal.Status.APPROVED.toString());
         prop.setTargetCompany(company);
 
         proposalRepository.save(prop);
@@ -191,9 +191,11 @@ public class BidControllerTest {
         bid.getPk().setBidder(emp2);
 
         ProposalRole role = new ProposalRole();
-        role.setEmployee(emp2);
-        role.setProposal(proposal);
-        role.setRole("PARTNER");
+        ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
+        proposalRoleKey.setEmployee(emp2);
+        proposalRoleKey.setProposal(proposal);
+        role.setPk(proposalRoleKey);
+        role.setRole(ProposalRole.Role.PARTNER.toString());
 
         emp2.getRolesOnProposal().add(role);
         employeeRepository.save(emp2);

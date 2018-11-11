@@ -25,7 +25,7 @@ public class Proposal {
     private Employee approver;
 
     @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "proposal")
+            mappedBy = "pk.proposal")
     @JsonIgnore
     private List<ProposalRole> team = new LinkedList<>();
 
@@ -57,7 +57,7 @@ public class Proposal {
     @ManyToOne
     private Company targetCompany;
 
-    private Status status = Status.PLACED;
+    private String status = Status.PLACED.toString();
 
     public enum Status{
         PLACED,APPROVED,DECLINED

@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.EmployeesApi;
+import pt.unl.fct.ecma.brokers.EmployeeBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.security.annotations.IsPrincipal;
@@ -21,16 +23,13 @@ import javax.validation.Valid;
 
 public class EmployeeController implements EmployeesApi {
 
-    private final EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
+    @Autowired
+    private EmployeeBroker employeeBroker;
 
 
     @Override
     public Employee getEmployee(@PathVariable("employeeId") Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+        return employeeBroker.getEmployee(employeeId);
     }
 
     @Override
@@ -39,9 +38,9 @@ public class EmployeeController implements EmployeesApi {
                                      @Valid @RequestParam(value = "search", required = false) String search,
                                      Pageable pageable) {
         if (search == null) {
-            return employeeService.getAllBids(employeeId, pageable);
+            return employeeBroker.getAllBids(employeeId, pageable);
         } else {
-            return employeeService.getAllBidsByStatus(employeeId, search, pageable);
+            return employeeBroker.getAllBidsByStatus(employeeId, search, pageable);
         }
     }
 
@@ -50,9 +49,9 @@ public class EmployeeController implements EmployeesApi {
     public Page<Employee> getEmployees(@Valid @RequestParam(value = "search", required = false) String search,
                                        Pageable pageable) {
         if (search == null) {
-            return employeeService.getAllEmployees(pageable);
+            return employeeBroker.getAllEmployees(pageable);
         } else {
-            return employeeService.getEmployeeByName(search, pageable);
+            return employeeBroker.getEmployeeByName(search, pageable);
         }
     }
 
@@ -61,7 +60,7 @@ public class EmployeeController implements EmployeesApi {
     public Page<Proposal> getProposalPartner(@PathVariable("employeeId") Long employeeId,
                                              @Valid @RequestParam(value = "search", required = false) String search,
                                              Pageable pageable) { //TODO search?
-        return employeeService.getProposalPartner(pageable, employeeId);
+        return employeeBroker.getProposalPartner(pageable, employeeId);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class EmployeeController implements EmployeesApi {
     public Page<Proposal> getProposalStaff(@PathVariable("employeeId") Long employeeId,
                                            @Valid @RequestParam(value = "search", required = false) String search,
                                            Pageable pageable) { //TODO search?
-        return employeeService.getProposalStaff(pageable, employeeId);
+        return employeeBroker.getProposalStaff(pageable, employeeId);
     }
 
     @Override
@@ -80,6 +79,6 @@ public class EmployeeController implements EmployeesApi {
         if (!employee.getId().equals(employeeId))
             throw new BadRequestException("Ids of employee do not match");
 
-        employeeService.updateEmployee(employee);
+        employeeBroker.updateEmployee(employee);
     }
 }

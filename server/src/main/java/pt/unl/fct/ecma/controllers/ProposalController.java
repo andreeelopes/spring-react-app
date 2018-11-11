@@ -29,7 +29,7 @@ public class ProposalController implements ProposalsApi {
     @BelongsToProposalStaff
     @Override
     public void addPartner(@PathVariable("proposalId") Long proposalId,
-                           @Valid @RequestBody Employee member) {
+                            @RequestBody Employee member) {
         proposalBroker.addPartner(proposalId, member);
     }
 
@@ -46,7 +46,7 @@ public class ProposalController implements ProposalsApi {
     @BelongsToProposalStaff
     @Override
     public void addStaffMember(@PathVariable("proposalId") Long proposalId,
-                               @Valid @RequestBody Employee staffMember) {
+                               @RequestBody Employee staffMember) {
         proposalBroker.addStaffMember(proposalId, staffMember);
     }
 
@@ -54,7 +54,7 @@ public class ProposalController implements ProposalsApi {
     @IsApproverOfProposal
     @Override
     public void updateProposal(@PathVariable Long proposalId,
-                               @Valid @RequestBody Proposal proposal) {
+                                @RequestBody Proposal proposal) {
         proposalBroker.updateProposal(proposalId, proposal);
     }
 
