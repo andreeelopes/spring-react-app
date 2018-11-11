@@ -2,9 +2,6 @@ package pt.unl.fct.ecma;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -34,10 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import pt.unl.fct.ecma.utils.Utils;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @RunWith(SpringRunner.class)
@@ -60,7 +53,7 @@ public class EmployeeControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
 
     @Before
@@ -198,7 +191,7 @@ public class EmployeeControllerTest {
         String newName = "David Gilmour";
         employee.setName(newName);
 
-        authenticateUser("test1", "password");
+        Utils.authenticateUser("test1", "password");
         requestUpdateEmployee(employeeId, employee);
         Employee updatedEmployee = requestGetEmployee(employeeId);
 
@@ -211,7 +204,7 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        authenticateUser("test1", "password");
+        Utils.authenticateUser("test1", "password");
         List<Bid> bidsOfEmployee = requestGetEmployeeBids(employeeId);
 
         assertEquals(bidsOfEmployee.size(), 1);
@@ -223,7 +216,7 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        authenticateUser("test1", "password");
+        Utils.authenticateUser("test1", "password");
         List<Proposal> partnerProposalsOfEmployee = requestGetProposalPartner(employeeId);
 
         assertEquals(partnerProposalsOfEmployee.size(), 1);
@@ -234,11 +227,10 @@ public class EmployeeControllerTest {
 
         long employeeId = 1L;
 
-        authenticateUser("test1", "password");
+        Utils.authenticateUser("test1", "password");
         List<Proposal> staffProposalsOfEmployee = requestGetProposalStaff(employeeId);
         assertEquals(staffProposalsOfEmployee.size(), 1);
     }
-
 
 
     //Auxiliary Methods
@@ -268,7 +260,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Employee.class);
 
-        return toList(jsonList, type);
+        return Utils.toList(jsonList, type);
     }
 
 
@@ -292,7 +284,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Bid.class);
 
-        return toList(bidsJson, type);
+        return Utils.toList(bidsJson, type);
     }
 
     private List<Proposal> requestGetProposalPartner(long employeeId) throws Exception {
@@ -307,7 +299,7 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Proposal.class);
 
-        return toList(proposalsJson, type);
+        return Utils.toList(proposalsJson, type);
     }
 
     private List<Proposal> requestGetProposalStaff(long employeeId) throws Exception {
@@ -322,26 +314,9 @@ public class EmployeeControllerTest {
         JavaType type = objectMapper.getTypeFactory().
                 constructCollectionType(List.class, Proposal.class);
 
-        return toList(proposalsJson, type);
+        return Utils.toList(proposalsJson, type);
     }
 
-    private <T> List<T> toList(String jsonArray, JavaType type) throws IOException {
-
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(jsonArray);
-        JsonObject array = element.getAsJsonObject();
-        String content = array.get("content").toString();
-
-        return objectMapper.readValue(content, type);
-    }
-
-    private void authenticateUser(String username, String password) {
-
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
-    }
 
 }
 
