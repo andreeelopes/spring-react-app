@@ -140,20 +140,13 @@ public class SectionControllerTest {
     public void testProposalSections() throws Exception {
         Section title = sectionRepository.findById(1L).get();
 
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println(proposalRepository.findById(1L).get().getId());
-        System.out.println(title.getProposal().getId());
-
-
         List<Section> requestedSections = requestProposalSections(1L);
 
         assertEquals(requestedSections.size(), 1);
+
         assertTrue(requestedSections.stream()
-                .anyMatch((s) -> s.getText().equals(title.getText())));
-        assertTrue(requestedSections.stream()
-                .anyMatch((s) -> s.getType().equals(title.getType())));
+                .anyMatch((s) -> s.getText().equals(title.getText())
+                        && s.getType().equals(title.getType())));
     }
 
 
