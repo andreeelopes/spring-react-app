@@ -1,6 +1,7 @@
 package pt.unl.fct.ecma;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.repositories.CompanyRepository;
@@ -45,6 +47,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pt.unl.fct.ecma.utils.Utils.authenticateUser;
+import static pt.unl.fct.ecma.utils.Utils.toList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -58,6 +62,9 @@ public class CompanyControllerTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
 
@@ -102,16 +109,10 @@ public class CompanyControllerTest {
                 .andReturn()
         ;
         String list = result.getResponse().getContentAsString();
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Company.class);
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(list);
-        JsonObject array=element.getAsJsonObject();
-        String content=array.get("content").toString();
-
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        return mapper.readValue(content,new TypeReference<List<Company>>(){});
+        return toList(objectMapper,list,type);
     }
 
     @Test
@@ -123,10 +124,7 @@ public class CompanyControllerTest {
     @Test
     public void testAddAdmin() throws Exception{
 
-        Authentication auth = new UsernamePasswordAuthenticationToken("user", "password");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("user","password");
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
         this.mockMvc.perform(post("/companies/"+company.getId()+"/admins")
@@ -158,21 +156,16 @@ public class CompanyControllerTest {
         ;
         String list = result.getResponse().getContentAsString();
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(list);
-        JsonObject array=element.getAsJsonObject();
-        String content=array.get("content").toString();
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Employee.class);
 
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(content,new TypeReference<List<Employee>>(){});
+
+        return toList(objectMapper,list,type);
     }
 
     @Test
     public void testAddCompany() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("user", "password");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("user","password");
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -202,10 +195,7 @@ public class CompanyControllerTest {
     }
     @Test
     public void testAddEmployee() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
@@ -226,13 +216,11 @@ public class CompanyControllerTest {
         .andReturn();
 
         String list = result.getResponse().getContentAsString();
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Employee.class);
+        toList(objectMapper,list,type);
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(list);
-        JsonObject array=element.getAsJsonObject();
-        String content=array.get("content").toString();
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(content,new TypeReference<List<Employee>>(){});
+        return toList(objectMapper,list,type);
 
     }
 
@@ -260,10 +248,7 @@ public class CompanyControllerTest {
 
     @Test
     public void testDeleteAdmin() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("user", "password");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("user","password");
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
@@ -279,10 +264,7 @@ public class CompanyControllerTest {
     }
     @Test
     public void testDeleteEmployee() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
@@ -302,10 +284,7 @@ public class CompanyControllerTest {
     }
     @Test
     public void testDeleteCompany()throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);

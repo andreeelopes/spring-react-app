@@ -37,6 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pt.unl.fct.ecma.utils.Utils.authenticateUser;
 
 @RunWith(SpringRunner.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -125,7 +126,7 @@ public class ProposalControllerTest {
         assertEquals(dbProposal.getApprover().getId(), testProposal.getApprover().getId());
     }
     private Proposal requestGetProposal(long proposalid) throws Exception {
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         final MvcResult result = this.mockMvc.perform(get("/proposals/" + proposalid))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -136,12 +137,6 @@ public class ProposalControllerTest {
         return objectMapper.readValue(json, Proposal.class);
     }
 
-    private void LoginWithSimon() {
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
-    }
 
     private Company getCompany() {
         Iterator<Company> itCompany =companyRepository.findAll().iterator();
@@ -181,7 +176,7 @@ public class ProposalControllerTest {
     }
 
     private void AddAndreAsMember() throws Exception {
-        LoginWithSimon();
+        authenticateUser("simon","simon");
 
         Employee emp = employeeRepository.findById(2L).get();
 
@@ -194,7 +189,7 @@ public class ProposalControllerTest {
 
     @Test
     public void testAddStaff() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
 
         Employee emp = employeeRepository.findById(2L).get();
 
@@ -208,7 +203,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testUpdateProposal() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         proposal.setStatus(Proposal.Status.APPROVED.toString());
         String json = objectMapper.writeValueAsString(proposal);
@@ -221,7 +216,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testGetMembers() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/partnermembers/"))
                 .andExpect(status().isOk())
@@ -231,7 +226,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testGetStaff() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         MvcResult result = this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/staff/"))
                 .andExpect(status().isOk())
@@ -261,7 +256,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testDeleteStaff() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         Employee employee = getEmployee();
         this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/staff/"+employee.getId()))
@@ -270,7 +265,7 @@ public class ProposalControllerTest {
     }
     @Test
     public void testDeleteProposal() throws Exception{
-        LoginWithSimon();
+        authenticateUser("simon","simon");
         Proposal proposal = getProposal();
         this.mockMvc.perform(delete("/proposals/"+proposal.getId()))
                 .andExpect(status().isOk());

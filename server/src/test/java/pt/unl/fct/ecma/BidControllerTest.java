@@ -1,6 +1,7 @@
 package pt.unl.fct.ecma;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -35,6 +36,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pt.unl.fct.ecma.utils.Utils.authenticateUser;
+import static pt.unl.fct.ecma.utils.Utils.toList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,6 +60,9 @@ public class BidControllerTest {
     private BidRepository bidRepository;
 
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Before
     @Transactional
@@ -113,10 +119,7 @@ public class BidControllerTest {
     @Test
     public void testUpdateBid() throws Exception{
 
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         Proposal proposal=getProposal();
 
@@ -148,10 +151,7 @@ public class BidControllerTest {
 
     @Test
     public void testAddBid() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         Proposal proposal=getProposal();
 
@@ -200,9 +200,7 @@ public class BidControllerTest {
         emp2.getRolesOnProposal().add(role);
         employeeRepository.save(emp2);
 
-        auth = new UsernamePasswordAuthenticationToken("andre", "andre");
-        securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(auth);
+        authenticateUser("andre","andre");
 
         json = mapper.writeValueAsString(bid);
         this.mockMvc.perform(post("/proposals/" + proposal.getId() + "/bids/")
@@ -227,10 +225,7 @@ public class BidControllerTest {
     }
     @Test
     public void testGetBids() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-
-        securityContext.setAuthentication(auth);
+        authenticateUser("simon","simon");
 
         Proposal proposal= getProposal();
         final MvcResult result =this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/bids"))
@@ -241,20 +236,15 @@ public class BidControllerTest {
 
         String list = result.getResponse().getContentAsString();
 
-        JsonParser jsonParser = new JsonParser();
-        JsonElement element = jsonParser.parse(list);
-        JsonObject array=element.getAsJsonObject();
-        String content=array.get("content").toString();
-        ObjectMapper mapper = new ObjectMapper();
-        List<Bid> bids=mapper.readValue(content,new TypeReference<List<Bid>>(){});
+        JavaType type = objectMapper.getTypeFactory().
+                constructCollectionType(List.class, Bid.class);
+        List<Bid> bids=toList(objectMapper,list,type);
         assertTrue(bids.stream().anyMatch( (p) -> p.getPk().getBidder().getName().equals("Simon")));
     }
     @Test
     public void testDeleteBid() throws Exception{
-        Authentication auth = new UsernamePasswordAuthenticationToken("simon", "simon");
-        SecurityContext securityContext = SecurityContextHolder.getContext();
+        authenticateUser("simon","simon");
 
-        securityContext.setAuthentication(auth);
         Proposal proposal = getProposal();
         Employee employee = getEmployee();
         Long random= proposal.getId()+1L;
