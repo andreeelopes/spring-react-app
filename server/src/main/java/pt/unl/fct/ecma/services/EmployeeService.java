@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,12 +17,10 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService {
+
+    @Autowired
     private EmployeeRepository employeeRepository;
 
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
 
     public Employee getEmployee(Long employeeId) {
         Optional<Employee> employeeOpt = employeeRepository.findById(employeeId);
@@ -35,49 +34,31 @@ public class EmployeeService {
         return employeeRepository.findAll(pageable);
     }
 
-    public Page<Employee> getEmployeeByName(String search, Pageable pageable) {
-        return employeeRepository.findByName(search, pageable);
+    public Page<Employee> getEmployeeByName(String name, Pageable pageable) {
+        return employeeRepository.findByName(name, pageable);
     }
 
-    public void updateEmployee(SimpleEmployee emp) {
-        Optional<Employee> old_emp = employeeRepository.findById(emp.getId());
-        if (old_emp.isPresent()) {
-            Employee realemp = old_emp.get();
-            realemp.setAdmin(emp.isAdmin());
-            realemp.setEmail(emp.getEmail());
-            realemp.setName(emp.getName());
-            realemp.setJob(emp.getJob());
-            employeeRepository.save(realemp);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", emp.getId()));
+    public void updateEmployee(SimpleEmployee employee, Employee oldEmployee) {
+        oldEmployee.setAdmin(employee.isAdmin());
+        oldEmployee.setEmail(employee.getEmail());
+        oldEmployee.setName(employee.getName());
+        oldEmployee.setJob(employee.getJob());
+        employeeRepository.save(oldEmployee);
     }
 
-    public Page<Bid> getAllBids(Long employeeId, Pageable pageable) {
-        Optional<Employee> emp = employeeRepository.findById(employeeId);
-        if (emp.isPresent()) {
-            return employeeRepository.findAllBids(pageable, employeeId);
-            //  return new PageImpl<Bid>(bid,pageable,bid.size());
-
-        } else throw new NotFoundException(String.format("Person with id %d does not exist", employeeId));
+    public Page<Bid> getAllBids(Employee bidder, Pageable pageable) {
+        return employeeRepository.findAllBids(pageable, bidder.getId());
     }
 
-    public Page<Bid> getAllBidsByStatus(Long employeeId, String search, Pageable pageable) {
-        Optional<Employee> emp = employeeRepository.findById(employeeId);
-        if (emp.isPresent()) {
-            return employeeRepository.findBidsByStatus(search, employeeId, pageable);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
+    public Page<Bid> getAllBidsByStatus(Employee bidder, String status, Pageable pageable) {
+        return employeeRepository.findBidsByStatus(status, bidder.getId(), pageable);
     }
 
-    public Page<Proposal> getProposalPartner(Pageable pageable, Long employeeId) {
-        Optional<Employee> emp = employeeRepository.findById(employeeId);
-        if (emp.isPresent()) {
-            return employeeRepository.findProposalPartner(pageable, employeeId);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
+    public Page<Proposal> getProposalPartner(Pageable pageable, Employee partnerMember) {
+        return employeeRepository.findProposalPartner(pageable, partnerMember.getId());
     }
 
-    public Page<Proposal> getProposalStaff(Pageable pageable, Long employeeId) {
-        Optional<Employee> emp = employeeRepository.findById(employeeId);
-        if (emp.isPresent()) {
-            return employeeRepository.findProposalStaff(pageable, employeeId);
-        } else throw new NotFoundException(String.format("Employee with id %d does not exist", employeeId));
+    public Page<Proposal> getProposalStaff(Pageable pageable, Employee staffMember) {
+        return employeeRepository.findProposalStaff(pageable, staffMember.getId());
     }
 }
