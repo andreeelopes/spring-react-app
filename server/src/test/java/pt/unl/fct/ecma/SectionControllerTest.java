@@ -205,7 +205,7 @@ public class SectionControllerTest {
     private void requestAddSection(Section section) throws Exception {
         this.mockMvc.perform(post("/proposals/" + 1L + "/sections/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(section)))
+                .content( objectMapper.writeValueAsString(section)))
                 .andExpect(status().isOk());
     }
 

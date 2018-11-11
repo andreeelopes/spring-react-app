@@ -17,7 +17,6 @@ public class Section {
 
     @NotNull
     @ManyToOne
-    @JsonIgnore
     private Proposal proposal;
 
     @NotNull
