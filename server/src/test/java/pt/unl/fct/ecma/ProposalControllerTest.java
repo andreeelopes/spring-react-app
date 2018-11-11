@@ -61,6 +61,9 @@ public class ProposalControllerTest {
     private ProposalRoleRepository proposalRoleRepository;
 
     @Autowired
+    private BidRepository bidRepository;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
@@ -101,10 +104,21 @@ public class ProposalControllerTest {
 
         employeeRepository.save(emp2);
 
+        Employee emp3 = new Employee();
+        emp3.setEmail("nelson@sapo.pt");
+        emp3.setJob("Pintor de Azuleijos");
+        emp3.setName("Nelson");
+        emp3.setUsername("nelson");
+        emp3.setPassword(new BCryptPasswordEncoder().encode("nelson"));
+        emp3.setAdmin(false);
+        emp3.setCompany(company);
+
+        employeeRepository.save(emp3);
+
         Proposal prop = new Proposal();
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
-        prop.setStatus(Proposal.Status.APPROVED.toString());
+        prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
         prop.setTargetCompany(company);
         ProposalRole role = new ProposalRole();
         ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
@@ -114,7 +128,47 @@ public class ProposalControllerTest {
         role.setPk(proposalRoleKey);
         role.setRole(ProposalRole.Role.STAFF.toString());
         prop.getTeam().add(role);
+
+        //role for the second employee
+        ProposalRole role2 = new ProposalRole();
+        ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
+        proposalRoleKey2.setEmployee(emp2);
+        proposalRoleKey2.setProposal(prop);
+
+        role2.setPk(proposalRoleKey2);
+        role2.setRole(ProposalRole.Role.STAFF.toString());
+        prop.getTeam().add(role2);
+
+        //role for the third employee
+        ProposalRole role3 = new ProposalRole();
+        ProposalRoleKey proposalRoleKey3 = new ProposalRoleKey();
+        proposalRoleKey3.setEmployee(emp3);
+        proposalRoleKey3.setProposal(prop);
+
+        role3.setPk(proposalRoleKey3);
+        role3.setRole(ProposalRole.Role.STAFF.toString());
+        prop.getTeam().add(role3);
         proposalRepository.save(prop);
+
+        //Bid 1 for proposal from emp2
+        Bid bid1 = new Bid();
+        BidKey bid1Key = new BidKey();
+        bid1Key.setProposal(prop);
+        bid1Key.setBidder(emp2);
+        bid1.setPk(bid1Key);
+        bid1.setStatus(Bid.Status.WAITING.toString());
+
+        bidRepository.save(bid1);
+
+        //Bid 1 for proposal from emp2
+        Bid bid2 = new Bid();
+        BidKey bid2Key = new BidKey();
+        bid2Key.setProposal(prop);
+        bid2Key.setBidder(emp3);
+        bid2.setPk(bid2Key);
+        bid2.setStatus(Bid.Status.WAITING.toString());
+
+        bidRepository.save(bid2);
     }
 
     @Test
@@ -270,5 +324,44 @@ public class ProposalControllerTest {
         this.mockMvc.perform(delete("/proposals/"+proposal.getId()))
                 .andExpect(status().isOk());
         assertEquals(proposalRepository.count(),0L);
+    }
+
+    @Test
+    public void testProposalReviewPeriod() throws Exception {
+
+        long proposalId = 1;
+
+        authenticateUser("simon","simon");
+
+        List<Bid> bidsBefore  = proposalRepository.getAllBids(proposalId);
+
+        Proposal proposal = proposalRepository.findById(proposalId).get();
+        String newStatus = Proposal.Status.REVIEW_PERIOD.toString();
+        proposal.setStatus(newStatus);
+
+        assertTrue(bidsBefore.stream().allMatch(p -> !p.getStatus().equals(Bid.Status.ACCEPTED.toString())));
+        assertTrue(bidsBefore.stream().allMatch(p -> !p.getStatus().equals(Bid.Status.DENIED.toString())));
+
+
+        requestUpdateProposal(proposalId, proposal);
+
+        List<Bid> bidsAfter  = proposalRepository.getAllBids(proposalId);
+
+        assertEquals(proposalRepository.findById(proposalId).get().getStatus(),
+                newStatus);
+
+        assertEquals(bidsAfter.size(), bidsBefore.size());
+
+        assertTrue(bidsAfter.stream().anyMatch(p -> p.getStatus().equals(Bid.Status.ACCEPTED.toString())));
+        assertTrue(bidsAfter.stream().anyMatch(p -> p.getStatus().equals(Bid.Status.DENIED.toString())));
+
+    }
+
+    private void requestUpdateProposal(long proposalId, Proposal proposal) throws Exception{
+
+        this.mockMvc.perform(put("/proposals/" + proposalId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .content(objectMapper.writeValueAsString(proposal)))
+                .andExpect(status().isOk());
     }
 }
