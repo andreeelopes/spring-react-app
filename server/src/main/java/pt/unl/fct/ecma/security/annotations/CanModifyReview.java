@@ -11,6 +11,6 @@ import java.lang.annotation.*;
 @Documented
 @PreAuthorize(CanModifyReview.Condition)
 public @interface CanModifyReview {
-    String Condition = "@mySecurityService.canModifyReview(principal, #review) and " +
+    String Condition = "@mySecurityService.canModifyReview(principal, #reviewId) and " +
             "@mySecurityService.belongsToTeamProposal(principal, #proposalId)";
 }
