@@ -135,19 +135,51 @@ public class SectionControllerTest {
 
     @Test
     public void testProposalSections() throws Exception {
-        Proposal proposal = proposalRepository.findById(1L).get();
         Section title = sectionRepository.findById(1L).get();
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println(proposalRepository.findById(1L).get().getId());
+        System.out.println(title.getProposal().getId());
+
 
         List<Section> requestedSections = requestProposalSections(1L);
 
         assertEquals(requestedSections.size(), 1);
         assertTrue(requestedSections.stream()
-                .anyMatch((p) -> p.getText().equals(title.getText())));
+                .anyMatch((s) -> s.getText().equals(title.getText())));
         assertTrue(requestedSections.stream()
-                .anyMatch((p) -> p.getType().equals(title.getType())));
+                .anyMatch((s) -> s.getType().equals(title.getType())));
+    }
+
+
+    @Test
+    public void testUpdateSection() throws Exception {
 
     }
 
+//
+//    private List<Section> requestDeleteSection(Long proposalId) throws Exception {
+//
+//        authenticateUser("test12", "password");
+//
+//        final MvcResult result = this.mockMvc.perform(get("/proposals/" + proposalId + "/sections/"))
+//                .andExpect(status().isOk())
+//                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+//                .andReturn();
+//
+//        String json = result.getResponse().getContentAsString();
+//
+//        JsonParser jsonParser = new JsonParser();
+//        JsonElement element = jsonParser.parse(json);
+//        JsonObject array = element.getAsJsonObject();
+//        String content = array.get("content").toString();
+//
+//        return objectMapper.readValue(content, new TypeReference<List<Section>>() {
+//        });
+//
+//    }
 
     private List<Section> requestProposalSections(Long proposalId) throws Exception {
 
@@ -167,12 +199,6 @@ public class SectionControllerTest {
 
         return objectMapper.readValue(content, new TypeReference<List<Section>>() {
         });
-
-    }
-
-
-    @Test
-    public void testUpdateSection() throws Exception {
 
     }
 
