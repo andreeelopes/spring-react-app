@@ -4,10 +4,7 @@ package pt.unl.fct.ecma.security;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.*;
-import pt.unl.fct.ecma.repositories.CommentRepository;
-import pt.unl.fct.ecma.repositories.CompanyRepository;
-import pt.unl.fct.ecma.repositories.EmployeeRepository;
-import pt.unl.fct.ecma.repositories.ProposalRepository;
+import pt.unl.fct.ecma.repositories.*;
 
 import java.util.Optional;
 
@@ -18,11 +15,11 @@ public class MySecurityService {
     private ProposalRepository proposalRepository;
     private CompanyRepository companyRepository;
     private CommentRepository commentRepository;
-
+    private ReviewRepository reviewRepository;
 
     public MySecurityService(EmployeeRepository peopleRepository, ProposalRepository proposalRepository,
-                             CompanyRepository companyRepository, CommentRepository commentRepository) {
-
+                             CompanyRepository companyRepository, CommentRepository commentRepository,ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
         this.peopleRepository = peopleRepository;
         this.proposalRepository = proposalRepository;
         this.companyRepository = companyRepository;
@@ -99,6 +96,10 @@ public class MySecurityService {
     public boolean canModifyReview(User user, Review review) {
 
         return review.getAuthor().getUsername().equals(user.getUsername());
+    }
+    public boolean canModifyReview(User user, Long reviewid) {
+        Optional<Review> review = reviewRepository.findById(reviewid);
+        return review.isPresent() &&review.get().getAuthor().getUsername().equals(user.getUsername());
     }
 
     public boolean isBidApproved(User user, Long proposalId) {

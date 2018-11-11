@@ -25,7 +25,7 @@ public class ReviewController implements ReviewsApi {
 
     @CanModifyReview
     @Override
-    public void updateReview( @Valid @RequestBody Review review,
+    public void updateReview(  @RequestBody Review review,
                               @PathVariable("reviewId") Long reviewId,
                              @PathVariable("proposalId") Long proposalId) {
 
