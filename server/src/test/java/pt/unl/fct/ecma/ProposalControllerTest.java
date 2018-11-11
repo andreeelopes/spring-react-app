@@ -1,6 +1,10 @@
 package pt.unl.fct.ecma;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +28,14 @@ import pt.unl.fct.ecma.repositories.*;
 import javax.transaction.Transactional;
 
 import java.util.Iterator;
+import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -170,6 +175,12 @@ public class ProposalControllerTest {
     }
     @Test
     public void testAddMember() throws Exception{
+        AddAndreAsMember();
+        long size = proposalRoleRepository.count();
+        assertEquals(size, 2L);
+    }
+
+    private void AddAndreAsMember() throws Exception {
         LoginWithSimon();
 
         Employee emp = employeeRepository.findById(2L).get();
@@ -179,9 +190,8 @@ public class ProposalControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(json))
                 .andExpect(status().isOk());
-        long size = proposalRoleRepository.count();
-        assertEquals(size, 2L);
     }
+
     @Test
     public void testAddStaff() throws Exception{
         LoginWithSimon();
@@ -208,5 +218,62 @@ public class ProposalControllerTest {
                 .andExpect(status().isOk());
         proposal = getProposal();
         assertTrue(proposal.getStatus().equals(Proposal.Status.APPROVED.toString()));
+    }
+    @Test
+    public void testGetMembers() throws Exception{
+        LoginWithSimon();
+        Proposal proposal = getProposal();
+        this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/partnermembers/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.content", hasSize(0)));
+
+    }
+    @Test
+    public void testGetStaff() throws Exception{
+        LoginWithSimon();
+        Proposal proposal = getProposal();
+        MvcResult result = this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/staff/"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.content", hasSize(1)))
+                .andReturn();
+        String list = result.getResponse().getContentAsString();
+
+        JsonParser jsonParser = new JsonParser();
+        JsonElement element = jsonParser.parse(list);
+        JsonObject array=element.getAsJsonObject();
+        String content=array.get("content").toString();
+        ObjectMapper mapper = new ObjectMapper();
+
+        List<Employee> staff=mapper.readValue(content,new TypeReference<List<Employee>>(){});
+        assertTrue(staff.stream().anyMatch( (p) -> p.getName().equals("Simon")));
+
+    }
+    @Test
+    public void testDeleteMember() throws Exception{
+        AddAndreAsMember();
+        Proposal proposal = getProposal();
+        Employee emp = employeeRepository.findById(2L).get();
+        this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/partnermembers/"+emp.getId()))
+                .andExpect(status().isOk());
+        assertEquals(proposalRoleRepository.count(),1L);
+    }
+    @Test
+    public void testDeleteStaff() throws Exception{
+        LoginWithSimon();
+        Proposal proposal = getProposal();
+        Employee employee = getEmployee();
+        this.mockMvc.perform(delete("/proposals/"+proposal.getId()+"/staff/"+employee.getId()))
+                .andExpect(status().isOk());
+        assertEquals(proposalRoleRepository.count(),0L);
+    }
+    @Test
+    public void testDeleteProposal() throws Exception{
+        LoginWithSimon();
+        Proposal proposal = getProposal();
+        this.mockMvc.perform(delete("/proposals/"+proposal.getId()))
+                .andExpect(status().isOk());
+        assertEquals(proposalRepository.count(),0L);
     }
 }
