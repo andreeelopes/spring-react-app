@@ -18,9 +18,12 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class BidService {
+
+    private static final float PERCENTAGE_OF_BIDS_PICKED = 0.8f;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -32,7 +35,7 @@ public class BidService {
     @Transactional
     public void addBidToProposal(Proposal proposal, Employee bidder) {
         Bid newBid = new Bid();
-        BidKey key=new BidKey();
+        BidKey key = new BidKey();
         key.setBidder(bidder);
         key.setProposal(proposal);
         newBid.setPk(key);
@@ -61,4 +64,27 @@ public class BidService {
             return true;
         } else return false;
     }
+
+    public void pickBids(Long proposalId) {
+        List<Bid> bids = proposalRepository.getAllBids(proposalId);
+        int bidsSize = bids.size();
+
+        if (bidsSize > 0) {
+            Random rand = new Random();
+
+            int numberOfPicks = (int) (bidsSize * PERCENTAGE_OF_BIDS_PICKED);
+
+            if (numberOfPicks == 0)
+                numberOfPicks = 1;
+
+            for (int i = 0; i < numberOfPicks; i++) {
+                int randomIndex = rand.nextInt(bids.size());
+                Bid randomBid = bids.get(randomIndex);
+                randomBid.setStatus(Bid.Status.ACCEPTED.toString());
+                updateBid(randomBid);
+                bids.remove(randomBid);
+            }
+        }
+    }
+
 }

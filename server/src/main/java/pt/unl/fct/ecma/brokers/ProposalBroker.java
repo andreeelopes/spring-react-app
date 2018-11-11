@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.services.BidService;
 import pt.unl.fct.ecma.services.EmployeeService;
 import pt.unl.fct.ecma.services.ProposalService;
 
@@ -18,6 +19,9 @@ public class ProposalBroker {
 
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private BidService bidService;
 
     public void addPartner(Long proposalId, Employee member) {
         Proposal proposal = proposalService.getProposal(proposalId);
@@ -39,6 +43,10 @@ public class ProposalBroker {
 
     public void updateProposal(Long proposalId, Proposal proposal) {
         Proposal oldProposal = proposalService.getProposal(proposalId);
+        String newStatus = proposal.getStatus();
+        if(newStatus.equals(Proposal.Status.REVIEW_PERIOD.toString())){
+            bidService.pickBids(proposalId);
+        }
         proposalService.updateProposal(proposal, oldProposal);
     }
 

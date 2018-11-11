@@ -65,4 +65,8 @@ public interface ProposalRepository extends CrudRepository<Proposal,Long> {
     @Query("select r.pk.employee FROM ProposalRole r WHERE r.role LIKE CONCAT('%','STAFF','%') AND r.pk.proposal.id = :id")
     Page<Employee> getProposalStaff(@Param(value = "id")Long id, Pageable pageable);
 
+
+
+    @Query("SELECT b FROM Bid b where b.pk.proposal.id = :proposalid ")
+    List<Bid> getAllBids(@Param(value = "proposalid") Long id);
 }
