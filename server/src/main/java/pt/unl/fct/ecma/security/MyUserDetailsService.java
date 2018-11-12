@@ -32,7 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Some in-memory user authentication with priority 1
-        if ( username.equals("user") )
+        if ( username.equals("admin") )
             return User.withUsername(username)
                     .password(encoder().encode("password"))
                     .roles("ADMIN").build();
