@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.services.BidService;
+import pt.unl.fct.ecma.services.CompanyService;
 import pt.unl.fct.ecma.services.EmployeeService;
 import pt.unl.fct.ecma.services.ProposalService;
 
@@ -23,28 +25,43 @@ public class ProposalBroker {
     @Autowired
     private BidService bidService;
 
+    @Autowired
+    private CompanyService companyService;
+
     public void addPartner(Long proposalId, Employee member) {
         Proposal proposal = proposalService.getProposal(proposalId);
         Employee dbEmployee = employeeService.getEmployee(member.getId());
 
-        proposalService.addPartner(proposal, dbEmployee);
+        if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getTargetCompany())) {
+            proposalService.addPartner(proposal, dbEmployee);
+        } else
+            throw new BadRequestException("Employee does not belong to the partner company of this proposal");
     }
 
     public void addProposal(Proposal proposal) {
-        proposalService.addProposal(proposal);
+        Employee dbApprover = employeeService.getEmployee(proposal.getApprover().getId());
+
+        if (companyService.employeeBelongsToCompany(dbApprover, proposal.getCompanyProposed()))
+            proposalService.addProposal(proposal);
+        else
+            throw new BadRequestException("Approver must belong to the company which made the proposal");
     }
 
     public void addStaffMember(Long proposalId, Employee staffMember) {
         Proposal proposal = proposalService.getProposal(proposalId);
         Employee dbEmployee = employeeService.getEmployee(staffMember.getId());
 
-        proposalService.addStaffMember(proposal, dbEmployee);
+        if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getCompanyProposed())) {
+            proposalService.addStaffMember(proposal, dbEmployee);
+        } else
+            throw new BadRequestException("Employee does not belong to the company that made this proposal");
     }
+
 
     public void updateProposal(Long proposalId, Proposal proposal) {
         Proposal oldProposal = proposalService.getProposal(proposalId);
         String newStatus = proposal.getStatus();
-        if(newStatus.equals(Proposal.Status.REVIEW_PERIOD.toString())){
+        if (newStatus.equals(Proposal.Status.REVIEW_PERIOD.toString())) {
             bidService.pickBids(proposalId);
         }
         proposalService.updateProposal(proposal, oldProposal);
