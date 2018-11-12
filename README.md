@@ -18,18 +18,21 @@ Consider an application that a marketing company called ECMA uses to host and or
 * ~~Implementar os brokers~~
 * ~~Experimentar meter a tag @Autowired em todos os serviços, repositórios e controladores~~
 * ~~Colocar a verificação id != null nos POST~~
-* Approver não faz reviews
+* ~~Approver não faz reviews~~
 * ~~Meter PLACED, REVIEW_PERIOD, ACCEPTED, DECLINED nas propostas e escolher automaticamente bids tendo em conta a mudança de estado de placed -> review_period~~
 * ~~Meter chave estrangeira da partner company na proposal~~
 * ~~Distinguir o ADMIN do spring do admin de uma emppresa~~
 * ~~Remover GET /proposals (TBD)~~
 * ~~Por o approver na proposal~~
-* Verificar se o approver faz parte da company da proosal
-* Enumerado de roles
+* ~~Verificar se o approver faz parte da company da proosal~~
+* ~~Enumerado de roles~~
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
 * ~~Adicionar testes~~
+* 
 * __Verificar as politicas de segurança__
-
+* segurança do addProposal
+* atualizar ER
+* At least one staff, when submitting proposal
 
 ###Developers
 
