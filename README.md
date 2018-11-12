@@ -12,6 +12,7 @@ The reviewing is performed by adding reviews to the event proposal, the assignme
 A proposal consists of an arbitrary sequence of document sections (e.g. title, description, goals, needed materials, budget, work-plan). A proposal has a team that consists of staff and partner members.
 A proposal has a related stream of comments that fire email notifications to the involved users to respond using a link.
 
+
 ### The latests specification can be accessed on the following url: 
 #### Swagger UI: localhost:8080/swagger-ui.html
 
