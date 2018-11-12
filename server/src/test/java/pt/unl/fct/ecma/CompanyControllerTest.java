@@ -124,7 +124,7 @@ public class CompanyControllerTest {
     @Test
     public void testAddAdmin() throws Exception{
 
-        authenticateUser("user","password");
+        authenticateUser("admin","password");
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
         this.mockMvc.perform(post("/companies/"+company.getId()+"/admins")
@@ -165,7 +165,7 @@ public class CompanyControllerTest {
 
     @Test
     public void testAddCompany() throws Exception{
-        authenticateUser("user","password");
+        authenticateUser("admin","password");
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -248,7 +248,7 @@ public class CompanyControllerTest {
 
     @Test
     public void testDeleteAdmin() throws Exception{
-        authenticateUser("user","password");
+        authenticateUser("admin","password");
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);

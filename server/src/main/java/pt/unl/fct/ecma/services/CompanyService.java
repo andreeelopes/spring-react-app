@@ -3,6 +3,7 @@ package pt.unl.fct.ecma.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
@@ -28,7 +29,7 @@ public class CompanyService {
         dbemp.setJob(employee.getJob());
         dbemp.setName(employee.getName());
         dbemp.setEmail(employee.getEmail());
-        dbemp.setPassword(employee.getPassword());
+        dbemp.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         dbemp.setUsername(employee.getUsername());
         company.getEmployees().add(dbemp);
         dbemp.setAdmin(true);
@@ -45,7 +46,7 @@ public class CompanyService {
         dbemp.setJob(employee.getJob());
         dbemp.setName(employee.getName());
         dbemp.setEmail(employee.getEmail());
-        dbemp.setPassword(employee.getPassword());
+        dbemp.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
         dbemp.setUsername(employee.getUsername());
         company.getEmployees().add(dbemp);
         dbemp.setCompany(company);
