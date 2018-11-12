@@ -11,10 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -130,7 +126,7 @@ public class ProposalControllerTest {
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
         prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
-        prop.setTargetCompany(company);
+        prop.setPartnerCompany(company);
         ProposalRole role = new ProposalRole();
         ProposalRoleKey proposalRoleKey = new ProposalRoleKey();
         proposalRoleKey.setEmployee(emp);
@@ -208,12 +204,13 @@ public class ProposalControllerTest {
 
     @Test
     public void testAddProposal() throws Exception{
+        authenticateUser("simon","simon");
 
         Proposal prop = new Proposal();
         prop.setCompanyProposed(getCompany());
         prop.setApprover(getEmployee());
         prop.setStatus(Proposal.Status.APPROVED.toString());
-        prop.setTargetCompany(getCompany());
+        prop.setPartnerCompany(getCompany());
 
         String json = objectMapper.writeValueAsString(prop);
         this.mockMvc.perform(post("/proposals/")

@@ -4,6 +4,7 @@ package pt.unl.fct.ecma.brokers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Employee;
@@ -32,19 +33,25 @@ public class ProposalBroker {
         Proposal proposal = proposalService.getProposal(proposalId);
         Employee dbEmployee = employeeService.getEmployee(member.getId());
 
-        if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getTargetCompany())) {
+        if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getPartnerCompany())) {
             proposalService.addPartner(proposal, dbEmployee);
         } else
             throw new BadRequestException("Employee does not belong to the partner company of this proposal");
     }
 
-    public void addProposal(Proposal proposal) {
+    public void addProposal(Proposal proposal, String principalName) {
+
         Employee dbApprover = employeeService.getEmployee(proposal.getApprover().getId());
 
-        if (companyService.employeeBelongsToCompany(dbApprover, proposal.getCompanyProposed()))
+        if (companyService.employeeBelongsToCompany(dbApprover, proposal.getCompanyProposed())) {
             proposalService.addProposal(proposal);
-        else
+
+            Employee author = employeeService.getEmployeeByUsername(principalName);
+            addStaffMember(proposal.getId(), author);
+        } else {
             throw new BadRequestException("Approver must belong to the company which made the proposal");
+        }
+
     }
 
     public void addStaffMember(Long proposalId, Employee staffMember) {
