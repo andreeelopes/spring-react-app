@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -71,13 +72,20 @@ public class Employee {
     public Employee(){
     }
 
-
     public Employee(@NotNull String username, @NotNull String name, @NotNull String email, @NotNull String job, boolean isAdmin, @NotNull String password) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.job = job;
         this.isAdmin = isAdmin;
-        this.password = password;
+        setPassword(password);
+    }
+
+    public void setPassword(String password){
+        this.password = encodeText(password);
+    }
+
+    private String encodeText(String text){
+        return new BCryptPasswordEncoder().encode(text);
     }
 }
