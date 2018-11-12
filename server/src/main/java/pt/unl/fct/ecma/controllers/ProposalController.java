@@ -3,23 +3,17 @@ package pt.unl.fct.ecma.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.ProposalsApi;
 import pt.unl.fct.ecma.brokers.ProposalBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.security.annotations.*;
-import pt.unl.fct.ecma.services.ProposalService;
 import pt.unl.fct.ecma.models.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 public class ProposalController implements ProposalsApi {
@@ -82,20 +76,20 @@ public class ProposalController implements ProposalsApi {
         proposalBroker.deleteStaff(proposalId, staffId);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Proposal getProposal(@PathVariable("proposalId") Long proposalId) {
         return proposalBroker.getProposal(proposalId);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Page<Employee> getProposalMembers(Pageable pageable,
                                              @PathVariable("proposalId") Long proposalId) {
         return proposalBroker.getProposalMembers(proposalId, pageable);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Page<Employee> getStaffMembers(Pageable pageable,
                                           @PathVariable("proposalId") Long proposalId) {

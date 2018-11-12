@@ -10,10 +10,9 @@ import pt.unl.fct.ecma.api.CommentsApi;
 import pt.unl.fct.ecma.brokers.CommentBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Comment;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeamOrIsApprover;
 import pt.unl.fct.ecma.security.annotations.CanAddComment;
 import pt.unl.fct.ecma.security.annotations.IsAuthorOfComment;
-import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
-import pt.unl.fct.ecma.services.CommentService;
 
 import javax.validation.Valid;
 
@@ -44,7 +43,7 @@ public class CommentController implements CommentsApi {
         commentBroker.deleteComment(proposalId, commentId);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Page<Comment> getProposalComments(Pageable pageable,
                                              @PathVariable("proposalId") Long proposalId) {

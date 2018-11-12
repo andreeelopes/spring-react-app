@@ -11,7 +11,7 @@ import pt.unl.fct.ecma.api.ReviewsApi;
 import pt.unl.fct.ecma.brokers.ReviewBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Review;
-import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeamOrIsApprover;
 import pt.unl.fct.ecma.security.annotations.CanAddReview;
 import pt.unl.fct.ecma.security.annotations.CanModifyReview;
 
@@ -37,7 +37,7 @@ public class ReviewController implements ReviewsApi {
         reviewBroker.updateReview(review);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Page<Review> getProposalReviews(Pageable pageable,
                                            @PathVariable("proposalId") Long proposalId) {

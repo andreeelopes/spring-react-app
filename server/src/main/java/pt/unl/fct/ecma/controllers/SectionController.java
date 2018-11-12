@@ -12,7 +12,7 @@ import pt.unl.fct.ecma.brokers.SectionBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.models.Section;
 import pt.unl.fct.ecma.security.annotations.BelongsToProposalStaff;
-import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeam;
+import pt.unl.fct.ecma.security.annotations.BelongsToProposalTeamOrIsApprover;
 
 import javax.validation.Valid;
 
@@ -43,7 +43,7 @@ public class SectionController implements SectionsApi {
         sectionBroker.deleteSection(proposalId, sectionId);
     }
 
-    @BelongsToProposalTeam
+    @BelongsToProposalTeamOrIsApprover
     @Override
     public Page<Section> getProposalSections(Pageable pageable,
                                              @PathVariable("proposalId") Long proposalId) {
