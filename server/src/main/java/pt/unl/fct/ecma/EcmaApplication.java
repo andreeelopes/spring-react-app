@@ -33,7 +33,7 @@ public class EcmaApplication implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-
+/*
         //Company 1
 
         Company company1 = new Company();
@@ -178,7 +178,7 @@ public class EcmaApplication implements CommandLineRunner {
 
         proposalRepository.save(prop);
 
-
+*/
 
     }
 }
