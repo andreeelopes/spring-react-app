@@ -47,6 +47,18 @@ public interface ProposalsApi {
     void addProposal(@ApiParam(value = "Proposal object to add to the system", required = true) @Valid @RequestBody Proposal proposal);
 
 
+    @ApiOperation(value = "Updates proposal", nickname = "updateProposal", notes = "", tags = {"proposals",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Proposal updated successfully"),
+            @ApiResponse(code = 405, message = "Invalid input"),
+            @ApiResponse(code = 404, message = "Proposal does not exists")})
+    @RequestMapping(value = "/proposals/{proposalId}",
+            consumes = {"application/json"},
+            method = RequestMethod.PUT)
+    void updateProposal(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                        @ApiParam(value = "Updated proposal", required = true) @Valid @RequestBody Proposal proposal);
+
+
     @ApiOperation(value = "Add a new staff member to the proposal", nickname = "addStaffMember", notes = "", tags = {"proposals",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Added a new staff member"),
@@ -125,6 +137,4 @@ public interface ProposalsApi {
             method = RequestMethod.GET)
     Page<Employee> getStaffMembers(Pageable pageable, @ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId);
 
-    @PutMapping("/proposals/{proposalId}")
-    public void updateProposal(@PathVariable Long proposalId, @Valid @RequestBody Proposal proposal);
 }

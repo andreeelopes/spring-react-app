@@ -35,9 +35,9 @@ public class ProposalController implements ProposalsApi {
         if (proposal.getId() != null)
             throw new BadRequestException("Can not define id of new proposal");
 
-        String principalName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        proposalBroker.addProposal(proposal, principalName);
+        proposalBroker.addProposal(proposal, user.getUsername());
     }
 
     @BelongsToProposalStaff
@@ -50,7 +50,7 @@ public class ProposalController implements ProposalsApi {
 
     @IsApproverOfProposal
     @Override
-    public void updateProposal(@PathVariable Long proposalId,
+    public void updateProposal(@PathVariable("proposalId") Long proposalId,
                                @RequestBody Proposal proposal) {
         proposalBroker.updateProposal(proposalId, proposal);
     }
