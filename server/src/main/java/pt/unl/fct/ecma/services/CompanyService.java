@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Company;
 import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.EmployeeWithPw;
 import pt.unl.fct.ecma.repositories.CompanyRepository;

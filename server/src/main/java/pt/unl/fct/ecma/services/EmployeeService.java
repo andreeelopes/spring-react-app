@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
-import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

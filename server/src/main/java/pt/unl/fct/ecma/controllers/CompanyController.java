@@ -16,7 +16,6 @@ import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.EmployeeWithPw;
 import pt.unl.fct.ecma.security.annotations.IsAdminOfCompany;
 import pt.unl.fct.ecma.security.annotations.isSuperAdminOrAdmin;
-import pt.unl.fct.ecma.services.CompanyService;
 
 import javax.validation.Valid;
 
@@ -28,14 +27,12 @@ public class CompanyController implements CompaniesApi {
 
 
     @isSuperAdminOrAdmin
-    //hasRole(ADMIN) && verificar se é admin da empresa do novo admin
     @Override
     public void addAdmin(@Valid @RequestBody EmployeeWithPw employee,
                          @PathVariable("companyId") Long companyId) {
         companyBroker.addAdmin(employee, companyId);
     }
 
-    //@IsSuperAdmin
     @PreAuthorize("hasRole('ADMIN')")
     @Override
     public void addCompany(@Valid @RequestBody Company company) {
@@ -47,7 +44,6 @@ public class CompanyController implements CompaniesApi {
     }
 
     @IsAdminOfCompany
-    //admin daquela empresa
     @Override
     public void addEmployee(@Valid @RequestBody EmployeeWithPw employee,
                             @PathVariable("companyId") Long companyId) {
@@ -55,7 +51,6 @@ public class CompanyController implements CompaniesApi {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    //hasRole(ADMIN)
     @Override
     public void deleteAdmin(@PathVariable("companyId") Long companyId,
                             @PathVariable("adminId") Long adminId) {
@@ -63,14 +58,12 @@ public class CompanyController implements CompaniesApi {
     }
 
     @isSuperAdminOrAdmin
-    //hasRole(ADMIN) e admin da empresa
     @Override
     public void deleteCompany(@PathVariable("companyId") Long companyId) {
         companyBroker.deleteCompany(companyId);
     }
 
     @IsAdminOfCompany
-    //admin daquela empresa
     @Override
     public void fireEmployee(@PathVariable("companyId") Long companyId,
                              @PathVariable("employeeId") Long employeeId) {
@@ -108,7 +101,6 @@ public class CompanyController implements CompaniesApi {
     }
 
     @IsAdminOfCompany
-    //admin da empresa
     @Override
     public void updateCompany( @Valid @RequestBody Company company,
                                @PathVariable("companyId") Long companyId) {

@@ -15,7 +15,6 @@ import pt.unl.fct.ecma.security.annotations.IsPrincipal;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
-import pt.unl.fct.ecma.services.EmployeeService;
 
 import javax.validation.Valid;
 

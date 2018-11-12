@@ -4,14 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.Comment;
-import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.repositories.CommentRepository;
-import pt.unl.fct.ecma.repositories.EmployeeRepository;
-import pt.unl.fct.ecma.repositories.ProposalRepository;
 
 import java.util.Optional;
 

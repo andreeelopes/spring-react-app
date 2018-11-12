@@ -24,7 +24,6 @@ public class BidController implements BidsApi {
     private BidBroker bidBroker;
 
     @IsApproverOfProposal
-    //approver daquela proposal
     @Override
     public void updateBid(@Valid @RequestBody Bid bid,
                           @PathVariable("employeeId") Long employeeId,
@@ -40,7 +39,6 @@ public class BidController implements BidsApi {
     }
 
     @CanAddBidToProposal
-    //fazer parte da team da proposale e não ser approver
     @Override
     public void addBidToProposal(@PathVariable("proposalId") Long proposalId,
                                  @Valid @RequestBody Bid bid) {
@@ -52,7 +50,6 @@ public class BidController implements BidsApi {
     }
 
     @IsBidder
-    //autor da bid
     @Override
     public void deleteBid(@PathVariable("proposalId") Long proposalId,
                           @PathVariable("employeeId") Long employeeId) {
@@ -60,7 +57,6 @@ public class BidController implements BidsApi {
     }
 
     @IsApproverOfProposal
-    //approver
     @Override
     public Page<Bid> getBids(Pageable pageable,
                              @PathVariable("proposalId")Long proposalId) {

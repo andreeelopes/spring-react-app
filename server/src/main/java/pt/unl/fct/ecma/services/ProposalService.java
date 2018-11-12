@@ -8,7 +8,6 @@ import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.repositories.*;
 
-import javax.xml.ws.soap.Addressing;
 import java.util.List;
 import java.util.Optional;
 

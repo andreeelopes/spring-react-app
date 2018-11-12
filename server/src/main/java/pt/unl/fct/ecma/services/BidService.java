@@ -4,29 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.errors.BadRequestException;
-import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Comment;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
 import pt.unl.fct.ecma.repositories.BidKey;
-import pt.unl.fct.ecma.repositories.EmployeeRepository;
 import pt.unl.fct.ecma.repositories.ProposalRepository;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class BidService {
 
     private static final float PERCENTAGE_OF_BIDS_PICKED = 0.8f;
-
-    @Autowired
-    private EmployeeRepository employeeRepository;
 
     @Autowired
     private ProposalRepository proposalRepository;
