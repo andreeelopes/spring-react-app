@@ -10,9 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import java.io.IOException;
 import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 public class Utils {
 
@@ -28,7 +31,7 @@ public class Utils {
 
     public static void authenticateUser(String username, String password) {
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication auth = new UsernamePasswordAuthenticationToken(new User(username, password,emptyList()), password);
         SecurityContext securityContext = SecurityContextHolder.getContext();
 
         securityContext.setAuthentication(auth);
