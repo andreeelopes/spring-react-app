@@ -16,7 +16,8 @@ Consider an application that a marketing company called ECMA uses to host and or
 ###Especificação
 
 * ~~Adicionar GET /proposals (TBD)~~
-* __Adicionar PUT /proposals/{id}__
+* ~~Adicionar PUT /proposals/{id}~~
+* Atualizar ER
 
 ###Servidor
 
@@ -34,9 +35,8 @@ Consider an application that a marketing company called ECMA uses to host and or
 * ~~Enumerado de roles~~
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
 * ~~Adicionar testes~~ 
-* __Verificar as politicas de segurança__
+* ~~Verificar as politicas de segurança~~
 * ~~segurança do addProposal~~
-* atualizar ER
 
 ###Developers
 
