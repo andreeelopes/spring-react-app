@@ -78,7 +78,7 @@ public class Employee {
         this.email = email;
         this.job = job;
         this.isAdmin = isAdmin;
-        this.password = password;
+        setPassword(password);
     }
 
     public void setPassword(String password){
