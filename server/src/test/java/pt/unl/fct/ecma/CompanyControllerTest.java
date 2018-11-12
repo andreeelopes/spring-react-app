@@ -76,23 +76,18 @@ public class CompanyControllerTest {
         companyRepository.deleteAll();
         employeeRepository.deleteAll();
 
-
-
         Company company2= new Company();
         company2.setName("MountainDew");
         company2.setEmail("mountaindew@outlook");
         company2.setAddress("Lisboa");
-
 
         Employee emp = new Employee();
         emp.setEmail("simon@gmail.com");
         emp.setJob("Informatico");
         emp.setName("Simon");
         emp.setUsername("simon");
-        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
+        emp.setPassword("simon");
         emp.setAdmin(true);
-
-
 
         emp.setCompany(company2);
         companyRepository.save(company2);
@@ -121,6 +116,7 @@ public class CompanyControllerTest {
         List<Company> companies = getCompanies(1);
         assertTrue(companies.stream().anyMatch( (p) -> p.getName().equals("MountainDew")));
     }
+
     @Test
     public void testAddAdmin() throws Exception{
 
@@ -129,7 +125,7 @@ public class CompanyControllerTest {
         Company company=companies.get(0);
         this.mockMvc.perform(post("/companies/"+company.getId()+"/admins")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
+                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\"" + "andre" +"\"}"))
                 .andExpect(status().isOk());
         this.mockMvc.perform(get("/companies/"+company.getId()+"/admins"))
                 .andExpect(status().isOk())
@@ -137,6 +133,7 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$.content", hasSize(2)))
         ;
     }
+
     @Test
     public void testGetAdmins() throws  Exception{
         List<Company> companies = getCompanies(1);
@@ -193,6 +190,7 @@ public class CompanyControllerTest {
                 .content(json))
                 .andExpect(status().isBadRequest());
     }
+
     @Test
     public void testAddEmployee() throws Exception{
         authenticateUser("simon","simon");
@@ -201,7 +199,7 @@ public class CompanyControllerTest {
         Company company=companies.get(0);
         this.mockMvc.perform(post("/companies/"+company.getId()+"/employees")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
+                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\"" + "andre" + "\"}"))
                 .andExpect(status().isOk());
         List<Employee> admins = getEmployees(company,1);
 
@@ -209,7 +207,7 @@ public class CompanyControllerTest {
     }
 
     private List<Employee> getEmployees(Company company,int sizeExpected) throws Exception {
-        final MvcResult result =this.mockMvc.perform(get("/companies/"+company.getId()+"/employees"))
+        final MvcResult result = this.mockMvc.perform(get("/companies/" + company.getId() + "/employees"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.content", hasSize(sizeExpected)))
@@ -221,23 +219,21 @@ public class CompanyControllerTest {
         toList(objectMapper,list,type);
 
         return toList(objectMapper,list,type);
-
     }
 
     @Test
     public void testGetEmployees() throws Exception{
         List<Company> companies = getCompanies(1);
-        Company company=companies.get(0);
+        Company company = companies.get(0);
 
         getEmployees(company,0);
-
     }
 
     @Test
     public void testGetCompanyById() throws Exception{
         List<Company> companies = getCompanies(1);
-        Company company=companies.get(0);
-        this.mockMvc.perform(get("/companies/"+company.getId()))
+        Company company = companies.get(0);
+        this.mockMvc.perform(get("/companies/" + company.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 ;
@@ -251,15 +247,15 @@ public class CompanyControllerTest {
         authenticateUser("admin","password");
 
         List<Company> companies = getCompanies(1);
-        Company company=companies.get(0);
+        Company company = companies.get(0);
         List<Employee> admins = getAdmins(company);
         Employee admin = admins.get(0);
         Long random =company.getId()+1L;
-        this.mockMvc.perform(delete("/companies/"+random+"/admins/"+admin.getId()))
+        this.mockMvc.perform(delete("/companies/" + random + "/admins/"+admin.getId()))
                 .andExpect(status().isNotFound());
-        this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))
+        this.mockMvc.perform(delete("/companies/" + company.getId() + "/admins/"+admin.getId()))
                 .andExpect(status().isOk());
-        this.mockMvc.perform(delete("/companies/"+company.getId()+"/admins/"+admin.getId()))
+        this.mockMvc.perform(delete("/companies/" + company.getId() + "/admins/"+admin.getId()))
                 .andExpect(status().isNotFound());
     }
     @Test
@@ -268,18 +264,17 @@ public class CompanyControllerTest {
 
         List<Company> companies = getCompanies(1);
         Company company=companies.get(0);
-        this.mockMvc.perform(post("/companies/"+company.getId()+"/employees")
+        this.mockMvc.perform(post("/companies/" + company.getId() + "/employees")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\""+new BCryptPasswordEncoder().encode("andre")+"\"}"))
+                .content("{\"id\":\"2\",\"name\":\"Andre\", \"job\":\"Canalizador\", \"username\":\"andre\" , \"email\":\"andre@\" , \"password\":\"" + "andre" + "\"}"))
                 .andExpect(status().isOk());
 
-        List<Employee> employees =getEmployees(company,1);
+        List<Employee> employees = getEmployees(company,1);
         Employee employee = employees.get(0);
-        Long random = company.getId()+1L;
 
-        this.mockMvc.perform(delete("/companies/"+company.getId()+"/employees/"+employee.getId()))
+        this.mockMvc.perform(delete("/companies/"+company.getId() + "/employees/" + employee.getId()))
                 .andExpect(status().isOk());
-        this.mockMvc.perform(delete("/companies/"+company.getId()+"/employees/"+employee.getId()))
+        this.mockMvc.perform(delete("/companies/"+company.getId() + "/employees/" + employee.getId()))
                 .andExpect(status().isNotFound());
     }
     @Test
@@ -287,12 +282,11 @@ public class CompanyControllerTest {
         authenticateUser("simon","simon");
 
         List<Company> companies = getCompanies(1);
-        Company company=companies.get(0);
+        Company company = companies.get(0);
 
-        this.mockMvc.perform(delete("/companies/"+company.getId()))
+        this.mockMvc.perform(delete("/companies/" + company.getId()))
                 .andExpect(status().isOk());
 
         getCompanies(0);
     }
-
 }

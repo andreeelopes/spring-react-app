@@ -88,11 +88,10 @@ public class EmployeeControllerTest {
 
         Employee employee1 = new Employee("test1", "test1",
                 "test1@gmail.com", "Tile Painter", true,
-                new BCryptPasswordEncoder().encode("password"));
+                "password");
 
         Employee employee2 = new Employee("test2", "test2",
-                "test2@gmail.com", "Nails Painter", false,
-                new BCryptPasswordEncoder().encode("password"));
+                "test2@gmail.com", "Nails Painter", false, "password");
 
         employee1.setCompany(company1);
         employee2.setCompany(company2);
@@ -189,7 +188,6 @@ public class EmployeeControllerTest {
         long employeeId = 1L;
 
         Employee employee = employeeRepository.findById(employeeId).get();
-        String previousName = employee.getName();
         String newName = "David Gilmour";
         employee.setName(newName);
 
@@ -197,7 +195,6 @@ public class EmployeeControllerTest {
         requestUpdateEmployee(employeeId, employee);
         Employee updatedEmployee = requestGetEmployee(employeeId);
 
-        assertNotEquals(updatedEmployee.getName(), previousName);
         assertEquals(updatedEmployee.getName(), newName);
     }
 

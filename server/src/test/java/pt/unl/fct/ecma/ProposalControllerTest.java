@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +27,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -83,7 +83,7 @@ public class ProposalControllerTest {
         emp.setJob("Informatico");
         emp.setName("Simon");
         emp.setUsername("simon");
-        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
+        emp.setPassword("simon");
         emp.setAdmin(true);
         emp.setCompany(company);
 
@@ -94,7 +94,7 @@ public class ProposalControllerTest {
         emp2.setJob("Canalizador");
         emp2.setName("Andre");
         emp2.setUsername("andre");
-        emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
+        emp2.setPassword("andre");
         emp2.setAdmin(false);
         emp2.setCompany(company);
 
@@ -105,7 +105,7 @@ public class ProposalControllerTest {
         emp3.setJob("Pintor de Azuleijos");
         emp3.setName("Nelson");
         emp3.setUsername("nelson");
-        emp3.setPassword(new BCryptPasswordEncoder().encode("password"));
+        emp3.setPassword("password");
         emp3.setAdmin(false);
         emp3.setCompany(company);
 
@@ -116,7 +116,7 @@ public class ProposalControllerTest {
         emp4.setJob("Pintora de Azuleijos");
         emp4.setName("Maria");
         emp4.setUsername("maria");
-        emp4.setPassword(new BCryptPasswordEncoder().encode("password"));
+        emp4.setPassword("password");
         emp4.setAdmin(false);
         emp4.setCompany(company);
 
@@ -295,7 +295,7 @@ public class ProposalControllerTest {
         String content=array.get("content").toString();
         ObjectMapper mapper = new ObjectMapper();
 
-        List<Employee> staff=mapper.readValue(content,new TypeReference<List<Employee>>(){});
+        List<Employee> staff = mapper.readValue(content,new TypeReference<List<Employee>>(){});
         assertTrue(staff.stream().anyMatch( (p) -> p.getName().equals("Simon")));
 
     }
@@ -358,6 +358,7 @@ public class ProposalControllerTest {
 
         assertTrue(bidsAfter.stream().anyMatch(p -> p.getStatus().equals(Bid.Status.ACCEPTED.toString())));
         assertTrue(bidsAfter.stream().anyMatch(p -> p.getStatus().equals(Bid.Status.DENIED.toString())));
+        assertFalse(bidsAfter.stream().anyMatch(p -> p.getStatus().equals(Bid.Status.WAITING.toString())));
 
     }
 

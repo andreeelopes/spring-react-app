@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import pt.unl.fct.ecma.models.*;
@@ -59,11 +60,15 @@ public class BidControllerTest {
     @Before
     @Transactional
     public void init() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac)
+                .alwaysDo(MockMvcResultHandlers.print())
+                .build();
 
         // Data Fixture
         companyRepository.deleteAll();
         employeeRepository.deleteAll();
+        bidRepository.deleteAll();
+        proposalRepository.deleteAll();
 
         Company company= new Company();
         company.setName("MountainDew");
@@ -78,7 +83,7 @@ public class BidControllerTest {
         emp.setJob("Informatico");
         emp.setName("Simon");
         emp.setUsername("simon");
-        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
+        emp.setPassword("simon");
         emp.setAdmin(true);
         emp.setCompany(company);
 
@@ -112,14 +117,14 @@ public class BidControllerTest {
 
         authenticateUser("simon","simon");
 
-        Proposal proposal=getProposal();
+        Proposal proposal= getProposal();
 
         Employee employee = getEmployee();
 
         ObjectMapper mapper = new ObjectMapper();
 
         Bid bid = new Bid();
-        BidKey bidKey= new BidKey();
+        BidKey bidKey = new BidKey();
         bidKey.setProposal(proposal);
         bidKey.setBidder(employee);
         bid.setPk(bidKey);
@@ -174,10 +179,9 @@ public class BidControllerTest {
         emp2.setJob("Canalizador");
         emp2.setName("Andre");
         emp2.setUsername("andre");
-        emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
+        emp2.setPassword("andre");
         emp2.setAdmin(false);
         emp2.setCompany(getCompany());
-
 
         bid.getPk().setBidder(emp2);
 
@@ -202,16 +206,16 @@ public class BidControllerTest {
     }
 
     private Proposal getProposal() {
-        Iterator<Proposal> itProposal =proposalRepository.findAll().iterator();
+        Iterator<Proposal> itProposal = proposalRepository.findAll().iterator();
         return itProposal.next();
     }
 
     private Company getCompany() {
-        Iterator<Company> itCompany =companyRepository.findAll().iterator();
+        Iterator<Company> itCompany = companyRepository.findAll().iterator();
         return itCompany.next();
     }
     private Employee getEmployee() {
-        Iterator<Employee> itEmployee =employeeRepository.findAll().iterator();
+        Iterator<Employee> itEmployee = employeeRepository.findAll().iterator();
         return itEmployee.next();
     }
     @Test
@@ -219,7 +223,7 @@ public class BidControllerTest {
         authenticateUser("simon","simon");
 
         Proposal proposal= getProposal();
-        final MvcResult result =this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/bids"))
+        final MvcResult result = this.mockMvc.perform(get("/proposals/"+proposal.getId()+"/bids"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.content", hasSize(1)))

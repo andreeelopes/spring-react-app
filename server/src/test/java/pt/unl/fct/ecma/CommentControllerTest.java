@@ -86,11 +86,11 @@ public class CommentControllerTest {
 
         Employee employee1 = new Employee("test1", "test1",
                 "test1@gmail.com", "Tile Painter", true,
-                new BCryptPasswordEncoder().encode("password"));
+                "password");
 
         Employee employee2 = new Employee("test2", "test2",
                 "test2@gmail.com", "Nails Painter", false,
-                new BCryptPasswordEncoder().encode("password"));
+                "password");
 
         employee1.setCompany(company1);
         employee2.setCompany(company2);

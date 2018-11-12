@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -79,7 +78,7 @@ public class ReviewControllerTest {
         emp.setJob("Informatico");
         emp.setName("Simon");
         emp.setUsername("simon");
-        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
+        emp.setPassword("simon");
         emp.setAdmin(true);
         emp.setCompany(company);
 

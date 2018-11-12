@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -73,15 +72,14 @@ public class SectionControllerTest {
 
         Employee employee1 = new Employee("test1", "test1",
                 "test1@gmail.com", "Tile Painter", true,
-                new BCryptPasswordEncoder().encode("password"));
+                "password");
 
         Employee employee12 = new Employee("test12", "test12",
                 "test12@gmail.com", "Tile Painter", false,
-                new BCryptPasswordEncoder().encode("password"));
+                "password");
 
         Employee employee2 = new Employee("test2", "test2",
-                "test2@gmail.com", "Nails Painter", false,
-                new BCryptPasswordEncoder().encode("password"));
+                "test2@gmail.com", "Nails Painter", false, "password");
 
         employee1.setCompany(company1);
         employee12.setCompany(company1);
