@@ -1,6 +1,5 @@
 package pt.unl.fct.ecma;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -104,7 +103,7 @@ public class CommentControllerTest {
         proposal1.setCompanyProposed(company1);
         proposal1.setApprover(employee1);
         proposal1.setStatus(Proposal.Status.APPROVED.toString());
-        proposal1.setTargetCompany(company2);
+        proposal1.setPartnerCompany(company2);
 
 
         proposal1 = proposalRepository.save(proposal1);

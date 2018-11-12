@@ -55,7 +55,7 @@ public class Proposal {
 
     @NotNull
     @ManyToOne
-    private Company targetCompany;
+    private Company partnerCompany;
 
     private String status = Status.PLACED.toString();
 

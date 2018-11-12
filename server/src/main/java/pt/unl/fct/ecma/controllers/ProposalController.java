@@ -3,6 +3,10 @@ package pt.unl.fct.ecma.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +19,7 @@ import pt.unl.fct.ecma.services.ProposalService;
 import pt.unl.fct.ecma.models.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 public class ProposalController implements ProposalsApi {
@@ -26,18 +31,19 @@ public class ProposalController implements ProposalsApi {
     @BelongsToProposalStaff
     @Override
     public void addPartner(@PathVariable("proposalId") Long proposalId,
-                            @RequestBody Employee member) {
+                           @RequestBody Employee member) {
         proposalBroker.addPartner(proposalId, member);
     }
 
-    //TODO (não e politica de seguranca) adicionar o principal a staff da proposta e verificar se o principal e o approver pertence a company do proposal
     @Override
     public void addProposal(@Valid @RequestBody Proposal proposal) {
 
         if (proposal.getId() != null)
             throw new BadRequestException("Can not define id of new proposal");
 
-        proposalBroker.addProposal(proposal);
+        String principalName = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        proposalBroker.addProposal(proposal, principalName);
     }
 
     @BelongsToProposalStaff
@@ -51,7 +57,7 @@ public class ProposalController implements ProposalsApi {
     @IsApproverOfProposal
     @Override
     public void updateProposal(@PathVariable Long proposalId,
-                                @RequestBody Proposal proposal) {
+                               @RequestBody Proposal proposal) {
         proposalBroker.updateProposal(proposalId, proposal);
     }
 

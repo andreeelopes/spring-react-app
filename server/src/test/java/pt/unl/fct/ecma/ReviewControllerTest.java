@@ -89,7 +89,7 @@ public class ReviewControllerTest {
         prop.setCompanyProposed(company);
         prop.setApprover(emp);
         prop.setStatus(Proposal.Status.APPROVED.toString());
-        prop.setTargetCompany(company);
+        prop.setPartnerCompany(company);
 
         ProposalRole role = new ProposalRole();
         ProposalRoleKey proposalRoleKey = new ProposalRoleKey();

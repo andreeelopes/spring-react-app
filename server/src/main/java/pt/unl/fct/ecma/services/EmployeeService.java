@@ -38,6 +38,10 @@ public class EmployeeService {
         return employeeRepository.findByName(name, pageable);
     }
 
+    public Employee getEmployeeByUsername(String username) {
+        return employeeRepository.findByUsername(username);
+    }
+
     public void updateEmployee(SimpleEmployee employee, Employee oldEmployee) {
         oldEmployee.setAdmin(employee.isAdmin());
         oldEmployee.setEmail(employee.getEmail());

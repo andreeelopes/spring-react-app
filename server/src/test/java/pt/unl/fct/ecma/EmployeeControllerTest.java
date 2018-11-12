@@ -105,14 +105,14 @@ public class EmployeeControllerTest {
         proposal1.setCompanyProposed(company1);
         proposal1.setApprover(employee1);
         proposal1.setStatus(Proposal.Status.APPROVED.toString());
-        proposal1.setTargetCompany(company2);
+        proposal1.setPartnerCompany(company2);
 
         //second proposal
         Proposal proposal2 = new Proposal();
         proposal2.setCompanyProposed(company2);
         proposal2.setApprover(employee2);
         proposal2.setStatus(Proposal.Status.APPROVED.toString());
-        proposal2.setTargetCompany(company1);
+        proposal2.setPartnerCompany(company1);
 
         proposal1 = proposalRepository.save(proposal1);
         proposal2 = proposalRepository.save(proposal2);
