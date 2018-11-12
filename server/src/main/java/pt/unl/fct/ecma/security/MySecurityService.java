@@ -68,8 +68,9 @@ public class MySecurityService {
     }
 
     public boolean isAuthorOfComment(User user, Comment comment) {
+        Optional<Employee> dbAuthorOpt = peopleRepository.findById(comment.getAuthor().getId());
 
-        return comment.getAuthor().getUsername().equals(user.getUsername());
+        return dbAuthorOpt.isPresent() && dbAuthorOpt.get().getUsername().equals(user.getUsername());
     }
 
     public boolean IsAdminOfCompany(User user, Long id) {

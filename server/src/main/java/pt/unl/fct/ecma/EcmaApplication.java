@@ -6,10 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pt.unl.fct.ecma.models.*;
-import pt.unl.fct.ecma.repositories.CommentRepository;
-import pt.unl.fct.ecma.repositories.CompanyRepository;
-import pt.unl.fct.ecma.repositories.EmployeeRepository;
-import pt.unl.fct.ecma.repositories.ProposalRepository;
+import pt.unl.fct.ecma.repositories.*;
 
 import javax.transaction.Transactional;
 
@@ -154,6 +151,33 @@ public class EcmaApplication implements CommandLineRunner {
         employeeRepository.save(employee22);
         employeeRepository.save(employee31);
         employeeRepository.save(employee32);
+
+
+
+        Proposal prop = new Proposal();
+        prop.setCompanyProposed(company1);
+        prop.setApprover(employee12);
+        prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
+        prop.setPartnerCompany(company2);
+
+        ProposalRole staffMember = new ProposalRole();
+        ProposalRoleKey proposalRoleKey1 = new ProposalRoleKey();
+        proposalRoleKey1.setEmployee(employee11);
+        proposalRoleKey1.setProposal(prop);
+        staffMember.setPk(proposalRoleKey1);
+        staffMember.setRole(ProposalRole.Role.STAFF.toString());
+        prop.getTeam().add(staffMember);
+
+        ProposalRole partnerMember = new ProposalRole();
+        ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
+        proposalRoleKey2.setEmployee(employee21);
+        proposalRoleKey2.setProposal(prop);
+        partnerMember.setPk(proposalRoleKey2);
+        partnerMember.setRole(ProposalRole.Role.PARTNER.toString());
+        prop.getTeam().add(partnerMember);
+
+        proposalRepository.save(prop);
+
 
 
     }
