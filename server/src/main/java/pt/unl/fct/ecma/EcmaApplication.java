@@ -35,74 +35,75 @@ public class EcmaApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-      /*  Employee emp = new Employee();
-        emp.setEmail("simon@gmail.com");
-        emp.setJob("Informatico");
-        emp.setName("Simon");
-        emp.setUsername("simon");
-        emp.setPassword(new BCryptPasswordEncoder().encode("simon"));
+
+        Employee emp = new Employee();
+        emp.setEmail("superAdmin@gmail.com");
+        emp.setJob("Super Admin");
+        emp.setName("Super Admin");
+        emp.setUsername("admin");
+        emp.setPassword(new BCryptPasswordEncoder().encode("password"));
         emp.setAdmin(true);
 
-        Employee emp2 = new Employee();
-        emp2.setEmail("andre@gmail.com");
-        emp2.setJob("Canalizador");
-        emp2.setName("Andre");
-        emp2.setUsername("andre");
-        emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
-        emp2.setAdmin(false);
-
+//        Employee emp2 = new Employee();
+//        emp2.setEmail("andre@gmail.com");
+//        emp2.setJob("Canalizador");
+//        emp2.setName("Andre");
+//        emp2.setUsername("andre");
+//        emp2.setPassword(new BCryptPasswordEncoder().encode("andre"));
+//        emp2.setAdmin(false);
+//
         Company company = new Company();
         company.setAddress("rua idk");
         company.setEmail("ecma@");
         company.setName("atum");
-
+//
         emp.setCompany(company);
-        emp2.setCompany(company);
-
+//        emp2.setCompany(company);
+//
         companyRepository.save(company);
         employeeRepository.save(emp);
-        employeeRepository.save(emp2);
-        for (int i = 0; i < 30; i++) {
-            Proposal prop = new Proposal();
-            prop.setCompanyProposed(company);
-            prop.setApprover(emp);
-            prop.setStatus(Proposal.Status.APPROVED);
-            Bid bid = new Bid();
-            bid.setBidder(emp);
-            bid.setProposal(prop);
-            bid.setStatus(Bid.Status.WAITING.toString());
+//        employeeRepository.save(emp2);
+//        for (int i = 0; i < 30; i++) {
+//            Proposal prop = new Proposal();
+//            prop.setCompanyProposed(company);
+//            prop.setApprover(emp);
+//            prop.setStatus(Proposal.Status.APPROVED);
+//            Bid bid = new Bid();
+//            bid.setBidder(emp);
+//            bid.setProposal(prop);
+//            bid.setStatus(Bid.Status.WAITING.toString());
+//
+//            Review review= new Review();
+//            review.setAuthor(emp);
+//            review.setProposal(prop);
+//            review.setScore(Review.Score.EXCELENT);
+//            review.setText("ola");
+//
+//            Comment comment = new Comment();
+//            comment.setComment("Muito bom");
+//
+//            ProposalRole role = new ProposalRole();
+//            role.setEmployee(emp);
+//            role.setProposal(prop);
+//            role.setRole("PARTNER");
+//
+//            emp.getRolesOnProposal().add(role);
+//            emp.getBiddedProposals().add(bid);
+//            emp.getReviews().add(review);
+//
+//            role = new ProposalRole();
+//            role.setEmployee(emp2);
+//            role.setProposal(prop);
+//            role.setRole("PARTNER");
+//            emp2.getRolesOnProposal().add(role);
+//
+//
+//
+//
+//            proposalRepository.save(prop);
+//
+//        }
 
-            Review review= new Review();
-            review.setAuthor(emp);
-            review.setProposal(prop);
-            review.setScore(Review.Score.EXCELENT);
-            review.setText("ola");
-
-            Comment comment = new Comment();
-            comment.setComment("Muito bom");
-
-            ProposalRole role = new ProposalRole();
-            role.setEmployee(emp);
-            role.setProposal(prop);
-            role.setRole("PARTNER");
-
-            emp.getRolesOnProposal().add(role);
-            emp.getBiddedProposals().add(bid);
-            emp.getReviews().add(review);
-
-            role = new ProposalRole();
-            role.setEmployee(emp2);
-            role.setProposal(prop);
-            role.setRole("PARTNER");
-            emp2.getRolesOnProposal().add(role);
-
-
-
-
-            proposalRepository.save(prop);
-
-        }
-*/
 
     }
 }
