@@ -27,12 +27,10 @@ Consider an application that a marketing company called ECMA uses to host and or
 * ~~Verificar se o approver faz parte da company da proosal~~
 * ~~Enumerado de roles~~
 * ~~Adicionar pasta 'annotations' à pasta 'security'~~
-* ~~Adicionar testes~~
-* 
+* ~~Adicionar testes~~ 
 * __Verificar as politicas de segurança__
-* segurança do addProposal
+* ~~segurança do addProposal~~
 * atualizar ER
-* At least one staff, when submitting proposal
 
 ###Developers
 
