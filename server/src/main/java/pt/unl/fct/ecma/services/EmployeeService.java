@@ -2,6 +2,7 @@ package pt.unl.fct.ecma.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pt.unl.fct.ecma.models.Bid;
@@ -11,6 +12,8 @@ import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -62,5 +65,15 @@ public class EmployeeService {
 
     public Page<Proposal> getProposalStaff(Pageable pageable, Employee staffMember) {
         return employeeRepository.findProposalStaff(pageable, staffMember.getId());
+    }
+
+    public Page<Employee> existEmployee(String employeeName) {
+        List<Employee> list= new ArrayList<>();
+        Employee emp=employeeRepository.findByUsername(employeeName);
+        if(emp!=null)
+        list.add(emp);
+        Page<Employee> page= new PageImpl<Employee>(list);
+
+        return page;
     }
 }

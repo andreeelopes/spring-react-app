@@ -44,7 +44,7 @@ public interface ProposalsApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addProposal(@ApiParam(value = "Proposal object to add to the system", required = true) @Valid @RequestBody Proposal proposal);
+    Long addProposal(@ApiParam(value = "Proposal object to add to the system", required = true) @Valid @RequestBody Proposal proposal);
 
 
     @ApiOperation(value = "Updates proposal", nickname = "updateProposal", notes = "", tags = {"proposals",})

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pt.unl.fct.ecma.api.EmployeesApi;
 import pt.unl.fct.ecma.brokers.EmployeeBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
+import pt.unl.fct.ecma.errors.FoundException;
+import pt.unl.fct.ecma.errors.NotFoundException;
 import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.security.annotations.IsPrincipal;
 import pt.unl.fct.ecma.models.Bid;
@@ -28,6 +30,7 @@ public class EmployeeController implements EmployeesApi {
 
     @Override
     public Employee getEmployee(@PathVariable("employeeId") Long employeeId) {
+
         return employeeBroker.getEmployee(employeeId);
     }
 
@@ -46,10 +49,14 @@ public class EmployeeController implements EmployeesApi {
 
     @Override
     public Page<Employee> getEmployees(@Valid @RequestParam(value = "search", required = false) String search,
-                                       Pageable pageable) {
-        if (search == null) {
+                                       Pageable pageable,@RequestParam(value = "exist", required = false) String exist) {
+        if (search == null && exist==null) {
             return employeeBroker.getAllEmployees(pageable);
-        } else {
+        }
+        if(exist!=null){
+            return employeeBroker.existEmployee(exist);
+        }
+        else {
             return employeeBroker.getEmployeeByName(search, pageable);
         }
     }
@@ -80,4 +87,8 @@ public class EmployeeController implements EmployeesApi {
 
         employeeBroker.updateEmployee(employee);
     }
+
+
+
+
 }

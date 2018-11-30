@@ -53,4 +53,8 @@ public class EmployeeBroker {
         Employee oldEmployee = employeeService.getEmployee(employee.getId());
         employeeService.updateEmployee(employee, oldEmployee);
     }
+
+    public Page<Employee> existEmployee(String employeeName) {
+       return employeeService.existEmployee(employeeName);
+    }
 }

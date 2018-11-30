@@ -31,14 +31,14 @@ public class ProposalController implements ProposalsApi {
     }
 
     @Override
-    public void addProposal(@Valid @RequestBody Proposal proposal) {
+    public Long addProposal(@Valid @RequestBody Proposal proposal) {
 
         if (proposal.getId() != null)
             throw new BadRequestException("Can not define id of new proposal");
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        proposalBroker.addProposal(proposal, user.getUsername());
+        return proposalBroker.addProposal(proposal, user.getUsername());
     }
 
     @BelongsToProposalStaff
@@ -96,6 +96,5 @@ public class ProposalController implements ProposalsApi {
                                           @PathVariable("proposalId") Long proposalId) {
         return proposalBroker.getProposalStaff(proposalId, pageable);
     }
-
 
 }

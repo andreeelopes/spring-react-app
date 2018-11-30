@@ -29,4 +29,5 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
     @Query("SELECT r.pk.proposal FROM ProposalRole r WHERE r.pk.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
     Page<Proposal> findProposalStaff(Pageable pageable,@Param(value = "employeeid") Long id);
 
+
 }

@@ -40,7 +40,6 @@ public class Employee {
     private String password;
 
     @ManyToOne
-    @JsonIgnore
     @NotNull
     private Company company;
 

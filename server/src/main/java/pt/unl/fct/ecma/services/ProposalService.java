@@ -33,8 +33,9 @@ public class ProposalService {
         proposalRepository.save(proposal);
     }
 
-    public void addProposal(Proposal proposal) {
-        proposalRepository.save(proposal);
+    public Long addProposal(Proposal proposal) {
+        Proposal dbProposal=proposalRepository.save(proposal);
+        return dbProposal.getId();
     }
 
     public void addStaffMember(Proposal proposal, Employee staffMember) {
@@ -102,4 +103,6 @@ public class ProposalService {
             throw new NotFoundException(String.format("Proposal with id %d does not have staff member with id %d",
                     proposal.getId(), staffMember.getId()));
     }
+
+
 }

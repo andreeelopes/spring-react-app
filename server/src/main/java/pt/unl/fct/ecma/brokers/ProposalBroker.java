@@ -39,15 +39,15 @@ public class ProposalBroker {
             throw new BadRequestException("Employee does not belong to the partner company of this proposal");
     }
 
-    public void addProposal(Proposal proposal, String principalName) {
+    public Long addProposal(Proposal proposal, String principalName) {
 
         Employee dbApprover = employeeService.getEmployee(proposal.getApprover().getId());
 
         if (companyService.employeeBelongsToCompany(dbApprover, proposal.getCompanyProposed())) {
-            proposalService.addProposal(proposal);
-
+            Long id=proposalService.addProposal(proposal);
             Employee author = employeeService.getEmployeeByUsername(principalName);
             addStaffMember(proposal.getId(), author);
+            return id;
         } else {
             throw new BadRequestException("Approver must belong to the company which made the proposal");
         }
@@ -108,5 +108,6 @@ public class ProposalBroker {
         Proposal proposal = proposalService.getProposal(proposalId);
         return proposalService.getProposalStaff(proposal, pageable);
     }
+
 
 }

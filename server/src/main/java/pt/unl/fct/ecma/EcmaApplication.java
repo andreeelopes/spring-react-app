@@ -33,7 +33,7 @@ public class EcmaApplication implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
 
-/*
+
         //Company 1
 
         Company company1 = new Company();
@@ -152,33 +152,48 @@ public class EcmaApplication implements CommandLineRunner {
         employeeRepository.save(employee31);
         employeeRepository.save(employee32);
 
+        for(int i=0;i<200;i++) {
+            Proposal prop = new Proposal();
+            prop.setCompanyProposed(company1);
+            prop.setApprover(employee12);
+            prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
+            prop.setPartnerCompany(company2);
+
+            ProposalRole staffMember = new ProposalRole();
+            ProposalRoleKey proposalRoleKey1 = new ProposalRoleKey();
+            proposalRoleKey1.setEmployee(employee11);
+            proposalRoleKey1.setProposal(prop);
+            staffMember.setPk(proposalRoleKey1);
+            staffMember.setRole(ProposalRole.Role.STAFF.toString());
+            prop.getTeam().add(staffMember);
 
 
-        Proposal prop = new Proposal();
-        prop.setCompanyProposed(company1);
-        prop.setApprover(employee12);
-        prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
-        prop.setPartnerCompany(company2);
+            ProposalRole partnerMember = new ProposalRole();
+            ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
+            proposalRoleKey2.setEmployee(employee21);
+            proposalRoleKey2.setProposal(prop);
+            partnerMember.setPk(proposalRoleKey2);
+            partnerMember.setRole(ProposalRole.Role.PARTNER.toString());
+            prop.getTeam().add(partnerMember);
 
-        ProposalRole staffMember = new ProposalRole();
-        ProposalRoleKey proposalRoleKey1 = new ProposalRoleKey();
-        proposalRoleKey1.setEmployee(employee11);
-        proposalRoleKey1.setProposal(prop);
-        staffMember.setPk(proposalRoleKey1);
-        staffMember.setRole(ProposalRole.Role.STAFF.toString());
-        prop.getTeam().add(staffMember);
+            Bid bid=new Bid();
+            BidKey bidKey= new BidKey();
+            bidKey.setBidder(employee21);
+            bidKey.setProposal(prop);
+            bid.setPk(bidKey);
+            bid.setStatus(Bid.Status.WAITING.toString());
 
-        ProposalRole partnerMember = new ProposalRole();
-        ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
-        proposalRoleKey2.setEmployee(employee21);
-        proposalRoleKey2.setProposal(prop);
-        partnerMember.setPk(proposalRoleKey2);
-        partnerMember.setRole(ProposalRole.Role.PARTNER.toString());
-        prop.getTeam().add(partnerMember);
+            prop.getBids().add(bid);
+            Section sec = new Section();
+            sec.setType("title");
+            sec.setText("Best Prop");
+            sec.setProposal(prop);
+            prop.getSections().add(sec);
+            proposalRepository.save(prop);
+        }
 
-        proposalRepository.save(prop);
 
-*/
+
 
     }
 }
