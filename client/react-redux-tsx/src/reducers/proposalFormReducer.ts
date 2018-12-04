@@ -3,7 +3,7 @@ import {
     CHANGE_PROPOSAL_DESCRIPTION,
     CHANGE_PROPOSAL_PARTNERCOMPANY,
     CHANGE_PROPOSAL_TITLE
-} from "../actions/proposal/types";
+} from "../actions/proposals/types";
 
 
 const initialState = {

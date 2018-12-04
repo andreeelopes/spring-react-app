@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as React from "react";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../../App.css';
-import {IEmployee, IProposal, ISection} from "../../models/IComponents";
+import {IEmployee, IProposal, ISection} from "../../../models/IComponents";
 
 
 interface Istate {
@@ -19,7 +19,7 @@ interface IBid {
     status: string;
 }
 
-export class MyBidList extends React.Component<{}, Istate> {
+export class BidList extends React.Component<{}, Istate> {
     private total: number;
     private totalPage: number;
     private ReviewLine: string[];

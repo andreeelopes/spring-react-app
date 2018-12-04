@@ -16,7 +16,7 @@ interface IProposalLine {
 
 }
 
-export class MyProposalList extends React.Component<{}, Istate> {
+export class ProposalList extends React.Component<{}, Istate> {
     private total: number;
     private totalPage: number;
     private proposalLine: IProposalLine[];
