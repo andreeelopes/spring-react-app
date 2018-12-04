@@ -19,7 +19,7 @@ interface IBid {
     status: string;
 }
 
-export class BidList extends React.Component<{}, Istate> {
+export class BidsList extends React.Component<{}, Istate> {
     private total: number;
     private totalPage: number;
     private ReviewLine: string[];
