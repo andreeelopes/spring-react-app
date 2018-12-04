@@ -4,8 +4,8 @@
 *.iws
 *.iml
 *.ipr
-.idea/*
-/.idea
+*.xml
+
 # dependencies
 /node_modules
 
