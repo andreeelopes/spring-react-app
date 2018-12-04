@@ -1,44 +1,43 @@
 import axios from 'axios';
 import * as React from "react";
+import {Link} from "react-router-dom";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
-import '../App.css';
-import {IEmployee, IProposal, ISection} from "../utils/Components";
+import '../../App.css';
+import {IProposal, ISection} from "../../models/IComponents";
 
 
 interface Istate {
-    displayMyReviews: string[]
+    displayMyProposals: IProposalLine[]
 }
 
-interface IBidPK {
-    bidder: IEmployee;
+interface IProposalLine {
     proposal: IProposal;
+    section: ISection;
+
 }
 
-interface IBid {
-    pk: IBidPK
-    status: string;
-}
-
-export class MyReviewList extends React.Component<{}, Istate> {
+export class MyProposalList extends React.Component<{}, Istate> {
     private total: number;
     private totalPage: number;
-    private ReviewLine: string[];
+    private proposalLine: IProposalLine[];
     private currPage: number;
 
     public constructor(props: {}) {
         super(props);
-        this.state = {displayMyReviews: []};
-        this.ReviewLine = [];
+        this.state = {displayMyProposals: []};
+        this.proposalLine = [];
         this.total = 0;
         this.currPage = -1;
     }
 
-    public getReviews = (param: IndexRange) => {
+    // TODO to action
+    public getProposals = (param: IndexRange) => {
 
 
+        console.log(param.startIndex + " " + param.stopIndex);
         this.currPage++;
 
-        return axios('http://localhost:8080/employees/6/bids?page=' + this.currPage, {
+        return axios('http://localhost:8080/employees/6/partnerproposals?page=' + this.currPage, {
             auth: {
                 password: "password",
                 username: "employee21"
@@ -48,19 +47,19 @@ export class MyReviewList extends React.Component<{}, Istate> {
             if (this.totalPage === this.currPage) {
                 return;
             }
-            let bidList: IBid[] = [];
+            let proposalList: IProposal[] = [];
 
-            bidList = json.data.content;
-            bidList.map((c, i) => (this.getSections(c, json, i)));
+            proposalList = json.data.content;
+            proposalList.map((c, i) => (this.getSections(c, json, i)));
             this.total = json.data.totalElements;
             this.totalPage = json.data.totalPages;
-
         });
     };
 
-    public getSections = (c: IBid, json: any, i: number) => {
-        const endSize: number = this.ReviewLine.length + json.data.numberOfElements;
-        return axios('http://localhost:8080/proposals/' + c.pk.proposal.id + '/sections/', {
+    // TODO to action
+    public getSections = (c: IProposal, json: any, i: number) => {
+        const endSize: number = this.proposalLine.length + json.data.numberOfElements;
+        return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {
             auth: {
                 password: "password",
                 username: "employee21"
@@ -69,41 +68,44 @@ export class MyReviewList extends React.Component<{}, Istate> {
         }).then((sectionjson: any) => {
             let sectionList: ISection[];
             sectionList = sectionjson.data.content;
-            sectionList.map((s, ind) => {
+            sectionList.map((s) => {
                 if (s.type = "title") {
-                    const bidLine: string = s.text + " " + c.status;
-                    this.ReviewLine.push(bidLine);
-                    if (endSize <= this.ReviewLine.length) {
-                        this.setState({displayMyReviews: this.ReviewLine});
+                    const propLine: IProposalLine = {section: s, proposal: c};
+                    this.proposalLine.push(propLine);
+                    if (endSize <= this.proposalLine.length) {
+                        this.setState({displayMyProposals: this.proposalLine});
                     }
                 }
             });
-
-
         });
 
     };
 
 
     public isRowLoaded = (index: Index) => {
-        return !!this.state.displayMyReviews[index.index];
+        return !!this.state.displayMyProposals[index.index];
     };
     public rowRenderer = (props: any) => {
 
-        const list = this.state.displayMyReviews;
+        const list = this.state.displayMyProposals;
+        const proposal: IProposal = list[props.index].proposal;
+        const section: ISection = list[props.index].section;
+        const propId: number = list[props.index].proposal.id;
         return (
+            //TODO proposalLine
             <div
                 key={props.key}
                 style={props.style}
             >
-                {list[props.index]}
+                <Link
+                    to={'/proposals/' + propId}>{section.text}</Link> {proposal.status + " " + proposal.partnerCompany.name + " " + proposal.companyProposed.name}
             </div>
         )
     };
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
-        this.getReviews(param);
+        this.getProposals(param);
     }
 
     public render() {
@@ -111,19 +113,20 @@ export class MyReviewList extends React.Component<{}, Istate> {
         return (
             <div>
                 <div className="App">
-                    <h1>MyBids</h1>
+                    <h1>MyProposals</h1>
                 </div>
                 <InfiniteLoader
                     isRowLoaded={this.isRowLoaded}
-                    loadMoreRows={this.getReviews}
+                    loadMoreRows={this.getProposals}
                     rowCount={this.total}
+                    threshold={20}
                 >
                     {({onRowsRendered, registerChild}) => (
                         <List className="App-middle"
                               height={250}
                               onRowsRendered={onRowsRendered}
                               ref={registerChild}
-                              rowCount={this.state.displayMyReviews.length}
+                              rowCount={this.proposalLine.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
                               width={500}

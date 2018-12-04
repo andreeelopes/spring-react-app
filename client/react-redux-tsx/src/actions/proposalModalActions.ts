@@ -6,14 +6,13 @@ export const showModal = () => (dispatch: any) => {
         payload: true
     })
 
-
 };
+
 export const hideModal = () => (dispatch: any) => {
 
     dispatch({
         type: SHOW_MODAL,
         payload: false
     })
-
 
 };
