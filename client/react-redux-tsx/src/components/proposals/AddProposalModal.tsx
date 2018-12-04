@@ -1,13 +1,13 @@
 import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
 import * as React from "react";
 import {connect} from "react-redux";
-import {hideModal, showModal} from "../../actions/proposalModalActions";
+import {hideModal, showModal} from "../../actions/proposal/proposalModalActions";
 import {
     changeApproverForm,
     changeDescriptionForm,
     changePartnerCompanyForm,
     changeTitleForm
-} from "../../actions/proposalFormActions";
+} from "../../actions/proposal/proposalFormActions";
 import {ICompany} from "../../models/IComponents";
 import axios from 'axios';
 

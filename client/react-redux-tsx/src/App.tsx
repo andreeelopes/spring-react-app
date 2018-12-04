@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
-import Homepage from "./components/pages/Homepage";
-import {ProposalPage} from "./components/pages/ProposalPage";
+import Homepage from "./components/Homepage";
+import {ProposalPage} from "./components/proposals/ProposalPage";
 import {Provider} from 'react-redux';
 
 

@@ -1,12 +1,12 @@
 import * as React from "react";
 
-import {Proposal} from "../Components/Proposal";
-import {AddCommentForm} from "../Components/AddCommentForm";
-import {AddBidForm} from "../Components/AddBidForm";
-import {AddReviewForm} from "../Components/AddReviewForm";
-import {AddTeamMemberForm} from "../Components/AddTeamMemberForm";
-import {AddSectionForm} from "../Components/AddSectionForm";
-import {ChangeStateButton} from "../Components/ChangeStateButton";
+import {Proposal} from "./Proposal";
+import {AddCommentForm} from "./comments/AddCommentForm";
+import {AddBidForm} from "./bids/AddBidForm";
+import {AddReviewForm} from "./reviews/AddReviewForm";
+import {AddTeamMemberForm} from "./AddTeamMemberForm";
+import {AddSectionForm} from "./sections/AddSectionForm";
+import {ChangeStateButton} from "./ChangeStateButton";
 
 
 export class ProposalPage extends React.Component<any> {
@@ -38,6 +38,7 @@ export class ProposalPage extends React.Component<any> {
     }
 }
 // TODO
+// @ts-ignore //TODO remover, e so para nao se queixar   -nelson
 const mapStateToProps = (state: any) => ({
 
 });

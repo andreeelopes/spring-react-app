@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Button} from "react-bootstrap";
-import {MyProposalList} from "../proposals/MyProposalList";
-import {MyBidList} from "../bids/MyBidList";
-import '../../App.css';
+import {MyProposalList} from "./proposals/MyProposalList";
+import {MyBidList} from "./proposals/bids/MyBidList";
+import '../App.css';
 import {connect} from "react-redux";
 import {showModal} from "../../actions/proposalModalActions";
 import AddProposalModal from "../proposals/AddProposalModal";

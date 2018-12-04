@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as React from "react";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
-import '../../App.css';
+import '../../../App.css';
 import {IEmployee, IProposal, ISection} from "../../models/IComponents";
 
 
