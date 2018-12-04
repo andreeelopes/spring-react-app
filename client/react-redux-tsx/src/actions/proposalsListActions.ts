@@ -1,6 +1,7 @@
-import {GET_PROPOSALS, ADD_SECTION} from "./types";
+
 import axios from "axios";
 import {IProposal, ISection} from "../models/IComponents";
+import {ADD_SECTION, GET_PROPOSALS} from "./proposals/types";
 
 export const getProposals = (currPage:number) => (dispatch: any,) => {
 

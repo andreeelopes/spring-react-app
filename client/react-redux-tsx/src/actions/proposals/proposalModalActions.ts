@@ -1,4 +1,4 @@
-import {SHOW_MODAL} from "../actions/types";
+import {SHOW_MODAL} from "./types";
 
 export const showModal = () => (dispatch: any) => {
     dispatch({

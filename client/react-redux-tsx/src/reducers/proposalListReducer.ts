@@ -1,5 +1,4 @@
-import {ADD_SECTION, GET_PROPOSALS} from "../actions/types";
-
+import {ADD_SECTION, GET_PROPOSALS} from "../actions/proposals/types";
 
 const initialState = {
     displayMyProposals: [],

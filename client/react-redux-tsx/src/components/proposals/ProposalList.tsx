@@ -11,7 +11,8 @@ import {ProposalLine} from "./ProposalLine";
 
 
 
-class MyProposalList extends React.Component<any> {
+export class ProposalList extends React.Component<any> {
+
     private currPage: number;
     private table:any;
     public constructor(props: {}) {
@@ -93,4 +94,4 @@ const mapStateToProps = (state: any) => ({
 
 export default connect(mapStateToProps, {getSections,
     getProposals
-})(MyProposalList)
+})(ProposalList)

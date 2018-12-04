@@ -1,12 +1,14 @@
 import * as React from "react";
 import {Button} from "react-bootstrap";
-import MyProposalList from "../proposals/MyProposalList";
-import {MyBidList} from "../bids/MyBidList";
-import '../../App.css';
-import {connect} from "react-redux";
-import {showModal} from "../../actions/proposalModalActions";
-import AddProposalModal from "../proposals/AddProposalModal";
 
+import ProposalList from "./proposals/ProposalList";
+import {BidsList} from "./proposals/bids/BidsList";
+import {ReviewsList} from "./proposals/reviews/ReviewsList"
+import '../App.css';
+
+import {connect} from "react-redux";
+import {showModal} from "../actions/proposals/proposalModalActions";
+import AddProposalModal from "./proposals/AddProposalModal";
 
 class Homepage extends React.Component<any> {
 
@@ -31,8 +33,9 @@ class Homepage extends React.Component<any> {
     public render() {
         return (
             <div>
-                <MyProposalList/>
-                <MyBidList/>
+                <ProposalList/>
+                <BidsList/>
+                <ReviewsList/>
 
                 <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
                 <AddProposalModal/>
