@@ -6,69 +6,68 @@ import '../App.css';
 import {IProposal, ISection} from "../utils/Components";
 
 
-
-
-
 interface Istate {
-    displayMyProposals:IProposalLine[]
+    displayMyProposals: IProposalLine[]
 }
+
 interface IProposalLine {
-    proposal:IProposal;
-    section:ISection;
+    proposal: IProposal;
+    section: ISection;
 
 }
-export class MyProposalList extends React.Component<{},Istate> {
-    private total:number;
-    private totalPage:number;
-    private proposalLine:IProposalLine[];
-    private currPage:number;
 
-    public constructor(props: {}){
+export class MyProposalList extends React.Component<{}, Istate> {
+    private total: number;
+    private totalPage: number;
+    private proposalLine: IProposalLine[];
+    private currPage: number;
+
+    public constructor(props: {}) {
         super(props);
-        this.state = { displayMyProposals: []};
-        this.proposalLine=[];
-        this.total=0;
-        this.currPage=-1;
+        this.state = {displayMyProposals: []};
+        this.proposalLine = [];
+        this.total = 0;
+        this.currPage = -1;
     }
 
-    public getProposals = (param:IndexRange ) => {
+    public getProposals = (param: IndexRange) => {
 
 
-        console.log(param.startIndex+" "+param.stopIndex);
+        console.log(param.startIndex + " " + param.stopIndex);
         this.currPage++;
 
-        return axios('http://localhost:8080/employees/6/partnerproposals?page='+this.currPage, {
+        return axios('http://localhost:8080/employees/6/partnerproposals?page=' + this.currPage, {
             auth: {
                 password: "password",
                 username: "employee21"
             },
             method: 'get'
         }).then((json: any) => {
-            if(this.totalPage===this.currPage) {
+            if (this.totalPage === this.currPage) {
                 return;
             }
-            let proposalList:IProposal[] = [];
+            let proposalList: IProposal[] = [];
 
             proposalList = json.data.content;
-            proposalList.map((c,i) => (this.getSections(c,json,i)));
-            this.total=json.data.totalElements;
-            this.totalPage=json.data.totalPages;
+            proposalList.map((c, i) => (this.getSections(c, json, i)));
+            this.total = json.data.totalElements;
+            this.totalPage = json.data.totalPages;
         });
     };
 
-    public getSections = (c:IProposal,json:any,i:number) => {
-        const endSize:number=this.proposalLine.length+json.data.numberOfElements;
-        return axios('http://localhost:8080/proposals/'+c.id+'/sections/', {
+    public getSections = (c: IProposal, json: any, i: number) => {
+        const endSize: number = this.proposalLine.length + json.data.numberOfElements;
+        return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {
             auth: {
                 password: "password",
                 username: "employee21"
             },
             method: 'get'
-        }).then((sectionjson:any) => {
+        }).then((sectionjson: any) => {
             let sectionList: ISection[];
-            sectionList=sectionjson.data.content;
+            sectionList = sectionjson.data.content;
             sectionList.map((s) => {
-                if(s.type="title") {
+                if (s.type = "title") {
                     const propLine: IProposalLine = {section: s, proposal: c};
                     this.proposalLine.push(propLine);
                     if (endSize <= this.proposalLine.length) {
@@ -87,22 +86,25 @@ export class MyProposalList extends React.Component<{},Istate> {
     public rowRenderer = (props: any) => {
 
         const list = this.state.displayMyProposals;
-        const proposal:IProposal=list[props.index].proposal;
-        const section:ISection=list[props.index].section;
-        const propId:number=list[props.index].proposal.id;
+        const proposal: IProposal = list[props.index].proposal;
+        const section: ISection = list[props.index].section;
+        const propId: number = list[props.index].proposal.id;
         return (
             <div
                 key={props.key}
                 style={props.style}
             >
-                <Link to={'/proposal/'+propId}>{section.text}</Link> {proposal.status+" "+proposal.partnerCompany.name+" "+proposal.companyProposed.name}
+                <Link
+                    to={'/proposal/' + propId}>{section.text}</Link> {proposal.status + " " + proposal.partnerCompany.name + " " + proposal.companyProposed.name}
             </div>
         )
     };
+
     public componentWillMount() {
-        const param:IndexRange ={startIndex:0,stopIndex:19};
+        const param: IndexRange = {startIndex: 0, stopIndex: 19};
         this.getProposals(param);
     }
+
     public render() {
 
         return (
@@ -116,7 +118,7 @@ export class MyProposalList extends React.Component<{},Istate> {
                     rowCount={this.total}
                     threshold={20}
                 >
-                    {({ onRowsRendered, registerChild }) => (
+                    {({onRowsRendered, registerChild}) => (
                         <List className="App-middle"
                               height={250}
                               onRowsRendered={onRowsRendered}

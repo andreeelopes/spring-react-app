@@ -3,6 +3,6 @@ import proposalModalReducer from './proposalModalReducer';
 import proposalFormReducer from "./proposalFormReducer";
 
 export default combineReducers({
-    proposalModal:proposalModalReducer,
-    proposalForm:proposalFormReducer
+    proposalModal: proposalModalReducer,
+    proposalForm: proposalFormReducer
 })
