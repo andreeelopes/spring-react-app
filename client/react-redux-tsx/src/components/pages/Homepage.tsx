@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Button} from "react-bootstrap";
-import {MyProposalList} from "../proposals/MyProposalList";
+import MyProposalList from "../proposals/MyProposalList";
 import {MyBidList} from "../bids/MyBidList";
 import '../../App.css';
 import {connect} from "react-redux";

@@ -1,111 +1,57 @@
-import axios from 'axios';
+
+
 import * as React from "react";
-import {Link} from "react-router-dom";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../App.css';
 import {IProposal, ISection} from "../../models/IComponents";
+import {connect} from "react-redux";
+import {getProposals, getSections} from "../../actions/proposalsListActions";
+import {ProposalLine} from "./ProposalLine";
 
 
-interface Istate {
-    displayMyProposals: IProposalLine[]
-}
 
-interface IProposalLine {
-    proposal: IProposal;
-    section: ISection;
 
-}
-
-export class MyProposalList extends React.Component<{}, Istate> {
-    private total: number;
-    private totalPage: number;
-    private proposalLine: IProposalLine[];
+class MyProposalList extends React.Component<any> {
     private currPage: number;
-
+    private table:any;
     public constructor(props: {}) {
         super(props);
-        this.state = {displayMyProposals: []};
-        this.proposalLine = [];
-        this.total = 0;
+
         this.currPage = -1;
     }
-
-    // TODO to action
     public getProposals = (param: IndexRange) => {
-
-
-        console.log(param.startIndex + " " + param.stopIndex);
         this.currPage++;
 
-        return axios('http://localhost:8080/employees/6/partnerproposals?page=' + this.currPage, {
-            auth: {
-                password: "password",
-                username: "employee21"
-            },
-            method: 'get'
-        }).then((json: any) => {
-            if (this.totalPage === this.currPage) {
-                return;
-            }
-            let proposalList: IProposal[] = [];
-
-            proposalList = json.data.content;
-            proposalList.map((c, i) => (this.getSections(c, json, i)));
-            this.total = json.data.totalElements;
-            this.totalPage = json.data.totalPages;
-        });
-    };
-
-    // TODO to action
-    public getSections = (c: IProposal, json: any, i: number) => {
-        const endSize: number = this.proposalLine.length + json.data.numberOfElements;
-        return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {
-            auth: {
-                password: "password",
-                username: "employee21"
-            },
-            method: 'get'
-        }).then((sectionjson: any) => {
-            let sectionList: ISection[];
-            sectionList = sectionjson.data.content;
-            sectionList.map((s) => {
-                if (s.type = "title") {
-                    const propLine: IProposalLine = {section: s, proposal: c};
-                    this.proposalLine.push(propLine);
-                    if (endSize <= this.proposalLine.length) {
-                        this.setState({displayMyProposals: this.proposalLine});
-                    }
-                }
-            });
-        });
+        return this.props.getProposals(this.currPage);
 
     };
 
+    public  componentWillReceiveProps(nextProps:any) {
+
+        if(this.props.sectionsAdded===19) { // updating
+            this.table.scrollToPosition(2);
+            this.table.scrollToPosition(0);
+        }
+    }
 
     public isRowLoaded = (index: Index) => {
-        return !!this.state.displayMyProposals[index.index];
+        return !!this.props.displayMyProposals[index.index];
     };
     public rowRenderer = (props: any) => {
 
-        const list = this.state.displayMyProposals;
+        const list = this.props.displayMyProposals;
         const proposal: IProposal = list[props.index].proposal;
         const section: ISection = list[props.index].section;
-        const propId: number = list[props.index].proposal.id;
+
         return (
-            //TODO proposalLine
-            <div
-                key={props.key}
-                style={props.style}
-            >
-                <Link
-                    to={'/proposals/' + propId}>{section.text}</Link> {proposal.status + " " + proposal.partnerCompany.name + " " + proposal.companyProposed.name}
-            </div>
+            <ProposalLine rowKey={props.key} style={props.style} proposal={proposal} section={section}/>
         )
     };
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
         this.getProposals(param);
+
     }
 
     public render() {
@@ -118,15 +64,15 @@ export class MyProposalList extends React.Component<{}, Istate> {
                 <InfiniteLoader
                     isRowLoaded={this.isRowLoaded}
                     loadMoreRows={this.getProposals}
-                    rowCount={this.total}
+                    rowCount={this.props.total}
                     threshold={20}
                 >
                     {({onRowsRendered, registerChild}) => (
                         <List className="App-middle"
                               height={250}
                               onRowsRendered={onRowsRendered}
-                              ref={registerChild}
-                              rowCount={this.proposalLine.length}
+                              ref={(ref)=>{this.table=ref; registerChild(ref)}}
+                              rowCount={this.props.displayMyProposals.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
                               width={500}
@@ -139,3 +85,12 @@ export class MyProposalList extends React.Component<{}, Istate> {
 
 
 }
+const mapStateToProps = (state: any) => ({
+    displayMyProposals: state.proposalList.displayMyProposals,
+    total: state.proposalList.totalSize.total,
+    sectionsAdded: state.proposalList.sectionsAdded
+});
+
+export default connect(mapStateToProps, {getSections,
+    getProposals
+})(MyProposalList)
