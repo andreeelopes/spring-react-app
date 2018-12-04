@@ -10,31 +10,32 @@ const initialState = {
     title: '',
     description: '',
     partnerCompany: '',
-    approver:''
+    approver: ''
 };
 
-export default function(state= initialState,action:any){
+export default function (state = initialState, action: any) {
     switch (action.type) {
         case CHANGE_PROPOSAL_TITLE:
-            return{
+            return {
                 ...state,
-                title:action.payload
+                title: action.payload
             };
         case CHANGE_PROPOSAL_DESCRIPTION:
-            return{
+            return {
                 ...state,
-                description:action.payload
+                description: action.payload
             };
         case CHANGE_PROPOSAL_PARTNERCOMPANY:
-            return{
+            return {
                 ...state,
-                partnerCompany:action.payload
+                partnerCompany: action.payload
             };
         case CHANGE_PROPOSAL_APPROVER:
-            return{
+            return {
                 ...state,
-                approver:action.payload
+                approver: action.payload
             };
-        default: return state;
+        default:
+            return state;
     }
 }

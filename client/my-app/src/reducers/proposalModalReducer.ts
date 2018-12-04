@@ -4,18 +4,19 @@ const initialState = {
     state: false
 };
 
-export default function(state= initialState,action:any){
+export default function (state = initialState, action: any) {
     switch (action.type) {
         case SHOW_MODAL:
-            return{
+            return {
                 ...state,
-                state:action.payload
+                state: action.payload
             };
         case HIDE_MODAL:
-            return{
+            return {
                 ...state,
-                state:action.payload
+                state: action.payload
             };
-        default: return state;
+        default:
+            return state;
     }
 }
