@@ -1,18 +1,14 @@
 import * as React from "react";
 import {Button} from "react-bootstrap";
-import {MyProposalList} from "../Components/MyProposalList";
-import {MyReviewList} from "../Components/MyReviewList";
-import '../App.css';
+import {MyProposalList} from "../proposals/MyProposalList";
+import {MyBidList} from "../bids/MyBidList";
+import '../../App.css';
 import {connect} from "react-redux";
-import {hideModal, showModal} from "../actions/proposalModalActions";
-import AddProposalModal from "../Components/AddProposalModal";
+import {showModal} from "../../actions/proposalModalActions";
+import AddProposalModal from "../proposals/AddProposalModal";
 
-interface Istate {
-    show: boolean
 
-}
-
-class Homepage extends React.Component<any, Istate> {
+class Homepage extends React.Component<any> {
 
     public componentWillMount() {
         const userInfo = {
@@ -27,10 +23,7 @@ class Homepage extends React.Component<any, Istate> {
         sessionStorage.setItem('myData', JSON.stringify(userInfo));
     }
 
-    public handleClose = () => {
 
-        this.props.hideModal();
-    };
     public handleOpen = () => {
         this.props.showModal();
     };
@@ -39,7 +32,7 @@ class Homepage extends React.Component<any, Istate> {
         return (
             <div>
                 <MyProposalList/>
-                <MyReviewList/>
+                <MyBidList/>
 
                 <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
                 <AddProposalModal/>
@@ -53,4 +46,4 @@ const mapStateToProps = (state: any) => ({
     proposalModal: state.proposalModal.state
 });
 
-export default connect(mapStateToProps, {showModal, hideModal})(Homepage)
+export default connect(mapStateToProps, {showModal})(Homepage)

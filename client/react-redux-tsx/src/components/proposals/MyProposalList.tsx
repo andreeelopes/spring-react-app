@@ -2,8 +2,8 @@ import axios from 'axios';
 import * as React from "react";
 import {Link} from "react-router-dom";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
-import '../App.css';
-import {IProposal, ISection} from "../utils/Components";
+import '../../App.css';
+import {IProposal, ISection} from "../../models/IComponents";
 
 
 interface Istate {
@@ -30,6 +30,7 @@ export class MyProposalList extends React.Component<{}, Istate> {
         this.currPage = -1;
     }
 
+    // TODO to action
     public getProposals = (param: IndexRange) => {
 
 
@@ -55,6 +56,7 @@ export class MyProposalList extends React.Component<{}, Istate> {
         });
     };
 
+    // TODO to action
     public getSections = (c: IProposal, json: any, i: number) => {
         const endSize: number = this.proposalLine.length + json.data.numberOfElements;
         return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {
@@ -90,12 +92,13 @@ export class MyProposalList extends React.Component<{}, Istate> {
         const section: ISection = list[props.index].section;
         const propId: number = list[props.index].proposal.id;
         return (
+            //TODO proposalLine
             <div
                 key={props.key}
                 style={props.style}
             >
                 <Link
-                    to={'/proposal/' + propId}>{section.text}</Link> {proposal.status + " " + proposal.partnerCompany.name + " " + proposal.companyProposed.name}
+                    to={'/proposals/' + propId}>{section.text}</Link> {proposal.status + " " + proposal.partnerCompany.name + " " + proposal.companyProposed.name}
             </div>
         )
     };
