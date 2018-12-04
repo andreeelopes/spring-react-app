@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
-import Homepage from "./webPages/Homepage";
-import {ProposalPage} from "./webPages/ProposalPage";
+import Homepage from "./components/pages/Homepage";
+import {ProposalPage} from "./components/pages/ProposalPage";
 import {Provider} from 'react-redux';
 
 
@@ -16,7 +16,7 @@ class App extends React.Component {
                     <Router>
                         <div>
                             <Route exact={true} path="/" component={Homepage}/>
-                            <Route exact={true} path="/proposal/:id" component={ProposalPage}/>
+                            <Route exact={true} path="/proposals/:id" component={ProposalPage}/>
                         </div>
                     </Router>
                 </div>

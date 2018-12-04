@@ -1,14 +1,14 @@
 import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstrap";
 import * as React from "react";
 import {connect} from "react-redux";
-import {hideModal, showModal} from "../actions/proposalModalActions";
+import {hideModal, showModal} from "../../actions/proposalModalActions";
 import {
     changeApproverForm,
     changeDescriptionForm,
     changePartnerCompanyForm,
     changeTitleForm
-} from "../actions/proposalFormActions";
-import {ICompany} from "../utils/Components";
+} from "../../actions/proposalFormActions";
+import {ICompany} from "../../models/IComponents";
 import axios from 'axios';
 
 interface Iid {
@@ -102,7 +102,6 @@ class AddProposalModal extends React.Component<any> {
                 }
             })
                 .then((response) => {
-                    console.log("adding proposal");
                     const proposalid = {id: response.data};
                     axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
                         {text: this.props.proposalFormTitle, type: "title", proposal: proposalid}, {
