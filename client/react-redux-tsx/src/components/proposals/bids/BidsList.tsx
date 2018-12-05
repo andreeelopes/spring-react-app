@@ -41,7 +41,6 @@ class BidsList extends React.Component<any> {
     };
     public rowRenderer = (props: any) => {
         const list = this.props.displayedMyBids;
-        console.log(list);
         const bid: IBid = list[props.index].bid;
         const section: ISection = list[props.index].section;
 

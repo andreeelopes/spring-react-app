@@ -1,11 +1,11 @@
 
 import axios from "axios";
-import {IProposal, ISection} from "../models/IComponents";
-import {ADD_SECTION, GET_PROPOSALS} from "./proposals/types";
+import {IProposal, ISection} from "../../models/IComponents";
+import {ADD_SECTION, CLEAR, GET_PROPOSALS} from "./types";
 
-export const getProposals = (currPage:number) => (dispatch: any,) => {
+export const getProposals = (currPage:number,link:string) => (dispatch: any,) => {
 
-    return axios('http://localhost:8080/employees/6/partnerproposals?page=' + currPage, {
+    return axios(link + currPage, {
         auth: {
             password: "password",
             username: "employee21"
@@ -36,6 +36,12 @@ export const getProposals = (currPage:number) => (dispatch: any,) => {
     });
 
 };
+export const clearList= () => (dispatch:any,) =>{
+    dispatch({
+        type: CLEAR
+    })
+};
+
 
 export const getSections = (c: IProposal, json: any, i: number,page:number,dispatch:any) => {
     return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {

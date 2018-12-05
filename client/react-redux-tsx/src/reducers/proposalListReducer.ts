@@ -1,4 +1,4 @@
-import {ADD_SECTION, GET_PROPOSALS} from "../actions/proposals/types";
+import {ADD_SECTION, CLEAR, GET_PROPOSALS} from "../actions/proposals/types";
 
 const initialState = {
     displayMyProposals: [],
@@ -23,6 +23,13 @@ export default function (state = initialState, action: any) {
                 ...state,
                 displayMyProposals:tempState,
                 sectionsAdded: state.sectionsAdded+1
+            };
+        case CLEAR:
+            return{
+                ...state,
+                displayMyProposals:[],
+                totalSize:0,
+                sectionsAdded:0
             }
         default:
             return state;

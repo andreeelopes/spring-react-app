@@ -12,7 +12,6 @@ interface IProps {
 }
 export class BidLine extends React.Component<IProps>{
     public render(){
-        console.log(this.props.bid);
         return(
             <div
                 key={this.props.rowKey}

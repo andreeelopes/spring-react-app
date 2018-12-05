@@ -8,3 +8,5 @@ export const GET_PROPOSALS = 'GET_PROPOSALS';
 export const ADD_SECTION='ADD_SECTION';
 export const GET_BIDS ='GET_BIDS';
 export const ADD_TITLE= 'ADD_TITLE';
+export const CLEAR = 'CLEAR';
+
