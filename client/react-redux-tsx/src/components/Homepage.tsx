@@ -2,7 +2,7 @@ import * as React from "react";
 import {Button} from "react-bootstrap";
 
 import ProposalList from "./proposals/ProposalList";
-import {BidsList} from "./proposals/bids/BidsList";
+import BidsList from "./proposals/bids/BidsList";
 import {ReviewsList} from "./proposals/reviews/ReviewsList"
 import '../App.css';
 

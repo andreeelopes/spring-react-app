@@ -1,109 +1,60 @@
-import axios from 'axios';
+
+
 import * as React from "react";
 import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../../App.css';
-import {IEmployee, IProposal, ISection} from "../../../models/IComponents";
+import {connect} from "react-redux";
+import {getBids, getSections, IBid} from "../../../actions/bidsListActions";
+import {ISection} from "../../../models/IComponents";
+import {BidLine} from "./BidLine";
 
 
-interface Istate {
-    displayMyReviews: string[]
-}
 
-interface IBidPK {
-    bidder: IEmployee;
-    proposal: IProposal;
-}
 
-interface IBid {
-    pk: IBidPK
-    status: string;
-}
 
-export class BidsList extends React.Component<{}, Istate> {
-    private total: number;
-    private totalPage: number;
-    private ReviewLine: string[];
+class BidsList extends React.Component<any> {
+
     private currPage: number;
-
+    private table:any;
     public constructor(props: {}) {
         super(props);
-        this.state = {displayMyReviews: []};
-        this.ReviewLine = [];
-        this.total = 0;
+
         this.currPage = -1;
     }
-
-    public getReviews = (param: IndexRange) => {
-
-
+    public getBids = (param: IndexRange) => {
         this.currPage++;
 
-        return axios('http://localhost:8080/employees/6/bids?page=' + this.currPage, {
-            auth: {
-                password: "password",
-                username: "employee21"
-            },
-            method: 'get'
-        }).then((json: any) => {
-            if (this.totalPage === this.currPage) {
-                return;
-            }
-            let bidList: IBid[] = [];
-
-            bidList = json.data.content;
-            bidList.map((c, i) => (this.getSections(c, json, i)));
-            this.total = json.data.totalElements;
-            this.totalPage = json.data.totalPages;
-
-        });
-    };
-
-    public getSections = (c: IBid, json: any, i: number) => {
-        const endSize: number = this.ReviewLine.length + json.data.numberOfElements;
-        return axios('http://localhost:8080/proposals/' + c.pk.proposal.id + '/sections/', {
-            auth: {
-                password: "password",
-                username: "employee21"
-            },
-            method: 'get'
-        }).then((sectionjson: any) => {
-            let sectionList: ISection[];
-            sectionList = sectionjson.data.content;
-            sectionList.map((s, ind) => {
-                if (s.type = "title") {
-                    const bidLine: string = s.text + " " + c.status;
-                    this.ReviewLine.push(bidLine);
-                    if (endSize <= this.ReviewLine.length) {
-                        this.setState({displayMyReviews: this.ReviewLine});
-                    }
-                }
-            });
-
-
-        });
+        return this.props.getBids(this.currPage);
 
     };
 
+    public  componentWillReceiveProps(nextProps:any) {
+
+        if(this.props.sectionsAdded===19) { // updating
+            this.table.scrollToPosition(2);
+            this.table.scrollToPosition(0);
+        }
+    }
 
     public isRowLoaded = (index: Index) => {
-        return !!this.state.displayMyReviews[index.index];
+        return !!this.props.displayedMyBids[index.index];
     };
     public rowRenderer = (props: any) => {
+        const list = this.props.displayedMyBids;
+        console.log(list);
+        const bid: IBid = list[props.index].bid;
+        const section: ISection = list[props.index].section;
 
-        const list = this.state.displayMyReviews;
         return (
-            <div
-                key={props.key}
-                style={props.style}
-            >
-                {list[props.index]}
-            </div>
+            <BidLine rowKey={props.key} style={props.style} section={section} bid={bid}/>
+
         )
     };
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
-        this.getReviews(param);
+        this.getBids(param);
+
     }
 
     public render() {
@@ -111,19 +62,20 @@ export class BidsList extends React.Component<{}, Istate> {
         return (
             <div>
                 <div className="App">
-                    <h1>MyBids</h1>
+                    <h1>Proposals I bidded</h1>
                 </div>
                 <InfiniteLoader
                     isRowLoaded={this.isRowLoaded}
-                    loadMoreRows={this.getReviews}
-                    rowCount={this.total}
+                    loadMoreRows={this.getBids}
+                    rowCount={this.props.total}
+                    threshold={20}
                 >
                     {({onRowsRendered, registerChild}) => (
                         <List className="App-middle"
                               height={250}
                               onRowsRendered={onRowsRendered}
-                              ref={registerChild}
-                              rowCount={this.state.displayMyReviews.length}
+                              ref={(ref)=>{this.table=ref; registerChild(ref)}}
+                              rowCount={this.props.displayedMyBids.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
                               width={500}
@@ -136,3 +88,12 @@ export class BidsList extends React.Component<{}, Istate> {
 
 
 }
+const mapStateToProps = (state: any) => ({
+    displayedMyBids: state.bidList.displayedMyBids,
+    total: state.bidList.totalSize.total,
+    sectionsAdded: state.bidList.sectionsAdded
+});
+
+export default connect(mapStateToProps, {getBids,
+    getSections
+})(BidsList)
