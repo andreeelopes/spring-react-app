@@ -16,7 +16,8 @@
     "react-scripts-ts": "^4.0.8",
     "react-simple-infinite-scroll": "0.0.1",
     "react-virtualized": "^9.21.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "tslib": "^1.9.3"
   },
   "scripts": {
     "start": "react-scripts-ts start",
