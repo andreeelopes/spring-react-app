@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.models.Proposal;
-import pt.unl.fct.ecma.models.SimpleEmployee;
+import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.services.EmployeeService;
 
 @Service
@@ -56,5 +53,11 @@ public class EmployeeBroker {
 
     public Page<Employee> existEmployee(String employeeName) {
        return employeeService.existEmployee(employeeName);
+    }
+
+    public Page<Review> getReviews(Long employeeId,Pageable pageable) {
+        Employee employee = employeeService.getEmployee(employeeId);
+        return employeeService.getReviews(employee,pageable);
+
     }
 }

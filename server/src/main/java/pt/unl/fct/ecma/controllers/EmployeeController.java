@@ -12,11 +12,8 @@ import pt.unl.fct.ecma.brokers.EmployeeBroker;
 import pt.unl.fct.ecma.errors.BadRequestException;
 import pt.unl.fct.ecma.errors.FoundException;
 import pt.unl.fct.ecma.errors.NotFoundException;
-import pt.unl.fct.ecma.models.SimpleEmployee;
+import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.security.annotations.IsPrincipal;
-import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.models.Proposal;
 
 import javax.validation.Valid;
 
@@ -88,7 +85,10 @@ public class EmployeeController implements EmployeesApi {
         employeeBroker.updateEmployee(employee);
     }
 
-
+    @Override
+    public Page<Review> getReviews(@PathVariable("employeeId")Long employeeId,Pageable pageable) {
+        return employeeBroker.getReviews(employeeId,pageable);
+    }
 
 
 }

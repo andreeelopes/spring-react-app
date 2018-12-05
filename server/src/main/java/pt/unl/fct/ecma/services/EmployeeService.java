@@ -5,11 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import pt.unl.fct.ecma.models.Bid;
-import pt.unl.fct.ecma.models.Employee;
-import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.models.*;
 import pt.unl.fct.ecma.errors.NotFoundException;
-import pt.unl.fct.ecma.models.SimpleEmployee;
 import pt.unl.fct.ecma.repositories.EmployeeRepository;
 
 import java.util.ArrayList;
@@ -75,5 +72,9 @@ public class EmployeeService {
         Page<Employee> page= new PageImpl<Employee>(list);
 
         return page;
+    }
+
+    public Page<Review> getReviews(Employee employee,Pageable pageable) {
+        return employeeRepository.getReviews(pageable,employee.getId());
     }
 }
