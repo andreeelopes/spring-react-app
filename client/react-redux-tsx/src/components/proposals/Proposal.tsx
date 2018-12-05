@@ -14,8 +14,9 @@ export class Proposal extends React.Component<any> {
     public componentDidMount() {
         const params = this.props.match.params;
         if (params) {
-            console.log(this.props);
             this.props.fetchPartners(params.id);
+            console.log(this.props);
+
 
             // this.props.fetchStaff(id);
             // this.props.fetchSections(id);

@@ -9,7 +9,7 @@ export const fetchPartners = (id: any) => {
             .then((response: any) => {
                 dispatch({
                     type: GET_PARTNERS,
-                    payload: response.data
+                    payload: response.data.content
                 })
             }).catch((error: any) => {
                 console.log(error)
