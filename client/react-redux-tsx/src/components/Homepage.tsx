@@ -10,18 +10,18 @@ import {connect} from "react-redux";
 import {showModal} from "../actions/proposals/proposalModalActions";
 import AddProposalModal from "./proposals/AddProposalModal";
 import {IUser} from "../models/IComponents";
-import {changeUser} from "../actions/employees/UserActions";
-import axios from "axios";
+
+
+
+import {doLogin} from "../actions/HomepageLoginAction";
 
 class Homepage extends React.Component<any> {
+    public constructor(props: {}) {
+        super(props);
+    }
 
     public componentWillMount() {
-        axios.get('http://localhost:8080/', {auth: {
-            password: "password",
-                username: "employee21"
-        },withCredentials: true}).then((json:any)=>{
-           console.log(json)
-        });
+        this.props.doLogin();
 
         const user: IUser = {
             "id": 6,
@@ -33,7 +33,6 @@ class Homepage extends React.Component<any> {
             "admin": false
         };
 
-        this.props.changeUser(user);
 
         sessionStorage.setItem('myData', JSON.stringify(user));
     }
@@ -44,24 +43,29 @@ class Homepage extends React.Component<any> {
     };
 
     public render() {
+        console.log(this.props.login);
+        if (this.props.login) {
+            return (
+                <div>
+                    <ProposalList/>
+                    <BidsList/>
+                    <ReviewsList/>
 
+                    <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
+                    <AddProposalModal/>
 
-        return (
-            <div>
-                <ProposalList/>
-                <BidsList/>
-                <ReviewsList/>
-
-                <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
-                <AddProposalModal/>
-
-            </div>
-        );
+                </div>
+            );
+        }
+        else {
+            return null;
+        }
     }
 }
 
 const mapStateToProps = (state: any) => ({
-    proposalModal: state.proposalModal.state
+    proposalModal: state.proposalModal.state,
+    login: state.login.login
 });
 
-export default connect(mapStateToProps, {showModal, changeUser})(Homepage)
+export default connect(mapStateToProps, {showModal, doLogin})(Homepage)

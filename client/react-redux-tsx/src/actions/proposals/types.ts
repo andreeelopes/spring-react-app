@@ -10,4 +10,5 @@ export const GET_PARTNERS= 'GET_PARTNERS';
 export const GET_BIDS ='GET_BIDS';
 export const ADD_TITLE= 'ADD_TITLE';
 export const CLEAR = 'CLEAR';
+export const LOGIN= 'LOGIN';
 

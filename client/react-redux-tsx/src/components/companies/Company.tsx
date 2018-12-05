@@ -3,12 +3,15 @@ import {connect} from "react-redux";
 
 class Company extends React.Component<any> {
 
+    public constructor(props: any) {
+        super(props);
+    }
 
     public render() {
-
+        console.log(this.props);
         return (
             <div>
-                lala
+                {/*{this.props}*/}
             </div>
         );
     }
@@ -16,8 +19,6 @@ class Company extends React.Component<any> {
 }
 
 
-const mapStateToProps = (state: any) => ({
-    user: state.user.user
-});
+const mapStateToProps = () => ({});
 
-export default connect(mapStateToProps,{})(Company)
+export default connect(mapStateToProps)(Company)
