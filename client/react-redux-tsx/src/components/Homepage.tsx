@@ -12,16 +12,20 @@ import AddProposalModal from "./proposals/AddProposalModal";
 import {IUser} from "../models/IComponents";
 import {changeUser} from "../actions/employees/UserActions";
 import axios from "axios";
+import {doLogin} from "../actions/HomepageLoginAction";
 
 class Homepage extends React.Component<any> {
-
-    public componentWillMount() {
+    public constructor(props: {}) {
+        super(props);
+    }
+    public login(){
+        console.log("ola");
         axios.get('http://localhost:8080/', {auth: {
-            password: "password",
-                username: "employee21"
-        },withCredentials: true}).then((json:any)=>{
-           console.log(json)
-        });
+                password: "password", username: "employee21"
+            },withCredentials: true}).then(null,()=>{this.props.doLogin()});
+    }
+    public componentWillMount() {
+        this.login();
 
         const user: IUser = {
             "id": 6,
@@ -44,8 +48,8 @@ class Homepage extends React.Component<any> {
     };
 
     public render() {
-
-
+        console.log(this.props.login);
+        if(this.props.login){
         return (
             <div>
                 <ProposalList/>
@@ -56,12 +60,16 @@ class Homepage extends React.Component<any> {
                 <AddProposalModal/>
 
             </div>
-        );
+        );}
+        else {
+            return null;
+        }
     }
 }
 
 const mapStateToProps = (state: any) => ({
-    proposalModal: state.proposalModal.state
+    proposalModal: state.proposalModal.state,
+    login:state.login.login
 });
 
-export default connect(mapStateToProps, {showModal, changeUser})(Homepage)
+export default connect(mapStateToProps, {showModal, changeUser,doLogin})(Homepage)

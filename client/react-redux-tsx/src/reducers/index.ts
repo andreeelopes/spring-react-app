@@ -5,6 +5,7 @@ import proposalListReducer from "./proposalListReducer";
 import ProposalDetailsReducer from "./ProposalDetailsReducer";
 import bidListReducer from "./bidListReducer";
 import userReducer from "./userReducer";
+import loginReducer from "./loginReducer";
 
 
 export default combineReducers({
@@ -12,7 +13,7 @@ export default combineReducers({
     proposalForm: proposalFormReducer,
     proposalList: proposalListReducer,
     proposalDetails: ProposalDetailsReducer,
-    proposalStaffList:proposalListReducer,
+    login:loginReducer,
     bidList:bidListReducer,
     user: userReducer
 })
