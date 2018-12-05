@@ -12,10 +12,10 @@ import {fetchPartners} from "../../actions/proposals/ProposalDetailsActions";
 export class Proposal extends React.Component<any> {
     //TODO atencao as permissoes porque nem todos podem ver  as listas      -nelson
     public componentDidMount() {
-        const id: number = this.props.match.params;
-        if (id) {
+        const params = this.props.match.params;
+        if (params) {
             console.log(this.props);
-            this.props.fetchPartners(id);
+            this.props.fetchPartners(params.id);
 
             // this.props.fetchStaff(id);
             // this.props.fetchSections(id);
