@@ -18,6 +18,7 @@
     "no-conditional-assignment": false,
     "ordered-imports": false,
     "object-literal-sort-keys": false,
-    "jsx-no-lambda":false
+    "jsx-no-lambda":false,
+    "no-debugger": false
   }
 }
