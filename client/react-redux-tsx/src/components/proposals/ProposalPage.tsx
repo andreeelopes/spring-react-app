@@ -17,12 +17,9 @@ export class ProposalPage extends React.Component<any> {
 
     // TODO
     public render() {
-        const {match} = this.props
-        const id = match.params.id
-        console.log(id);
         return (
             <div>
-                <Proposal/>
+                <Proposal {...this.props} />
                 <AddCommentForm/>
                 <AddBidForm/>
                 <AddReviewForm/>
