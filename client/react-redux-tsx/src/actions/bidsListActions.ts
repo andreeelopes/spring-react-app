@@ -15,10 +15,7 @@ export interface IBid {
 export const getBids = (currPage:number) => (dispatch: any,) => {
 
     return axios('http://localhost:8080/employees/6/bids?page=' + currPage, {
-        auth: {
-            password: "password",
-            username: "employee21"
-        },
+        withCredentials: true,
         method: 'get'
     }).then((json: any) => {
         const totalPage:number = json.data.totalPages;
@@ -47,10 +44,7 @@ export const getBids = (currPage:number) => (dispatch: any,) => {
 
 export const getSections = (c: any, json: any, i: number,page:number,dispatch:any) => {
     return axios('http://localhost:8080/proposals/' + c.bid.pk.proposal.id + '/sections/', {
-        auth: {
-            password: "password",
-            username: "employee21"
-        },
+        withCredentials: true,
         method: 'get'
     }).then((sectionjson: any) => {
         let sectionList: ISection[];

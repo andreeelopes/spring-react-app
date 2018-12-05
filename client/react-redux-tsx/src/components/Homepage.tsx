@@ -11,10 +11,18 @@ import {showModal} from "../actions/proposals/proposalModalActions";
 import AddProposalModal from "./proposals/AddProposalModal";
 import {IUser} from "../models/IComponents";
 import {changeUser} from "../actions/employees/UserActions";
+import axios from "axios";
 
 class Homepage extends React.Component<any> {
 
     public componentWillMount() {
+        axios.get('http://localhost:8080/', {auth: {
+            password: "password",
+                username: "employee21"
+        },withCredentials: true}).then((json:any)=>{
+           console.log(json)
+        });
+
         const user: IUser = {
             "id": 6,
             "username": "employee21",

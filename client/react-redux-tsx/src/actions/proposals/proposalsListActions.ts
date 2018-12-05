@@ -6,10 +6,7 @@ import {ADD_SECTION, CLEAR, GET_PROPOSALS} from "./types";
 export const getProposals = (currPage:number,link:string) => (dispatch: any,) => {
 
     return axios(link + currPage, {
-        auth: {
-            password: "password",
-            username: "employee21"
-        },
+            withCredentials: true,
         method: 'get'
     }).then((json: any) => {
         const totalPage:number = json.data.totalPages;
@@ -45,10 +42,7 @@ export const clearList= () => (dispatch:any,) =>{
 
 export const getSections = (c: IProposal, json: any, i: number,page:number,dispatch:any) => {
     return axios('http://localhost:8080/proposals/' + c.id + '/sections/', {
-        auth: {
-            password: "password",
-            username: "employee21"
-        },
+        withCredentials: true,
         method: 'get'
     }).then((sectionjson: any) => {
         let sectionList: ISection[];
