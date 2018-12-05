@@ -37,8 +37,7 @@ export class ProposalList extends React.Component<any> {
     };
 
     public  componentWillReceiveProps(nextProps:any) {
-
-        if(this.props.sectionsAdded===19) { // updating
+        if(this.props.sectionsAdded===19 ||(this.props.total===this.props.sectionsAdded)) { // updating
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }
@@ -110,7 +109,7 @@ export class ProposalList extends React.Component<any> {
 
 
     private getAllProposals= ()=> {
-
+        this.listType=1;
         this.props.clearList();
         this.currPage=-1;
         this.dropdownTitle="All proposals";
@@ -119,6 +118,7 @@ export class ProposalList extends React.Component<any> {
     }
 
     private getStaffProposals=() =>{
+        this.listType=2;
         this.props.clearList();
         this.currPage=-1;
         this.dropdownTitle="Staff proposals";
