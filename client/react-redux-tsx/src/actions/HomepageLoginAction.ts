@@ -1,7 +1,12 @@
 import {LOGIN} from "./proposals/types";
+import axios from "axios";
 
 export const doLogin = () => (dispatch: any) => {
-    dispatch({
-        type: LOGIN
-    })
+
+        axios.get('http://localhost:8080/', {auth: {
+                password: "password", username: "employee21"
+            },withCredentials: true}).then(null,()=>{    dispatch({
+            type: LOGIN
+        })});
+
 };

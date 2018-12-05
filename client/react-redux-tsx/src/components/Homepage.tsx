@@ -11,20 +11,14 @@ import {showModal} from "../actions/proposals/proposalModalActions";
 import AddProposalModal from "./proposals/AddProposalModal";
 import {IUser} from "../models/IComponents";
 import {changeUser} from "../actions/employees/UserActions";
-import axios from "axios";
 import {doLogin} from "../actions/HomepageLoginAction";
 
 class Homepage extends React.Component<any> {
     public constructor(props: {}) {
         super(props);
     }
-    public login(){
-        axios.get('http://localhost:8080/', {auth: {
-                password: "password", username: "employee21"
-            },withCredentials: true}).then(null,()=>{this.props.doLogin()});
-    }
     public componentWillMount() {
-        this.login();
+        this.props.doLogin();
 
         const user: IUser = {
             "id": 6,

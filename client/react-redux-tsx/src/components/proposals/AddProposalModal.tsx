@@ -6,24 +6,14 @@ import {
     changeApproverForm,
     changeDescriptionForm,
     changePartnerCompanyForm,
-    changeTitleForm
+    changeTitleForm, submit
 } from "../../actions/proposals/proposalFormActions";
-import {ICompany} from "../../models/IComponents";
-import axios from 'axios';
 
-interface Iid {
-    id: number
-}
 
-interface IAddProposalJson {
-    approver: Iid,
-    companyProposed: ICompany,
-    partnerCompany: Iid
-}
+
 
 class AddProposalModal extends React.Component<any> {
-    private approverID: number;
-    private companyID: number;
+
     public handleClose = () => {
         this.props.hideModal();
     };
@@ -52,68 +42,12 @@ class AddProposalModal extends React.Component<any> {
         }
         return null;
     };
-    public approverExist = () => {
-        console.log("whattt");
-        axios.get('http://localhost:8080/employees?exist=' + this.props.proposalFormApprover, {
-            auth: {
-                password: "password",
-                username: "employee21"
-            }
-        }).then((response) => {
-            if (response.data.totalElements > 0) {
-                console.log(response.data);
-                this.approverID = response.data.content[0].id;
-                this.companyExist();
-            }
-            return false;
-        })
-    };
-    public companyExist = () => {
-        axios.get('http://localhost:8080/companies?search' + this.props.proposalFormPartnerCompany, {
-            withCredentials: true
-        }).then((response) => {
-            if (response.data.totalElements > 0) {
-                this.companyID = response.data.content[0].id;
-                this.addProposal();
-            }
-            return false;
-        })
-    };
-    public addProposal = () => {
-        const userData: string | null = sessionStorage.getItem('myData');
 
-        if (userData !== null) {
-            const userDataJSON: any = JSON.parse(userData);
-            const approverID = {id: this.approverID};
-            const companyID = {id: this.companyID};
-            const AddProposalJson: IAddProposalJson = {
-                approver: approverID,
-                companyProposed: userDataJSON.company,
-                partnerCompany: companyID
-            };
-
-            axios.post('http://localhost:8080/proposals/', AddProposalJson, {
-                withCredentials: true
-            })
-                .then((response) => {
-                    const proposalid = {id: response.data};
-                    axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
-                        {text: this.props.proposalFormTitle, type: "title", proposal: proposalid}, {
-                            withCredentials: true
-                        }).then(() => {
-                        axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
-                            {text: this.props.proposalFormDescription, type: "description", proposal: proposalid}, {
-                                withCredentials: true
-                            })
-                    });
-                });
-        }
-    };
     public submit = () => {
         if (this.getValidationState() !== 'success' || this.props.proposalFormDescription > 0) {
             return;
         }
-        this.approverExist();
+        submit(this.props.proposalFormApprover,this.props.proposalFormPartnerCompany,this.props.proposalFormTitle,this.props.proposalFormDescription);
 
 
     };

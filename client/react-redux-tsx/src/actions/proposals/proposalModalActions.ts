@@ -16,3 +16,4 @@ export const hideModal = () => (dispatch: any) => {
     })
 
 };
+
