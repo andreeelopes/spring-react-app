@@ -1,19 +1,16 @@
-import {CHANGE_USER} from "../actions/employees/types";
-
+import {GET_COMPANY} from "../../actions/companies/types";
 
 const initialState = {
-    user: null
+    company: null
 };
 
 export default function (state = initialState, action: any) {
     switch (action.type) {
-
-        case CHANGE_USER:
+        case GET_COMPANY:
             return {
                 ...state,
-                user: action.payload
+                company: action.payload
             };
-
         default:
             return state;
     }
