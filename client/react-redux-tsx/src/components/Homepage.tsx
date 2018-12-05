@@ -19,7 +19,6 @@ class Homepage extends React.Component<any> {
         super(props);
     }
     public login(){
-        console.log("ola");
         axios.get('http://localhost:8080/', {auth: {
                 password: "password", username: "employee21"
             },withCredentials: true}).then(null,()=>{this.props.doLogin()});
