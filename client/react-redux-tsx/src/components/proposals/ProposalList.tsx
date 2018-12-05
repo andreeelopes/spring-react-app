@@ -5,9 +5,12 @@ import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../App.css';
 import {IProposal, ISection} from "../../models/IComponents";
 import {connect} from "react-redux";
-import {getProposals, getSections} from "../../actions/proposalsListActions";
 import {ProposalListItem} from "./ProposalListItem";
+import {clearList, getProposals, getSections} from "../../actions/proposals/proposalsListActions";
+import { Dropdown, DropdownButton, MenuItem} from "react-bootstrap";
 
+const getAllProposalsLink="http://localhost:8080/employees/6/partnerproposals?page=";
+const getStaffProposalsLink="http://localhost:8080/employees/6/staffproposals?page=";
 
 
 
@@ -15,16 +18,22 @@ export class ProposalList extends React.Component<any> {
 
     private currPage: number;
     private table:any;
+    private listType:number;
+    private dropdownTitle:string;
     public constructor(props: {}) {
         super(props);
-
+        this.listType=1;
         this.currPage = -1;
+        this.dropdownTitle="All proposals"
     }
     public getProposals = (param: IndexRange) => {
         this.currPage++;
-
-        return this.props.getProposals(this.currPage);
-
+        if(this.listType===1) {
+            return this.props.getProposals(this.currPage,getAllProposalsLink);
+        }
+        else if(this.listType===2){
+            return this.props.getProposals(this.currPage,getStaffProposalsLink);
+        }
     };
 
     public  componentWillReceiveProps(nextProps:any) {
@@ -62,6 +71,21 @@ export class ProposalList extends React.Component<any> {
                 <div className="App">
                     <h1>MyProposals</h1>
                 </div>
+                <div className="App">
+
+                <Dropdown id="dropdown-custom-menu">
+                    <DropdownButton
+                        bsStyle={"primary"}
+                        title={this.dropdownTitle}
+                        key={0}
+                        id={`dropdown-basic-${0}`}
+                    >
+
+                        <MenuItem eventKey="1" onSelect={this.getAllProposals}>All proposals</MenuItem>
+                        <MenuItem eventKey="2" onSelect={this.getStaffProposals}>Proposals where im staff</MenuItem>
+                    </DropdownButton>
+                </Dropdown>
+                </div>
                 <InfiniteLoader
                     isRowLoaded={this.isRowLoaded}
                     loadMoreRows={this.getProposals}
@@ -85,6 +109,22 @@ export class ProposalList extends React.Component<any> {
     }
 
 
+    private getAllProposals= ()=> {
+
+        this.props.clearList();
+        this.currPage=-1;
+        this.dropdownTitle="All proposals";
+        const param: IndexRange = {startIndex: 0, stopIndex: 19};
+        this.getProposals(param);
+    }
+
+    private getStaffProposals=() =>{
+        this.props.clearList();
+        this.currPage=-1;
+        this.dropdownTitle="Staff proposals";
+        const param: IndexRange = {startIndex: 0, stopIndex: 19};
+        this.getProposals(param);
+    }
 }
 const mapStateToProps = (state: any) => ({
     displayMyProposals: state.proposalList.displayMyProposals,
@@ -92,6 +132,6 @@ const mapStateToProps = (state: any) => ({
     sectionsAdded: state.proposalList.sectionsAdded
 });
 
-export default connect(mapStateToProps, {getSections,
+export default connect(mapStateToProps, {getSections,clearList,
     getProposals
 })(ProposalList)

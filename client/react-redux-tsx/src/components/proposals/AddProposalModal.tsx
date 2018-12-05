@@ -70,10 +70,7 @@ class AddProposalModal extends React.Component<any> {
     };
     public companyExist = () => {
         axios.get('http://localhost:8080/companies?search' + this.props.proposalFormPartnerCompany, {
-            auth: {
-                password: "password",
-                username: "employee21"
-            }
+            withCredentials: true
         }).then((response) => {
             if (response.data.totalElements > 0) {
                 this.companyID = response.data.content[0].id;
@@ -96,26 +93,17 @@ class AddProposalModal extends React.Component<any> {
             };
 
             axios.post('http://localhost:8080/proposals/', AddProposalJson, {
-                auth: {
-                    password: "password",
-                    username: "employee21"
-                }
+                withCredentials: true
             })
                 .then((response) => {
                     const proposalid = {id: response.data};
                     axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
                         {text: this.props.proposalFormTitle, type: "title", proposal: proposalid}, {
-                            auth: {
-                                password: "password",
-                                username: "employee21"
-                            }
+                            withCredentials: true
                         }).then(() => {
                         axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
                             {text: this.props.proposalFormDescription, type: "description", proposal: proposalid}, {
-                                auth: {
-                                    password: "password",
-                                    username: "employee21"
-                                }
+                                withCredentials: true
                             })
                     });
                 });
