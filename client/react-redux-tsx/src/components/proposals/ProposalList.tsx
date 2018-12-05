@@ -6,7 +6,7 @@ import '../../App.css';
 import {IProposal, ISection} from "../../models/IComponents";
 import {connect} from "react-redux";
 import {getProposals, getSections} from "../../actions/proposalsListActions";
-import {ProposalLine} from "./ProposalLine";
+import {ProposalListItem} from "./ProposalListItem";
 
 
 
@@ -45,7 +45,7 @@ export class ProposalList extends React.Component<any> {
         const section: ISection = list[props.index].section;
 
         return (
-            <ProposalLine rowKey={props.key} style={props.style} proposal={proposal} section={section}/>
+            <ProposalListItem rowKey={props.key} style={props.style} proposal={proposal} section={section}/>
         )
     };
 

@@ -7,7 +7,7 @@ interface IProps {
     proposal:IProposal,
     section: ISection
 }
-export class ProposalLine extends React.Component<IProps> {
+export class ProposalListItem extends React.Component<IProps> {
     public render(){
         return(
             <div
