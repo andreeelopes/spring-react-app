@@ -9,11 +9,13 @@ import '../App.css';
 import {connect} from "react-redux";
 import {showModal} from "../actions/proposals/proposalModalActions";
 import AddProposalModal from "./proposals/AddProposalModal";
+import {IUser} from "../models/IComponents";
+import {changeUser} from "../actions/employees/UserActions";
 
 class Homepage extends React.Component<any> {
 
     public componentWillMount() {
-        const userInfo = {
+        const user: IUser = {
             "id": 6,
             "username": "employee21",
             "name": "Employee 1 Company 2",
@@ -22,7 +24,10 @@ class Homepage extends React.Component<any> {
             "company": {"id": 2, "name": "company2", "address": "rua idk", "email": "company2@"},
             "admin": false
         };
-        sessionStorage.setItem('myData', JSON.stringify(userInfo));
+
+        this.props.changeUser(user);
+
+        sessionStorage.setItem('myData', JSON.stringify(user));
     }
 
 
@@ -31,6 +36,8 @@ class Homepage extends React.Component<any> {
     };
 
     public render() {
+
+
         return (
             <div>
                 <ProposalList/>
@@ -49,4 +56,4 @@ const mapStateToProps = (state: any) => ({
     proposalModal: state.proposalModal.state
 });
 
-export default connect(mapStateToProps, {showModal})(Homepage)
+export default connect(mapStateToProps, {showModal, changeUser})(Homepage)

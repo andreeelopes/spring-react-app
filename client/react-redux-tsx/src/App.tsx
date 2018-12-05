@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import './App.css';
 import Homepage from "./components/Homepage";
 import {ProposalPage} from "./components/proposals/ProposalPage";
+import {CompanyPage} from "./components/companies/CompanyPage";
 import {Provider} from 'react-redux';
 
 
@@ -17,6 +18,7 @@ class App extends React.Component {
                         <div>
                             <Route exact={true} path="/" component={Homepage}/>
                             <Route exact={true} path="/proposals/:id" component={ProposalPage}/>
+                            <Route exact={true} path="/companies/:id" component={CompanyPage}/>
                         </div>
                     </Router>
                 </div>

@@ -5,7 +5,7 @@ import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../App.css';
 import {IProposal, ISection} from "../../models/IComponents";
 import {connect} from "react-redux";
-import {getProposals, getSections} from "../../actions/proposalsListActions";
+import {getProposals, getSections} from "../../actions/proposals/proposalsListActions";
 import {ProposalLine} from "./ProposalLine";
 
 

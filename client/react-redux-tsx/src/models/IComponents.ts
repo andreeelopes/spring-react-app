@@ -29,3 +29,13 @@ export interface ISection {
     id?: number;
 
 }
+
+export interface IUser {
+    id: number,
+    username: string;
+    name: string;
+    email: string;
+    job: string;
+    company: ICompany;
+    admin: boolean
+}
