@@ -1,24 +1,18 @@
 import {GET_PARTNERS} from "./types";
-// import {httpClient} from "../index";
+import {httpClient} from "../index";
 
-// const partnerUrl = '/proposals/{pid}/partnermembers/'
+const partnerUrl = '/proposals/{pid}/partnermembers/'
 
-export const fetchPartners = (id: number) => (dispatch: any) => {
-    dispatch({
-        type: GET_PARTNERS,
-        payload: id
-    })
+export const fetchPartners = (id: any) => {
+    return (dispatch: any, getState: any) => {
+        return httpClient.get(partnerUrl.replace("{pid}", id.toString()))
+            .then((response: any) => {
+                dispatch({
+                    type: GET_PARTNERS,
+                    payload: response.data
+                })
+            }).catch((error: any) => {
+                console.log(error)
+            })
+    }
 };
-
-/*
-* export const changeDescriptionForm = (text: string) => (dispatch: any) => {
-    dispatch({
-        type: CHANGE_PROPOSAL_DESCRIPTION,
-        payload: text
-    })
-
-
-
-    httpClient.get(partnerUrl.replace("{pid}", String(id)))
-
-};*/
