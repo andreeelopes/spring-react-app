@@ -11,13 +11,10 @@ import {
 import {withRouter} from "react-router";
 
 
-
-
-
 class AddProposalModal extends React.Component<any> {
-    public SubmitButton = withRouter(({ history }) => (
+    public SubmitButton = withRouter(({history}) => (
         <Button
-            onClick={()=>this.submit(history)}
+            onClick={() => this.submit(history)}
         >
             Submit
         </Button>
@@ -51,11 +48,11 @@ class AddProposalModal extends React.Component<any> {
         return null;
     };
 
-    public submit = (history:any) => {
+    public submit = (history: any) => {
         if (this.getValidationState() !== 'success' || this.props.proposalFormDescription > 0) {
             return;
         }
-        submit(this.props.proposalFormApprover,this.props.proposalFormPartnerCompany,this.props.proposalFormTitle,this.props.proposalFormDescription,history);
+        submit(this.props.proposalFormApprover, this.props.proposalFormPartnerCompany, this.props.proposalFormTitle, this.props.proposalFormDescription, history);
 
 
     };
@@ -123,6 +120,7 @@ class AddProposalModal extends React.Component<any> {
     }
 
 }
+
 const mapStateToProps = (state: any) => ({
     proposalModal: state.proposalModal.state,
     proposalFormTitle: state.proposalForm.title,

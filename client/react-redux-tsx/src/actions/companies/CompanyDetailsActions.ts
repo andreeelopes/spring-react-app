@@ -7,9 +7,9 @@ export const fetchCompany = (cid: number) => (dispatch: any) => {
     httpClient.get(`${companyUrl}/${cid}`)
         .then((response: any) =>
             dispatch({
-            type: GET_COMPANY,
-            payload: response.data
-        })).catch((error: any) => {
+                type: GET_COMPANY,
+                payload: response.data
+            })).catch((error: any) => {
         console.log(error)
     })
 };

@@ -7,11 +7,11 @@ import Review from "./Review";
 import {InfiniteList} from "../../common/InfiniteList";
 
 export interface IReview {
-    id:number,
-    author:IEmployee,
-    text:string,
-    proposal:IProposal,
-    score:string
+    id: number,
+    author: IEmployee,
+    text: string,
+    proposal: IProposal,
+    score: string
 }
 
 class ReviewsList extends React.Component<any> {
@@ -21,7 +21,8 @@ class ReviewsList extends React.Component<any> {
         super(props);
 
     }
-    public getReviews = (page:number) => {
+
+    public getReviews = (page: number) => {
 
         return this.props.getReviews(page);
 
@@ -45,22 +46,25 @@ class ReviewsList extends React.Component<any> {
                 <div className="App">
                     <h1>My Reviews</h1>
                 </div>
-                    <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total} numberOfRowsReady={this.props.sectionsAdded}
-                                  rowRenderer={this.rowRenderer} loadMoreRows={this.getReviews}/>
+                <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total}
+                              numberOfRowsReady={this.props.sectionsAdded}
+                              rowRenderer={this.rowRenderer} loadMoreRows={this.getReviews}/>
             </div>
         );
     }
 
 
 }
+
 const mapStateToProps = (state: any) => ({
     displayedMyReviews: state.reviewList.displayedMyReviews,
     total: state.reviewList.totalSize.total,
     sectionsAdded: state.reviewList.sectionsAdded,
-    review:state.reviewModal.review
+    review: state.reviewModal.review
 
 });
 
-export default connect(mapStateToProps, {getReviews,
+export default connect(mapStateToProps, {
+    getReviews,
     getSections
 })(ReviewsList)

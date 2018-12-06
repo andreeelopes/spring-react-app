@@ -34,11 +34,10 @@ export class ProposalPage extends React.Component<any> {
         );
     }
 }
+
 // TODO
 // @ts-ignore //TODO remover, e so para nao se queixar   -nelson
-const mapStateToProps = (state: any) => ({
-
-});
+const mapStateToProps = (state: any) => ({});
 
 // TODO
 /*

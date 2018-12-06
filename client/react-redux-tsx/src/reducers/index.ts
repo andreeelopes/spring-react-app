@@ -18,6 +18,6 @@ export default combineReducers({
     login: loginReducer,
     bidList: bidListReducer,
     companyDetails: companyDetailsReducer,
-    reviewList:reviewListReducer,
+    reviewList: reviewListReducer,
     reviewModal: reviewModalReducer
 })

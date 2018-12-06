@@ -8,7 +8,7 @@ export interface IList<T> {
 }
 
 const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disable-line
-    if(list.length > 0) {
+    if (list.length > 0) {
         return (
             <div>
                 <h1>{title}</h1>

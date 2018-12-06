@@ -4,7 +4,8 @@ import {IUser} from "../../models/IComponents";
 import {connect} from "react-redux";
 import {doLogin} from "../../actions/HomepageLoginAction";
 import {Link} from "react-router-dom";
-class NavBar extends React.Component<any>{
+
+class NavBar extends React.Component<any> {
     private user: IUser = {
         "id": 6,
         "username": "employee21",
@@ -20,7 +21,7 @@ class NavBar extends React.Component<any>{
         sessionStorage.setItem('myData', JSON.stringify(this.user));
     }
 
-    public render(){
+    public render() {
         return (
             <Navbar>
                 <Navbar.Header>
@@ -30,10 +31,10 @@ class NavBar extends React.Component<any>{
                 </Navbar.Header>
                 <Nav>
                     <NavItem eventKey={1} href="/employees/6">
-                        <Link to={"/employees/"+this.user.id}>My profile</Link>
+                        <Link to={"/employees/" + this.user.id}>My profile</Link>
                     </NavItem>
                     <NavItem eventKey={2} href="#">
-                        <Link to={"/companies/"+this.user.company.id}>My Company</Link>
+                        <Link to={"/companies/" + this.user.company.id}>My Company</Link>
                     </NavItem>
 
                 </Nav>
@@ -41,4 +42,5 @@ class NavBar extends React.Component<any>{
         );
     }
 }
-export default connect(null, { doLogin})(NavBar)
+
+export default connect(null, {doLogin})(NavBar)

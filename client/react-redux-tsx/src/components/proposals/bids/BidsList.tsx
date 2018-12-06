@@ -1,5 +1,3 @@
-
-
 import * as React from "react";
 import '../../../App.css';
 import {connect} from "react-redux";
@@ -9,12 +7,9 @@ import {BidLine} from "./BidLine";
 import {InfiniteList} from "../../common/InfiniteList";
 
 
-
-
-
 class BidsList extends React.Component<any> {
 
-    public getBids = (page:number) => {
+    public getBids = (page: number) => {
 
         return this.props.getBids(page);
 
@@ -40,7 +35,8 @@ class BidsList extends React.Component<any> {
                 <div className="App">
                     <h1>Proposals I bidded</h1>
                 </div>
-                <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total} numberOfRowsReady={this.props.sectionsAdded}
+                <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total}
+                              numberOfRowsReady={this.props.sectionsAdded}
                               rowRenderer={this.rowRenderer} loadMoreRows={this.getBids}/>
             </div>
         );
@@ -48,12 +44,14 @@ class BidsList extends React.Component<any> {
 
 
 }
+
 const mapStateToProps = (state: any) => ({
     displayedMyBids: state.bidList.displayedMyBids,
     total: state.bidList.totalSize.total,
     sectionsAdded: state.bidList.sectionsAdded
 });
 
-export default connect(mapStateToProps, {getBids,
+export default connect(mapStateToProps, {
+    getBids,
     getSections
 })(BidsList)

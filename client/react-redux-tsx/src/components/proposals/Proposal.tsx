@@ -32,11 +32,11 @@ export class Proposal extends React.Component<any> {
                                        list={this.props.partners}
                                        show={this.employeesshow}
                 />
-                <SimpleList<IEmployee> title = "Staff"
-                            list={this.props.staff}
-                            show={this.employeesshow}
+                <SimpleList<IEmployee> title="Staff"
+                                       list={this.props.staff}
+                                       show={this.employeesshow}
                 />
-                <SimpleList<ISection> title = "Sections"
+                <SimpleList<ISection> title="Sections"
                                       list={this.props.sections}
                                       show={this.sectionsShow}
                 />
@@ -46,7 +46,7 @@ export class Proposal extends React.Component<any> {
             </div>);
     }
 
-    private employeesshow = (employee:IEmployee) => `${employee.name} (${employee.email})`;
+    private employeesshow = (employee: IEmployee) => `${employee.name} (${employee.email})`;
     private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
 
 }

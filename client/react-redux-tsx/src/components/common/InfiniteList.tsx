@@ -4,12 +4,14 @@ import * as React from "react";
 export class InfiniteList extends React.Component<any> {
 
     private currPage: number;
-    private table:any;
+    private table: any;
+
     public constructor(props: {}) {
         super(props);
 
         this.currPage = -1;
     }
+
     public loadMoreRows = (param: IndexRange) => {
         this.currPage++;
 
@@ -17,8 +19,8 @@ export class InfiniteList extends React.Component<any> {
 
     };
 
-    public  componentWillReceiveProps(nextProps:any) {
-        if(this.props.numberOfRowsReady===19) { // updating
+    public componentWillReceiveProps(nextProps: any) {
+        if (this.props.numberOfRowsReady === 19) { // updating
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }
@@ -49,7 +51,10 @@ export class InfiniteList extends React.Component<any> {
                         <List className="App-middle"
                               height={250}
                               onRowsRendered={onRowsRendered}
-                              ref={(ref)=>{this.table=ref; registerChild(ref)}}
+                              ref={(ref) => {
+                                  this.table = ref;
+                                  registerChild(ref)
+                              }}
                               rowCount={this.props.displayItems.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
@@ -62,7 +67,7 @@ export class InfiniteList extends React.Component<any> {
     }
 
 
-    private rowRenderer =(props:any)=> {
+    private rowRenderer = (props: any) => {
         return this.props.rowRenderer(props);
     }
 }

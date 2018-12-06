@@ -16,7 +16,7 @@ export class CompanyPage extends React.Component<any> {
     public render() {
 
         console.log(this.props);
-        if (this.props.employees != null){
+        if (this.props.employees != null) {
 
             return (
                 <div>

@@ -1,10 +1,9 @@
-
-export const getUser =() =>{
+export const getUser = () => {
     const userData: string | null = sessionStorage.getItem('myData');
-    if(userData!=null) {
+    if (userData != null) {
         return JSON.parse(userData);
     }
-    else{
+    else {
         return null;
     }
 };

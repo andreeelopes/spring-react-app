@@ -11,7 +11,6 @@ import {showModal} from "../actions/proposals/proposalModalActions";
 import AddProposalModal from "./proposals/AddProposalModal";
 
 
-
 import {doLogin} from "../actions/HomepageLoginAction";
 
 class Homepage extends React.Component<any> {

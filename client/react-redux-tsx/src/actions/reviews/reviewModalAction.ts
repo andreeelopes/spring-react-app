@@ -1,10 +1,10 @@
 import {SHOW_REVIEW_MODAL} from "./types";
 
-export const showModal = (review:any) => (dispatch: any) => {
+export const showModal = (review: any) => (dispatch: any) => {
     dispatch({
         type: SHOW_REVIEW_MODAL,
         state: true,
-        payload:review
+        payload: review
     })
 
 };
