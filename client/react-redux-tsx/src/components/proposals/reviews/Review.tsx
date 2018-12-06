@@ -21,7 +21,7 @@ export class Review extends React.Component<any>{
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button>Close</Button>
+                    <Button onClick={this.handleClose}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </div>);
