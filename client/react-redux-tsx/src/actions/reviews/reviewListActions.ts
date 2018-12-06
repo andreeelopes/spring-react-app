@@ -5,7 +5,6 @@ import {ISection} from "../../models/IComponents";
 
 
 export const getReviews = (currPage:number) => (dispatch: any,) => {
-    console.log("getting Reviews");
     return axios('http://localhost:8080/employees/6/reviews?page=' + currPage, {
         withCredentials: true,
         method: 'get'
@@ -19,7 +18,6 @@ export const getReviews = (currPage:number) => (dispatch: any,) => {
         json.data.content.map((item:any)=> {
             bidList.push({review:item});
         });
-        console.log(bidList);
         dispatch({
             type: GET_REVIEWS,
             total: {total},

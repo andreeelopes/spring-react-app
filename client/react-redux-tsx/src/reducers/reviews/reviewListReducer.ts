@@ -21,7 +21,6 @@ export default function (state = initialState, action: any) {
         case ADD_REVIEW_TITLE:
             tempState=state.displayedMyReviews;
             tempState[action.index]=action.payload;
-            console.log(action.payload);
             return{
                 ...state,
                 displayedMyReviews:tempState,

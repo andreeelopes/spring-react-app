@@ -1,12 +1,12 @@
 
 
 import * as React from "react";
-import {Index, IndexRange, InfiniteLoader, List} from 'react-virtualized';
 import '../../../App.css';
 import {connect} from "react-redux";
 import {getBids, getSections, IBid} from "../../../actions/bidsListActions";
 import {ISection} from "../../../models/IComponents";
 import {BidLine} from "./BidLine";
+import {InfiniteList} from "../../common/InfiniteList";
 
 
 
@@ -14,31 +14,13 @@ import {BidLine} from "./BidLine";
 
 class BidsList extends React.Component<any> {
 
-    private currPage: number;
-    private table:any;
-    public constructor(props: {}) {
-        super(props);
+    public getBids = (page:number) => {
 
-        this.currPage = -1;
-    }
-    public getBids = (param: IndexRange) => {
-        this.currPage++;
-
-        return this.props.getBids(this.currPage);
+        return this.props.getBids(page);
 
     };
 
-    public  componentWillReceiveProps(nextProps:any) {
 
-        if(this.props.sectionsAdded===19) { // updating
-            this.table.scrollToPosition(2);
-            this.table.scrollToPosition(0);
-        }
-    }
-
-    public isRowLoaded = (index: Index) => {
-        return !!this.props.displayedMyBids[index.index];
-    };
     public rowRenderer = (props: any) => {
         const list = this.props.displayedMyBids;
         const bid: IBid = list[props.index].bid;
@@ -50,11 +32,6 @@ class BidsList extends React.Component<any> {
         )
     };
 
-    public componentWillMount() {
-        const param: IndexRange = {startIndex: 0, stopIndex: 19};
-        this.getBids(param);
-
-    }
 
     public render() {
 
@@ -63,24 +40,8 @@ class BidsList extends React.Component<any> {
                 <div className="App">
                     <h1>Proposals I bidded</h1>
                 </div>
-                <InfiniteLoader
-                    isRowLoaded={this.isRowLoaded}
-                    loadMoreRows={this.getBids}
-                    rowCount={this.props.total}
-                    threshold={20}
-                >
-                    {({onRowsRendered, registerChild}) => (
-                        <List className="App-middle"
-                              height={250}
-                              onRowsRendered={onRowsRendered}
-                              ref={(ref)=>{this.table=ref; registerChild(ref)}}
-                              rowCount={this.props.displayedMyBids.length}
-                              rowHeight={50}
-                              rowRenderer={this.rowRenderer}
-                              width={500}
-                        />
-                    )}
-                </InfiniteLoader>
+                <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total} laststuff={this.props.sectionsAdded}
+                              rowRenderer={this.rowRenderer} getStuff={this.getBids}/>
             </div>
         );
     }
