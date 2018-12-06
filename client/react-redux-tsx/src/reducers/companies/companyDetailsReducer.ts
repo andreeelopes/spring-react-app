@@ -1,7 +1,8 @@
-import {GET_COMPANY} from "../../actions/companies/types";
+import {GET_COMPANY, GET_EMPLOYEES_COMPANY} from "../../actions/companies/types";
 
 const initialState = {
-    company: null
+    company: null,
+    employees: null
 };
 
 export default function (state = initialState, action: any) {
@@ -10,6 +11,11 @@ export default function (state = initialState, action: any) {
             return {
                 ...state,
                 company: action.payload
+            };
+        case GET_EMPLOYEES_COMPANY:
+            return {
+                ...state,
+                employees: action.payload
             };
         default:
             return state;
