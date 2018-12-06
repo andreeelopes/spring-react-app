@@ -6,20 +6,20 @@ interface IProps {
     partners: IEmployee[]
 }
 
-export class PartnerList extends React.Component<any> {
+export class EmployeeList extends React.Component<any> {
     constructor(props: IProps) {
         super(props)
     }
 
     public render() {
-        const {partners} = this.props;
-        if (partners.length > 0) {
+        const {employees} = this.props;
+        if (employees.length > 0) {
             return (
                 <ul>
                     {
-                        partners.map((partner: IEmployee) => (
-                            <li key={partner.id}>
-                                {partner.name}
+                        employees.map((employee: IEmployee) => (
+                            <li key={employee.id}>
+                                {employee.name}
                             </li>)
                         )
                     }

@@ -16,3 +16,17 @@ export const fetchPartners = (id: any) => {
             })
     }
 };
+
+export const fetchStaff = (id: any) => {
+    return (dispatch: any, getState: any) => {
+        return httpClient.get(partnerUrl.replace("{pid}", id.toString()))
+            .then((response: any) => {
+                dispatch({
+                    type: GET_PARTNERS,
+                    payload: response.data.content
+                })
+            }).catch((error: any) => {
+                console.log(error)
+            })
+    }
+};
