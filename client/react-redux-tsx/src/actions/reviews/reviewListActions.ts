@@ -2,10 +2,12 @@
 import axios from "axios";
 import {ADD_REVIEW_TITLE, GET_REVIEWS} from "./types";
 import {ISection} from "../../models/IComponents";
+import {getUser} from "../getSessionUser";
 
 
 export const getReviews = (currPage:number) => (dispatch: any,) => {
-    return axios('http://localhost:8080/employees/6/reviews?page=' + currPage, {
+    const user =getUser();
+    return axios('http://localhost:8080/employees/'+user.id+'/reviews?page=' + currPage, {
         withCredentials: true,
         method: 'get'
     }).then((json: any) => {
