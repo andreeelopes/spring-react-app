@@ -2,21 +2,26 @@ import * as React from "react";
 import {Button, Modal} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {hideModal,showModal} from "../../../actions/reviews/reviewModalAction";
+import {Link} from "react-router-dom";
 
 export class Review extends React.Component<any>{
 
     public render(){
         if(this.props.reviewModal){
-        console.log(this.props.review);
 
         return (<div>
             <Modal show={this.props.reviewModal} onHide={this.handleClose}>
                 <Modal.Header>
-                    <Modal.Title>{this.props.review.author.name}</Modal.Title>
+                    <Modal.Title>
+                        <Link
+                        to={'/employees/' + this.props.review.author.id}>{this.props.review.author.name}</Link>
+                    </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    {this.props.review.text}
+                    <h3>Score: {this.props.review.score}</h3>
+                    Review:
+                    <p>{this.props.review.text}</p>
 
                 </Modal.Body>
 
