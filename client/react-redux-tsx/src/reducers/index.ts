@@ -1,11 +1,13 @@
 import {combineReducers} from 'redux';
-import proposalModalReducer from './proposalModalReducer';
-import proposalFormReducer from "./proposalFormReducer";
-import proposalListReducer from "./proposalListReducer";
-import ProposalDetailsReducer from "./ProposalDetailsReducer";
-import bidListReducer from "./bidListReducer";
+import proposalModalReducer from './proposals/proposalModalReducer';
+import proposalFormReducer from "./proposals/proposalFormReducer";
+import proposalListReducer from "./proposals/proposalListReducer";
+import ProposalDetailsReducer from "./proposals/ProposalDetailsReducer";
+import bidListReducer from "./bids/bidListReducer";
 import loginReducer from "./loginReducer";
 import companyDetailsReducer from "./companies/companyDetailsReducer";
+import reviewListReducer from "./reviews/reviewListReducer";
+import reviewModalReducer from "./reviews/reviewModalReducer";
 
 
 export default combineReducers({
@@ -15,5 +17,7 @@ export default combineReducers({
     proposalDetails: ProposalDetailsReducer,
     login: loginReducer,
     bidList: bidListReducer,
-    companyDetails: companyDetailsReducer
+    companyDetails: companyDetailsReducer,
+    reviewList: reviewListReducer,
+    reviewModal: reviewModalReducer
 })

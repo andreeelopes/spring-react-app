@@ -6,6 +6,8 @@ import {
 } from "./types";
 import axios from "axios";
 import {ICompany} from "../../models/IComponents";
+import {getUser} from "../getSessionUser"
+
 interface Iid {
     id: number
 }
@@ -15,6 +17,7 @@ interface IAddProposalJson {
     companyProposed: ICompany,
     partnerCompany: Iid
 }
+
 export const changeTitleForm = (text: string) => (dispatch: any) => {
     dispatch({
         type: CHANGE_PROPOSAL_TITLE,
@@ -40,38 +43,32 @@ export const changeApproverForm = (text: string) => (dispatch: any) => {
     })
 };
 
-export const submit = (approver: string, partnerCompany: string,title:string,description:string) => {
+export const submit = (approver: string, partnerCompany: string, title: string, description: string, history: any) => {
     axios.get('http://localhost:8080/employees?exist=' + approver, {
-        auth: {
-            password: "password",
-            username: "employee21"
-        }
+        withCredentials: true
     }).then((response) => {
         if (response.data.totalElements > 0) {
             console.log(response.data);
             const approverID = response.data.content[0].id;
-            companyExist(approverID, partnerCompany,title,description);
+            getCompanyId(approverID, partnerCompany, title, description, history);
         }
-        return false;
     })
 };
-export const companyExist = (approverID: number, partnerCompany: string,title:string,description:string) => {
+export const getCompanyId = (approverID: number, partnerCompany: string, title: string, description: string, history: any) => {
     axios.get('http://localhost:8080/companies?search' + partnerCompany, {
         withCredentials: true
     }).then((response) => {
         if (response.data.totalElements > 0) {
             const companyID = response.data.content[0].id;
-            addProposal(companyID,approverID,title,description);
+            addProposal(companyID, approverID, title, description, history);
         }
-        return false;
     })
 };
 
-export const addProposal = (companyID:number,approverID:number,title:string,description:string) => {
-    const userData: string | null = sessionStorage.getItem('myData');
+export const addProposal = (companyID: number, approverID: number, title: string, description: string, history: any) => {
+    const userDataJSON = getUser();
 
-    if (userData !== null) {
-        const userDataJSON: any = JSON.parse(userData);
+    if (userDataJSON !== null) {
         const approverIDObject = {id: approverID};
         const companyIDObject = {id: companyID};
         const AddProposalJson: IAddProposalJson = {
@@ -92,7 +89,9 @@ export const addProposal = (companyID:number,approverID:number,title:string,desc
                     axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
                         {text: description, type: "description", proposal: proposalid}, {
                             withCredentials: true
-                        }).then(()=>{console.log("woooo")});
+                        }).then(() => {
+                        history.push('/proposals/' + proposalid.id)
+                    });
                 });
             });
     }

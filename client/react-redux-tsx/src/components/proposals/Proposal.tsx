@@ -37,6 +37,7 @@ export class Proposal extends React.Component<any> {
                 <SimpleList<IEmployee> title="Staff"
                                        list={this.props.staff}
                                        show={this.employeesShow}
+
                 />
                 <SimpleList<ISection> title="Sections"
                                       list={this.props.sections}

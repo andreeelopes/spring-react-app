@@ -1,0 +1,3 @@
+export const GET_REVIEWS = 'GET_REVIEWS';
+export const ADD_REVIEW_TITLE = 'ADD_REVIEW_TITLE';
+export const SHOW_REVIEW_MODAL = 'SHOW_REVIEW_MODAL';

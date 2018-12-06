@@ -8,12 +8,17 @@ import {
     changePartnerCompanyForm,
     changeTitleForm, submit
 } from "../../actions/proposals/proposalFormActions";
-
-
+import {withRouter} from "react-router";
 
 
 class AddProposalModal extends React.Component<any> {
-
+    public SubmitButton = withRouter(({history}) => (
+        <Button
+            onClick={() => this.submit(history)}
+        >
+            Submit
+        </Button>
+    ));
     public handleClose = () => {
         this.props.hideModal();
     };
@@ -43,11 +48,11 @@ class AddProposalModal extends React.Component<any> {
         return null;
     };
 
-    public submit = () => {
+    public submit = (history: any) => {
         if (this.getValidationState() !== 'success' || this.props.proposalFormDescription > 0) {
             return;
         }
-        submit(this.props.proposalFormApprover,this.props.proposalFormPartnerCompany,this.props.proposalFormTitle,this.props.proposalFormDescription);
+        submit(this.props.proposalFormApprover, this.props.proposalFormPartnerCompany, this.props.proposalFormTitle, this.props.proposalFormDescription, history);
 
 
     };
@@ -109,10 +114,11 @@ class AddProposalModal extends React.Component<any> {
 
                 <Modal.Footer>
                     <Button onClick={this.handleClose}>Close</Button>
-                    <Button onClick={this.submit} bsStyle="primary">AddProposal</Button>
+                    <this.SubmitButton/>
                 </Modal.Footer>
             </Modal>)
     }
+
 }
 
 const mapStateToProps = (state: any) => ({

@@ -1,21 +1,22 @@
-import {GET_COMPANY, GET_EMPLOYEES_COMPANY} from "../../actions/companies/types";
+import {SHOW_REVIEW_MODAL} from "../../actions/reviews/types";
 
 const initialState = {
-    company: null,
-    employees: null
+    state: false,
+    review: null
 };
 
 export default function (state = initialState, action: any) {
     switch (action.type) {
-        case GET_COMPANY:
+        case SHOW_REVIEW_MODAL:
             return {
                 ...state,
-                company: action.payload
+                state: action.state,
+                review: action.payload
             };
-        case GET_EMPLOYEES_COMPANY:
+        case SHOW_REVIEW_MODAL:
             return {
                 ...state,
-                employees: action.payload
+                state: action.state
             };
         default:
             return state;

@@ -5,7 +5,7 @@ import {
     GET_PROPOSAL_COMMENTS,
     GET_PROPOSAL_BIDS,
     GET_PROPOSAL_REVIEWS
-} from "../actions/proposals/types";
+} from "../../actions/proposals/types";
 
 const initialState = {
     partners: '',
