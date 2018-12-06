@@ -40,7 +40,7 @@ export const changeApproverForm = (text: string) => (dispatch: any) => {
     })
 };
 
-export const submit = (approver: string, partnerCompany: string,title:string,description:string) => {
+export const submit = (approver: string, partnerCompany: string,title:string,description:string,history:any) => {
     axios.get('http://localhost:8080/employees?exist=' + approver, {
         auth: {
             password: "password",
@@ -50,24 +50,24 @@ export const submit = (approver: string, partnerCompany: string,title:string,des
         if (response.data.totalElements > 0) {
             console.log(response.data);
             const approverID = response.data.content[0].id;
-            companyExist(approverID, partnerCompany,title,description);
+            companyExist(approverID, partnerCompany,title,description,history);
         }
         return false;
     })
 };
-export const companyExist = (approverID: number, partnerCompany: string,title:string,description:string) => {
+export const companyExist = (approverID: number, partnerCompany: string,title:string,description:string,history:any) => {
     axios.get('http://localhost:8080/companies?search' + partnerCompany, {
         withCredentials: true
     }).then((response) => {
         if (response.data.totalElements > 0) {
             const companyID = response.data.content[0].id;
-            addProposal(companyID,approverID,title,description);
+            addProposal(companyID,approverID,title,description,history);
         }
         return false;
     })
 };
 
-export const addProposal = (companyID:number,approverID:number,title:string,description:string) => {
+export const addProposal = (companyID:number,approverID:number,title:string,description:string,history:any) => {
     const userData: string | null = sessionStorage.getItem('myData');
 
     if (userData !== null) {
@@ -92,7 +92,7 @@ export const addProposal = (companyID:number,approverID:number,title:string,desc
                     axios.post('http://localhost:8080/proposals/' + proposalid.id + "/sections/",
                         {text: description, type: "description", proposal: proposalid}, {
                             withCredentials: true
-                        }).then(()=>{console.log("woooo")});
+                        }).then(()=>{ history.push('/proposals/'+proposalid.id)});
                 });
             });
     }
