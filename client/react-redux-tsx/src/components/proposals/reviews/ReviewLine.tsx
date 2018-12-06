@@ -16,7 +16,7 @@ export class ReviewLine extends React.Component<any>{
                 style={this.props.style}
             >
                 <Link
-                    to={'/proposals/' + this.props.review.proposal.id}>{(this.props.section)? this.props.section.text:null}</Link> {this.props.review.score} <Button onClick={()=>this.open(this.props.review)}>Close</Button>
+                    to={'/proposals/' + this.props.review.proposal.id}>{(this.props.section)? this.props.section.text:null}</Link> {this.props.review.score} <Button onClick={()=>this.open(this.props.review)}>Open</Button>
             </div>
         );
     }
