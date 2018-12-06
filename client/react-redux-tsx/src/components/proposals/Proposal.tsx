@@ -1,13 +1,15 @@
 import * as React from "react";
-// import {BidsList} from "./bids/BidsList";
-// import {ReviewsList} from "./reviews/ReviewsList";
-// import {CommentsList} from "./comments/CommentsList";
-// import {SectionsList} from "./sections/SectionsList";
-// import {StaffList} from "./StaffList";
 import {connect} from "react-redux";
-import {fetchPartners, fetchStaff} from "../../actions/proposals/ProposalDetailsActions";
+import {
+    fetchPartners,
+    fetchStaff,
+    fetchSections,
+    fetchComments,
+    fetchBids,
+    fetchReviews
+} from "../../actions/proposals/ProposalDetailsActions";
 import SimpleList from "../common/SimpleList";
-import {IEmployee, ISection} from "../../models/IComponents";
+import {IComment, IEmployee, IReview, ISection} from "../../models/IComponents";
 
 
 export class Proposal extends React.Component<any> {
@@ -17,10 +19,10 @@ export class Proposal extends React.Component<any> {
         if (params) {
             this.props.fetchPartners(params.id);
             this.props.fetchStaff(params.id);
-            // this.props.fetchSections(params.id);
-            // this.props.fetchComments(params.id);
-            // this.props.fetchBids(params.id);
-            // this.props.fetchReviews(params.id);
+            this.props.fetchSections(params.id);
+            this.props.fetchComments(params.id);
+            this.props.fetchBids(params.id);
+            this.props.fetchReviews(params.id);
         }
     }
 
@@ -30,24 +32,37 @@ export class Proposal extends React.Component<any> {
                 <h1>Titulo Proposta</h1>
                 <SimpleList<IEmployee> title="Partners"
                                        list={this.props.partners}
-                                       show={this.employeesshow}
+                                       show={this.employeesShow}
                 />
-                <SimpleList<IEmployee> title = "Staff"
-                            list={this.props.staff}
-                            show={this.employeesshow}
+                <SimpleList<IEmployee> title="Staff"
+                                       list={this.props.staff}
+                                       show={this.employeesShow}
                 />
-                <SimpleList<ISection> title = "Sections"
+                <SimpleList<ISection> title="Sections"
                                       list={this.props.sections}
                                       show={this.sectionsShow}
                 />
-                {/*<CommentsList/>*/}
-                {/*<BidsList/>*/}
-                {/*<ReviewsList/>*/}
+                <SimpleList<IComment> title="Comments"
+                                      list={this.props.comments}
+                                      show={this.commentsShow}
+                />
+                {/*<SimpleList<IBid> title="Bids"*/}
+                                  {/*list={this.props.bids}*/}
+                                  {/*show={this.bidsShow}*/}
+                {/*/>*/}
+                <SimpleList<IReview> title="Reviews"
+                                     list={this.props.reviews}
+                                     show={this.reviewsShow}
+                />
             </div>);
     }
 
-    private employeesshow = (employee:IEmployee) => `${employee.name} (${employee.email})`;
+    private employeesShow = (employee: IEmployee) => `${employee.name} (${employee.email})`;
     private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
+    private commentsShow = (comment: IComment) => `${comment.author}: ${comment.comment}`;
+    // private bidsShow = (comment: IBid) => `${comment.author}: ${comment.comment}`;
+    private reviewsShow = (review: IReview) => `${review.author}: ${review.score}`;
+
 
 }
 
@@ -57,6 +72,10 @@ const mapStateToProps = (state: any) =>
 
 export default connect(mapStateToProps, {
     fetchPartners,
-    fetchStaff
+    fetchStaff,
+    fetchSections,
+    fetchComments,
+    fetchBids,
+    fetchReviews
 })(Proposal);
 
