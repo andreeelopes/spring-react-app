@@ -45,8 +45,8 @@ class ReviewsList extends React.Component<any> {
                 <div className="App">
                     <h1>My Reviews</h1>
                 </div>
-                    <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total} laststuff={this.props.sectionsAdded}
-                                  rowRenderer={this.rowRenderer} getStuff={this.getReviews}/>
+                    <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total} numberOfRowsReady={this.props.sectionsAdded}
+                                  rowRenderer={this.rowRenderer} loadMoreRows={this.getReviews}/>
             </div>
         );
     }

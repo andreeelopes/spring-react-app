@@ -10,15 +10,15 @@ export class InfiniteList extends React.Component<any> {
 
         this.currPage = -1;
     }
-    public getStuff = (param: IndexRange) => {
+    public loadMoreRows = (param: IndexRange) => {
         this.currPage++;
 
-        return this.props.getStuff(this.currPage);
+        return this.props.loadMoreRows(this.currPage);
 
     };
 
     public  componentWillReceiveProps(nextProps:any) {
-        if(this.props.laststuff===19) { // updating
+        if(this.props.numberOfRowsReady===19) { // updating
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }
@@ -30,7 +30,7 @@ export class InfiniteList extends React.Component<any> {
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
-        this.getStuff(param);
+        this.loadMoreRows(param);
 
     }
 
@@ -41,7 +41,7 @@ export class InfiniteList extends React.Component<any> {
 
                 <InfiniteLoader
                     isRowLoaded={this.isRowLoaded}
-                    loadMoreRows={this.getStuff}
+                    loadMoreRows={this.loadMoreRows}
                     rowCount={this.props.total}
                     threshold={20}
                 >

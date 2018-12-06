@@ -40,8 +40,8 @@ class BidsList extends React.Component<any> {
                 <div className="App">
                     <h1>Proposals I bidded</h1>
                 </div>
-                <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total} laststuff={this.props.sectionsAdded}
-                              rowRenderer={this.rowRenderer} getStuff={this.getBids}/>
+                <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total} numberOfRowsReadygit={this.props.sectionsAdded}
+                              rowRenderer={this.rowRenderer} loadMoreRows={this.getBids}/>
             </div>
         );
     }
