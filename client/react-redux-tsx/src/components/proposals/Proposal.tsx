@@ -4,9 +4,10 @@ import * as React from "react";
 // import {CommentsList} from "./comments/CommentsList";
 // import {SectionsList} from "./sections/SectionsList";
 // import {StaffList} from "./StaffList";
-import {PartnerList} from "./PartnerList";
 import {connect} from "react-redux";
-import {fetchPartners} from "../../actions/proposals/ProposalDetailsActions";
+import {fetchPartners, fetchStaff} from "../../actions/proposals/ProposalDetailsActions";
+import SimpleList from "../common/SimpleList";
+import {IEmployee, ISection} from "../../models/IComponents";
 
 
 export class Proposal extends React.Component<any> {
@@ -15,14 +16,11 @@ export class Proposal extends React.Component<any> {
         const params = this.props.match.params;
         if (params) {
             this.props.fetchPartners(params.id);
-            console.log(this.props);
-
-
-            // this.props.fetchStaff(id);
-            // this.props.fetchSections(id);
-            // this.props.fetchComments(id);
-            // this.props.fetchBids(id);
-            // this.props.fetchReviews(id);
+            this.props.fetchStaff(params.id);
+            // this.props.fetchSections(params.id);
+            // this.props.fetchComments(params.id);
+            // this.props.fetchBids(params.id);
+            // this.props.fetchReviews(params.id);
         }
     }
 
@@ -30,19 +28,35 @@ export class Proposal extends React.Component<any> {
         return (
             <div>
                 <h1>Titulo Proposta</h1>
-                <PartnerList partners={this.props.partners}/>
-                {/*<StaffList/>*/}
-                {/*<SectionsList/>*/}
+                <SimpleList<IEmployee> title="Partners"
+                                       list={this.props.partners}
+                                       show={this.employeesshow}
+                />
+                <SimpleList<IEmployee> title = "Staff"
+                            list={this.props.staff}
+                            show={this.employeesshow}
+                />
+                <SimpleList<ISection> title = "Sections"
+                                      list={this.props.sections}
+                                      show={this.sectionsShow}
+                />
                 {/*<CommentsList/>*/}
                 {/*<BidsList/>*/}
                 {/*<ReviewsList/>*/}
             </div>);
     }
+
+    private employeesshow = (employee:IEmployee) => `${employee.name} (${employee.email})`;
+    private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
+
 }
 
 // Make necessary proposals details available in  props
 const mapStateToProps = (state: any) =>
     ({partners: state.proposalDetails.partners});
 
-export default connect(mapStateToProps, {fetchPartners})(Proposal);
+export default connect(mapStateToProps, {
+    fetchPartners,
+    fetchStaff
+})(Proposal);
 
