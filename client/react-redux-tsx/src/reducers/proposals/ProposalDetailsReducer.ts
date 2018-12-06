@@ -1,4 +1,4 @@
-import {GET_PARTNERS} from "../actions/proposals/types";
+import {GET_PARTNERS} from "../../actions/proposals/types";
 
 const initialState = {
     partners: ''

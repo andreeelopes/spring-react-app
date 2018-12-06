@@ -1,7 +1,7 @@
 
 import axios from "axios";
-import {IEmployee, IProposal, ISection} from "../models/IComponents";
-import {ADD_TITLE, GET_BIDS} from "./proposals/types";
+import {IEmployee, IProposal, ISection} from "../../models/IComponents";
+import {ADD_TITLE, GET_BIDS} from "../proposals/types";
 interface IBidPK {
     bidder: IEmployee;
     proposal: IProposal;

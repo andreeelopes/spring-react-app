@@ -1,4 +1,4 @@
-import {GET_BIDS, ADD_TITLE} from "../actions/proposals/types";
+import {GET_BIDS, ADD_TITLE} from "../../actions/proposals/types";
 
 const initialState = {
     displayedMyBids: [],

@@ -1,4 +1,4 @@
-import {HIDE_MODAL, SHOW_MODAL} from "../actions/proposals/types";
+import {HIDE_MODAL, SHOW_MODAL} from "../../actions/proposals/types";
 
 const initialState = {
     state: false

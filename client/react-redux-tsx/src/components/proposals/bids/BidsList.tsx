@@ -3,7 +3,7 @@
 import * as React from "react";
 import '../../../App.css';
 import {connect} from "react-redux";
-import {getBids, getSections, IBid} from "../../../actions/bidsListActions";
+import {getBids, getSections, IBid} from "../../../actions/bids/bidsListActions";
 import {ISection} from "../../../models/IComponents";
 import {BidLine} from "./BidLine";
 import {InfiniteList} from "../../common/InfiniteList";
