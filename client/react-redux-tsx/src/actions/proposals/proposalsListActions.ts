@@ -51,7 +51,6 @@ export const getSections = (c: IProposal, json: any, i: number,page:number,dispa
         sectionList.map((s) => {
             if (s.type = "title") {
                 const propLine:any = {section: s, proposal: c};
-                console.log(propLine);
                 dispatch({
                     type: ADD_SECTION,
                     index:i+(page*20),

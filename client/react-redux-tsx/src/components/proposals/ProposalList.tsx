@@ -37,7 +37,7 @@ export class ProposalList extends React.Component<any> {
     };
 
     public  componentWillReceiveProps(nextProps:any) {
-        if(this.props.sectionsAdded===19 ||(this.props.total===this.props.sectionsAdded)) { // updating
+        if(this.props.sectionsAdded===19 ||(this.props.total===this.props.sectionsAdded)) {
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }

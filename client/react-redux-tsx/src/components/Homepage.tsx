@@ -3,7 +3,7 @@ import {Button} from "react-bootstrap";
 
 import ProposalList from "./proposals/ProposalList";
 import BidsList from "./proposals/bids/BidsList";
-import {ReviewsList} from "./proposals/reviews/ReviewsList"
+import ReviewsList from "./proposals/reviews/ReviewsList"
 import '../App.css';
 
 import {connect} from "react-redux";
