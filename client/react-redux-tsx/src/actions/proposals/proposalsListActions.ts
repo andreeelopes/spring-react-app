@@ -6,15 +6,10 @@ import {ADD_SECTION, CLEAR, GET_PROPOSALS} from "./types";
 export const getProposals = (currPage:number,link:string) => (dispatch: any,) => {
     console.log(link);
     return axios(link + currPage, {
-            withCredentials: true,
+        withCredentials: true,
         method: 'get'
     }).then((json: any) => {
-        const totalPage:number = json.data.totalPages;
         const total = json.data.totalElements;
-        if (totalPage === currPage) {
-            return;
-        }
-
         const proposalList:any = [];
         json.data.content.map((item:any)=> {
             proposalList.push({proposal:item});

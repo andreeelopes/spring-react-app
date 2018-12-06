@@ -19,11 +19,7 @@ export const getBids = (currPage:number) => (dispatch: any,) => {
         withCredentials: true,
         method: 'get'
     }).then((json: any) => {
-        const totalPage:number = json.data.totalPages;
         const total = json.data.totalElements;
-        if (totalPage === currPage) {
-            return;
-        }
         const bidList:any = [];
         json.data.content.map((item:any)=> {
             bidList.push({bid:item});
