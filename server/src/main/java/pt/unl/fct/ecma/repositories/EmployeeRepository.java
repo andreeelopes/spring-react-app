@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import pt.unl.fct.ecma.models.Bid;
 import pt.unl.fct.ecma.models.Employee;
 import pt.unl.fct.ecma.models.Proposal;
+import pt.unl.fct.ecma.models.Review;
 
 public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
@@ -29,5 +30,6 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
     @Query("SELECT r.pk.proposal FROM ProposalRole r WHERE r.pk.employee.id = :employeeid AND r.role LIKE CONCAT('%','STAFF','%')")
     Page<Proposal> findProposalStaff(Pageable pageable,@Param(value = "employeeid") Long id);
 
-
+    @Query("SELECT r from Review r where r.author.id = :employeeid")
+    Page<Review> getReviews(Pageable pageable,@Param(value = "employeeid") Long id);
 }

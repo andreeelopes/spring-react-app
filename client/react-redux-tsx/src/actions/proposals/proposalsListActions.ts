@@ -4,7 +4,7 @@ import {IProposal, ISection} from "../../models/IComponents";
 import {ADD_SECTION, CLEAR, GET_PROPOSALS} from "./types";
 
 export const getProposals = (currPage:number,link:string) => (dispatch: any,) => {
-
+    console.log(link);
     return axios(link + currPage, {
             withCredentials: true,
         method: 'get'
@@ -14,6 +14,7 @@ export const getProposals = (currPage:number,link:string) => (dispatch: any,) =>
         if (totalPage === currPage) {
             return;
         }
+
         const proposalList:any = [];
         json.data.content.map((item:any)=> {
             proposalList.push({proposal:item});
@@ -50,6 +51,7 @@ export const getSections = (c: IProposal, json: any, i: number,page:number,dispa
         sectionList.map((s) => {
             if (s.type = "title") {
                 const propLine:any = {section: s, proposal: c};
+                console.log(propLine);
                 dispatch({
                     type: ADD_SECTION,
                     index:i+(page*20),
