@@ -24,14 +24,13 @@ export class Proposal extends React.Component<any> {
             this.props.fetchBids(params.id);
             this.props.fetchReviews(params.id);
         }
-        // debugger;
     }
 
     public render() {
         debugger;
         return (
             <div>
-                <h1>Titulo Proposta</h1>
+                <h1>{this.getTitle(this.props.sections)}</h1>
                 <SimpleList<IEmployee> title="Partners"
                                        list={this.props.partners}
                                        show={this.employeesShow}
@@ -50,8 +49,8 @@ export class Proposal extends React.Component<any> {
                                       show={this.commentsShow}
                 />
                 {/*<SimpleList<IBid> title="Bids"*/}
-                                  {/*list={this.props.bids}*/}
-                                  {/*show={this.bidsShow}*/}
+                {/*list={this.props.bids}*/}
+                {/*show={this.bidsShow}*/}
                 {/*/>*/}
                 <SimpleList<IReview> title="Reviews"
                                      list={this.props.reviews}
@@ -66,6 +65,15 @@ export class Proposal extends React.Component<any> {
     // private bidsShow = (comment: IBid) => `${comment.author}: ${comment.comment}`;
     private reviewsShow = (review: IReview) => `${review.author}: ${review.score}`;
 
+    private getTitle = (sections: ISection[]) => {
+        if (sections) {
+            return sections.filter(section => section.type === 'title')[0].text;
+        }
+        else {
+            return "Proposal";
+        }
+
+    }
 
 }
 
