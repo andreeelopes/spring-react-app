@@ -24,9 +24,11 @@ export class Proposal extends React.Component<any> {
             this.props.fetchBids(params.id);
             this.props.fetchReviews(params.id);
         }
+        // debugger;
     }
 
     public render() {
+        debugger;
         return (
             <div>
                 <h1>Titulo Proposta</h1>
@@ -69,7 +71,14 @@ export class Proposal extends React.Component<any> {
 
 // Make necessary proposals details available in  props
 const mapStateToProps = (state: any) =>
-    ({partners: state.proposalDetails.partners});
+    ({
+        partners: state.proposalDetails.partners,
+        staff: state.proposalDetails.staff,
+        sections: state.proposalDetails.sections,
+        comments: state.proposalDetails.comments,
+        // bids: state.proposalDetails.bids,
+        reviews: state.proposalDetails.reviews
+    });
 
 export default connect(mapStateToProps, {
     fetchPartners,

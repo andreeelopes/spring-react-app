@@ -19,6 +19,8 @@ export const fetch = (url: string, reduxAction: string,) => {
     return (dispatch: any, getState: any) => {
         return httpClient.get(url)
             .then((response: any) => {
+                debugger;
+
                 dispatch({
                     type: reduxAction,
                     payload: response.data.content // TODO retirar o content para permitir o pageable   -nelson
@@ -29,26 +31,26 @@ export const fetch = (url: string, reduxAction: string,) => {
     }
 };
 
-export const fetchPartners = (id: any) => {
-    return fetch(partnerURL.replace("{pid}", id.toString), GET_PROPOSAL_PARTNERS)
+export const fetchPartners = (id: number) => {
+    return fetch(partnerURL.replace("{pid}", id.toString()), GET_PROPOSAL_PARTNERS)
 };
 
-export const fetchStaff = (id: any) => {
-    return fetch(staffURL.replace("{pid}", id.toString), GET_PROPOSAL_STAFF)
+export const fetchStaff = (id: number) => {
+    return fetch(staffURL.replace("{pid}", id.toString()), GET_PROPOSAL_STAFF)
 };
 
-export const fetchSections = (id: any) => {
-    return fetch(sectionsURL.replace("{pid}", id.toString), GET_PROPOSAL_SECTIONS)
+export const fetchSections = (id: number) => {
+    return fetch(sectionsURL.replace("{pid}", id.toString()), GET_PROPOSAL_SECTIONS)
 };
 
-export const fetchComments = (id: any) => {
-    return fetch(commentsURL.replace("{pid}", id.toString), GET_PROPOSAL_COMMENTS)
+export const fetchComments = (id: number) => {
+    return fetch(commentsURL.replace("{pid}", id.toString()), GET_PROPOSAL_COMMENTS)
 };
 
-export const fetchBids = (id: any) => {
-    return fetch(bidsURL.replace("{pid}", id.toString), GET_PROPOSAL_BIDS)
+export const fetchBids = (id: number) => {
+    return fetch(bidsURL.replace("{pid}", id.toString()), GET_PROPOSAL_BIDS)
 };
 
-export const fetchReviews = (id: any) => {
-    return fetch(reviewsURL.replace("{pid}", id.toString), GET_PROPOSAL_REVIEWS)
+export const fetchReviews = (id: number) => {
+    return fetch(reviewsURL.replace("{pid}", id.toString()), GET_PROPOSAL_REVIEWS)
 };
