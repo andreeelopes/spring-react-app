@@ -1,11 +1,11 @@
 import * as React from "react";
 
 import Proposal from "./Proposal";
-import {AddCommentForm} from "./comments/AddCommentForm";
-import {AddBidForm} from "./bids/AddBidForm";
-import {AddReviewForm} from "./reviews/AddReviewForm";
-import {AddTeamMemberForm} from "./AddTeamMemberForm";
-import {AddSectionForm} from "./sections/AddSectionForm";
+import AddCommentForm from "./comments/AddCommentForm";
+import AddBidForm from "./bids/AddBidForm";
+import AddReviewForm from "./reviews/AddReviewForm";
+import AddTeamMemberForm from "./AddTeamMemberForm";
+import AddSectionForm from "./sections/AddSectionForm";
 import {ChangeStateButton} from "./ChangeStateButton";
 
 

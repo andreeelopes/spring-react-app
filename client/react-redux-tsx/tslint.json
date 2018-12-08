@@ -19,6 +19,7 @@
     "ordered-imports": false,
     "object-literal-sort-keys": false,
     "jsx-no-lambda":false,
-    "no-debugger": false
+    "no-debugger": false,
+    "member-ordering":false
   }
 }

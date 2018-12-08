@@ -2,16 +2,17 @@ import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstr
 import * as React from "react";
 import {connect} from "react-redux";
 import {hideModal, showModal} from "../../actions/proposals/proposalModalActions";
-import {
-    changeApproverForm,
-    changeDescriptionForm,
-    changePartnerCompanyForm,
-    changeTitleForm, submit
+import {submit
 } from "../../actions/proposals/proposalFormActions";
 import {withRouter} from "react-router";
 
 
 class AddProposalModal extends React.Component<any> {
+    private approver:any;
+    private partnerCompany:any;
+    private title:any;
+    private description:any;
+
     public SubmitButton = withRouter(({history}) => (
         <Button
             onClick={() => this.submit(history)}
@@ -23,36 +24,14 @@ class AddProposalModal extends React.Component<any> {
         this.props.hideModal();
     };
 
-    public handleTitleChange = (e: any) => {
-        this.props.changeTitleForm(e.target.value);
-    };
 
-    public handleDescriptionChange = (e: any) => {
-        this.props.changeDescriptionForm(e.target.value);
-    };
-    public handlePartnerCompanyChange = (e: any) => {
-        this.props.changePartnerCompanyForm(e.target.value);
-    };
-    public handleApproverChange = (e: any) => {
-        this.props.changeApproverForm(e.target.value);
-    };
-    public getValidationState = () => {
-
-        const length = this.props.proposalFormTitle.length;
-        if (length <= 10 && length >= 5) {
-            return 'success';
-        }
-        else if (length > 0) {
-            return 'error';
-        }
-        return null;
-    };
 
     public submit = (history: any) => {
-        if (this.getValidationState() !== 'success' || this.props.proposalFormDescription > 0) {
+
+        if ( this.description.value.length === 0) {
             return;
         }
-        submit(this.props.proposalFormApprover, this.props.proposalFormPartnerCompany, this.props.proposalFormTitle, this.props.proposalFormDescription, history);
+        submit(this.approver.value, this.partnerCompany.value, this.title.value, this.description.value, history);
 
 
     };
@@ -68,14 +47,12 @@ class AddProposalModal extends React.Component<any> {
                     <form>
                         <FormGroup
                             controlId="formBasicText"
-                            validationState={this.getValidationState()}
                         >
                             <ControlLabel>Title</ControlLabel>
                             <FormControl
                                 type="text"
-                                value={this.props.proposalFormTitle}
+                                inputRef={(ref) => {this.title = ref}}
                                 placeholder="Enter title"
-                                onChange={this.handleTitleChange}
                             />
                             <FormControl.Feedback/>
                         </FormGroup>
@@ -87,8 +64,7 @@ class AddProposalModal extends React.Component<any> {
                                 style={{height: 500}}
                                 componentClass="textarea"
                                 placeholder="Your description"
-                                value={this.props.proposalFormDescription}
-                                onChange={this.handleDescriptionChange}
+                                inputRef={(ref) => {this.description = ref}}
                             />
                         </FormGroup>
                     </form>
@@ -96,18 +72,16 @@ class AddProposalModal extends React.Component<any> {
                         <ControlLabel>Company</ControlLabel>
                         <FormControl
                             type="text"
-                            value={this.props.proposalFormPartnerCompany}
                             placeholder="Enter Company"
-                            onChange={this.handlePartnerCompanyChange}
+                            inputRef={(ref) => {this.partnerCompany = ref}}
                         />
                     </form>
                     <form>
                         <ControlLabel>Approver</ControlLabel>
                         <FormControl
                             type="text"
-                            value={this.props.proposalFormApprover}
                             placeholder="Enter Approver"
-                            onChange={this.handleApproverChange}
+                            inputRef={(ref) => {this.approver = ref}}
                         />
                     </form>
                 </Modal.Body>
@@ -123,17 +97,10 @@ class AddProposalModal extends React.Component<any> {
 
 const mapStateToProps = (state: any) => ({
     proposalModal: state.proposalModal.state,
-    proposalFormTitle: state.proposalForm.title,
-    proposalFormDescription: state.proposalForm.description,
-    proposalFormPartnerCompany: state.proposalForm.partnerCompany,
-    proposalFormApprover: state.proposalForm.approver
+
 });
 
 export default connect(mapStateToProps, {
     showModal,
     hideModal,
-    changeTitleForm,
-    changeDescriptionForm,
-    changePartnerCompanyForm,
-    changeApproverForm
 })(AddProposalModal)
