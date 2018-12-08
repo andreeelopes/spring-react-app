@@ -28,7 +28,6 @@ export class Proposal extends React.Component<any> {
     }
 
     public render() {
-        debugger;
         return (
             <div>
                 <h1>Titulo Proposta</h1>
