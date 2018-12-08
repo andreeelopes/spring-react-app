@@ -8,6 +8,7 @@ import loginReducer from "./loginReducer";
 import companyDetailsReducer from "./companies/companyDetailsReducer";
 import reviewListReducer from "./reviews/reviewListReducer";
 import reviewModalReducer from "./reviews/reviewModalReducer";
+import employeeDetailsReducer from "./employees/employeeDetailsReducer";
 
 
 export default combineReducers({
@@ -19,5 +20,6 @@ export default combineReducers({
     bidList: bidListReducer,
     companyDetails: companyDetailsReducer,
     reviewList: reviewListReducer,
-    reviewModal: reviewModalReducer
+    reviewModal: reviewModalReducer,
+    employeeDetails: employeeDetailsReducer
 })

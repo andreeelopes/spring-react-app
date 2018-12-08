@@ -11,6 +11,7 @@ export const ADD_TITLE = 'ADD_TITLE';
 export const CLEAR = 'CLEAR';
 export const LOGIN = 'LOGIN';
 
+export const GET_EMPLOYEE='GET_EMPLOYEE';
 
 export const GET_PROPOSAL_PARTNERS = 'GET_PROPOSAL_PARTNERS';
 export const GET_PROPOSAL_STAFF = 'GET_PROPOSAL_STAFF';
