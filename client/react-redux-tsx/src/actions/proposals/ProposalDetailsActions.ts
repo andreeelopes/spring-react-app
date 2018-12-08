@@ -8,19 +8,17 @@ import {
 } from "./types";
 import {httpClient} from "../index";
 
-const partnerURL = '/proposals/{pid}/partnermembers';
-const staffURL = '/proposals/{pid}/staff';
-const sectionsURL = '/proposals/{pid}/sections';
-const commentsURL = '/proposals/{pid}/comments';
-const bidsURL = '/proposals/{pid}/bids';
-const reviewsURL = '/proposals/{pid}/reviews';
+const partnerURL = '/proposals/{pid}/partnermembers/';
+const staffURL = '/proposals/{pid}/staff/';
+const sectionsURL = '/proposals/{pid}/sections/';
+const commentsURL = '/proposals/{pid}/comments/';
+const bidsURL = '/proposals/{pid}/bids/';
+const reviewsURL = '/proposals/{pid}/reviews/';
 
 export const fetch = (url: string, reduxAction: string,) => {
     return (dispatch: any, getState: any) => {
         return httpClient.get(url)
             .then((response: any) => {
-                debugger;
-
                 dispatch({
                     type: reduxAction,
                     payload: response.data.content // TODO retirar o content para permitir o pageable   -nelson

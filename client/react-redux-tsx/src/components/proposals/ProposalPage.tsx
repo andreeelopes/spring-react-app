@@ -33,6 +33,17 @@ export class ProposalPage extends React.Component<any> {
             </div>
         );
     }
+
+    // private onFormSubmit = (newResource) => { //TODO -nelson
+    //     switch (newResource.typeof) {
+    //         case "Comment":
+    //         case "Bid":
+    //         case "TeamMember":
+    //         case "SectionForm":
+    //
+    //     }
+    //     this.props.saveCommentOnServer(newResource);
+    // }
 }
 
 // TODO
