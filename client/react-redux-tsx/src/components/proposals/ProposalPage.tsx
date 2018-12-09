@@ -10,7 +10,7 @@ import {ChangeStateButton} from "./ChangeStateButton";
 
 
 export class ProposalPage extends React.Component<any> {
-
+    private proposalId=this.props.match.params.id;
     public constructor(props: any) {
         super(props);
     }
@@ -20,8 +20,8 @@ export class ProposalPage extends React.Component<any> {
         return (
             <div>
                 <Proposal {...this.props} />
-                <AddCommentForm/>
-                <AddBidForm/>
+                <AddCommentForm id={this.proposalId}/>
+                <AddBidForm id={this.proposalId}/>
                 <AddReviewForm/>
 
                 /* staff only*/

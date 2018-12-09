@@ -60,12 +60,12 @@ export class Proposal extends React.Component<any> {
 
     private employeesShow = (employee: IEmployee) => `${employee.name} (${employee.email})`;
     private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
-    private commentsShow = (comment: IComment) => `${comment.author}: ${comment.comment}`;
+    private commentsShow = (comment: any) => `${comment.author}: ${comment.comment}`;
     // private bidsShow = (comment: IBid) => `${comment.author}: ${comment.comment}`;
     private reviewsShow = (review: IReview) => `${review.author}: ${review.score}`;
 
     private getTitle = (sections: ISection[]) => {
-        if (sections) {
+        if (sections.length!==0) {
             return sections.filter(section => section.type === 'title')[0].text;
         }
         else {

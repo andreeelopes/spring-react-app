@@ -2,6 +2,8 @@ import * as React from "react";
 import {Button, Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import {showBidModal} from "../../../actions/proposals/proposalPageModalsAction";
+import {addBid} from "../../../actions/bids/addBidAction";
+import {getUser} from "../../../actions/getSessionUser";
 
 export class AddBidForm extends React.Component<any> {
     public handleOpen = () => {
@@ -10,19 +12,23 @@ export class AddBidForm extends React.Component<any> {
     public handleClose = () => {
         this.props.showBidModal(false);
     };
+    public submit = () =>{
+        addBid(getUser().id,this.props.id);
+    };
     public render() {
         return (<div>
                 <Modal show={this.props.bidModal} onHide={this.handleClose}>
                     <Modal.Header>
-                        <Modal.Title>Create a new Proposal</Modal.Title>
+                        <Modal.Title>Bid proposal</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
-                        ola
+                        You sure u want to bid?
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
+                        <Button onClick={this.handleClose}>No</Button>
+                        <Button onClick={this.submit}>Yes</Button>
                     </Modal.Footer>
                 </Modal>
                 <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Bid</Button>
