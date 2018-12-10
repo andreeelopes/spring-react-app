@@ -1,4 +1,4 @@
-import {GET_BIDS, ADD_TITLE} from "../../actions/proposals/types";
+import {GET_BIDS_SECTIONS, ADD_TITLE} from "../../actions/proposals/types";
 
 const initialState = {
     displayedMyBids: [],
@@ -9,7 +9,7 @@ export default function (state = initialState, action: any) {
     let tempState: any = [];
     switch (action.type) {
 
-        case GET_BIDS:
+        case GET_BIDS_SECTIONS:
             tempState = state.displayedMyBids.concat(action.payload);
             return {
                 ...state,

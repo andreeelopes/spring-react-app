@@ -8,32 +8,54 @@ import AddTeamMemberForm from "./AddTeamMemberForm";
 import AddSectionForm from "./sections/AddSectionForm";
 import {ChangeStateButton} from "./ChangeStateButton";
 import {connect} from "react-redux";
-import {fetchProposal} from "../../actions/proposals/ProposalPageActions";
+import {fetchBids, fetchProposal} from "../../actions/proposals/ProposalPageActions";
+import {getUser} from "../../actions/getSessionUser";
 
 
 export class ProposalPage extends React.Component<any> {
     private proposalId=this.props.match.params.id;
+    private imStaff=false;
+    private imApprover=false;
+    private canReview=false;
+    private user=getUser();
     public constructor(props: any) {
         super(props);
     }
     public componentWillMount(){
         this.props.fetchProposal(this.proposalId);
+        this.props.fetchBids(this.user.id).then(()=>{
+            const found = this.props.bids.find((element:any)=>(element.pk.proposal.id===this.proposalId && element.status==="ACCEPTED"));
+            if(found!=null){
+                this.canReview=true;
+            }
+        });
     }
-    // TODO
+    public componentWillReceiveProps(nextProps:any){
+        if(nextProps.staff.length>0){
+            const found:any=nextProps.staff.find((element:any) =>(element.username===this.user.username));
+            if(found!=null){
+                this.imStaff=true;
+            }
+        }
+        if(this.props.proposal!=null){
+            this.imApprover= this.user.id===this.props.proposal.approver.id;
+        }
+    }
     public render() {
+        console.log(this.props.proposal);
         return (
             <div>
                 <Proposal {...this.props} />
                 <AddCommentForm id={this.proposalId}/>
-                <AddBidForm proposal={this.props.proposal}/>
-                <AddReviewForm/>
+                <AddBidForm proposal={this.props.proposal} bids={this.props.bids}/>
 
-                /* staff only*/
-                <AddTeamMemberForm/>
-                <AddSectionForm/>
+                {(this.canReview) ? <AddReviewForm/> : null}
+
+                {(this.imStaff) ? <AddTeamMemberForm/> : null}
+                {(this.imStaff) ? <AddSectionForm/> :null}
 
                 {/*Approver only*/}
-                <ChangeStateButton/>
+                {(this.imApprover) ? <ChangeStateButton/> : null}
             </div>
         );
     }
@@ -52,7 +74,9 @@ export class ProposalPage extends React.Component<any> {
 
 // TODO
 const mapStateToProps = (state: any) => ({
-    proposal:state.proposalPage.proposal
+    proposal:state.proposalPage.proposal,
+    staff: state.proposalDetails.staff,
+    bids: state.proposalPage.bids
 });
 
 // TODO
@@ -72,7 +96,7 @@ export default connect(mapStateToProps, {
     selectPartner
 })(AddProposalModal)
 */
-export default connect(mapStateToProps, {
+export default connect(mapStateToProps, {fetchBids,
     fetchProposal
 })(ProposalPage)
 

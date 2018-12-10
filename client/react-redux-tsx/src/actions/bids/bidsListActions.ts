@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import {IEmployee, IProposal, ISection} from "../../models/IComponents";
-import {ADD_TITLE, GET_BIDS} from "../proposals/types";
+import {ADD_TITLE, GET_BIDS_SECTIONS} from "../proposals/types";
 import {getUser} from "../getSessionUser";
 interface IBidPK {
     bidder: IEmployee;
@@ -25,7 +25,7 @@ export const getBidsAndSections = (currPage:number) => (dispatch: any,) => {
             bidList.push({bid:item});
         });
         dispatch({
-            type: GET_BIDS,
+            type: GET_BIDS_SECTIONS,
             total: {total},
             payload: bidList
         });

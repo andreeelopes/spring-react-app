@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {showBidModal} from "../../../actions/proposals/proposalPageModalsAction";
 import {addBid} from "../../../actions/bids/addBidAction";
 import {getUser} from "../../../actions/getSessionUser";
-import {fetchBids, showBidButton} from "../../../actions/bids/addBidButtonAction";
+import { showBidButton} from "../../../actions/bids/addBidButtonAction";
 
 export class AddBidForm extends React.Component<any> {
     public handleOpen = () => {
@@ -16,21 +16,18 @@ export class AddBidForm extends React.Component<any> {
     public submit = () =>{
         addBid(getUser().id,this.props.proposal.id).then(()=>{
             this.props.showBidButton(false);
+            this.props.showBidModal(false);
         });
     };
 
     public componentWillReceiveProps(nextprops:any){
-        if(nextprops.proposal!=null && this.props.addBidButtonStatus){
+        if(nextprops.proposal!=null && this.props.addBidButtonStatus && nextprops.bids!=null){
             const user = getUser();
-            fetchBids(user.id).then((json)=>{
-
-                const found:any=json.data.content.find((element:any) =>(element.pk.bidder.username===user.username && element.pk.proposal.id===nextprops.proposal.id));
-                console.log(found);
-                console.log(nextprops.proposal.id)
+                const found:any=nextprops.bids.find((element:any) =>(element.pk.bidder.username===user.username && element.pk.proposal.id===nextprops.proposal.id));
                 if(found!=null ){
                     this.props.showBidButton(false)
                 }
-            });
+
             if(nextprops.proposal.approver.id===user.id){
                 this.props.showBidButton(false)
             }
