@@ -2,6 +2,7 @@ import axios from "axios";
 import {ADD_REVIEW_TITLE, GET_REVIEWS} from "./types";
 import {ISection} from "../../models/IComponents";
 import {getUser} from "../getSessionUser";
+import {CLEAR_REVIEWS} from "../proposals/types";
 
 
 export const getReviews = (currPage: number) => (dispatch: any,) => {
@@ -50,4 +51,9 @@ export const getSections = (c: any, json: any, i: number, page: number, dispatch
         });
     });
 
+};
+export const clearList = () => (dispatch: any,) => {
+    dispatch({
+        type: CLEAR_REVIEWS
+    })
 };

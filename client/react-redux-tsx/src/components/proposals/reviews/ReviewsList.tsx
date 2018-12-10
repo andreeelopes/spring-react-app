@@ -2,7 +2,7 @@ import * as React from "react";
 import {IEmployee, IProposal, ISection} from "../../../models/IComponents";
 import {connect} from "react-redux";
 import ReviewLine from "./ReviewLine";
-import {getReviews, getSections} from "../../../actions/reviews/reviewListActions";
+import {clearList, getReviews, getSections} from "../../../actions/reviews/reviewListActions";
 import Review from "./Review";
 import {InfiniteList} from "../../common/InfiniteList";
 
@@ -48,7 +48,9 @@ class ReviewsList extends React.Component<any> {
                 </div>
                 <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total}
                               numberOfRowsReady={this.props.sectionsAdded}
-                              rowRenderer={this.rowRenderer} loadMoreRows={this.getReviews}/>
+                              rowRenderer={this.rowRenderer} loadMoreRows={this.getReviews}
+                              clear={this.props.clearList}
+                />
             </div>
         );
     }
@@ -66,5 +68,6 @@ const mapStateToProps = (state: any) => ({
 
 export default connect(mapStateToProps, {
     getReviews,
-    getSections
+    getSections,
+    clearList
 })(ReviewsList)

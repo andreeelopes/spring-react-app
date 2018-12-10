@@ -1,4 +1,5 @@
 import {ADD_REVIEW_TITLE, GET_REVIEWS} from "../../actions/reviews/types";
+import { CLEAR_REVIEWS} from "../../actions/proposals/types";
 
 
 const initialState = {
@@ -25,7 +26,15 @@ export default function (state = initialState, action: any) {
                 ...state,
                 displayedMyReviews: tempState,
                 sectionsAdded: state.sectionsAdded + 1
-            }
+            };
+        case CLEAR_REVIEWS:
+            return {
+                ...state,
+                displayedMyReviews: [],
+                totalSize: 0,
+                sectionsAdded: 0
+
+            };
         default:
             return state;
     }

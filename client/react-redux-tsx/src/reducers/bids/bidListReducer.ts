@@ -1,4 +1,4 @@
-import {GET_BIDS_SECTIONS, ADD_TITLE} from "../../actions/proposals/types";
+import {GET_BIDS_SECTIONS, ADD_TITLE, CLEAR_BIDS} from "../../actions/proposals/types";
 
 const initialState = {
     displayedMyBids: [],
@@ -23,7 +23,15 @@ export default function (state = initialState, action: any) {
                 ...state,
                 displayedMyBids: tempState,
                 sectionsAdded: state.sectionsAdded + 1
-            }
+            };
+        case CLEAR_BIDS:
+            return {
+                ...state,
+                displayedMyBids: [],
+                totalSize: 0,
+                sectionsAdded: 0
+
+            };
         default:
             return state;
     }

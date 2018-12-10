@@ -22,13 +22,18 @@ export class ProposalPage extends React.Component<any> {
         super(props);
     }
     public componentWillMount(){
-        this.props.fetchProposal(this.proposalId);
-        this.props.fetchBids(this.user.id).then(()=>{
-            const found = this.props.bids.find((element:any)=>(element.pk.proposal.id===this.proposalId && element.status==="ACCEPTED"));
-            if(found!=null){
-                this.canReview=true;
+        this.props.fetchProposal(this.proposalId).then(()=>{
+            if(this.props.proposal.status==="REVIEW_PERIOD"){
+                this.props.fetchBids(this.user.id).then(()=>{
+                    const found = this.props.bids.find((element:any)=>(element.pk.proposal.id===parseInt(this.proposalId,0) && element.status==="ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
+                    if(found!=null){
+                        this.canReview=true;
+                    }
+                });
             }
         });
+
+
     }
     public componentWillReceiveProps(nextProps:any){
         if(nextProps.staff.length>0){

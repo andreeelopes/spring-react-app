@@ -8,7 +8,7 @@ export class InfiniteList extends React.Component<any> {
 
     public constructor(props: {}) {
         super(props);
-
+        console.log("new list")
         this.currPage = -1;
     }
 
@@ -20,6 +20,8 @@ export class InfiniteList extends React.Component<any> {
     };
 
     public componentWillReceiveProps(nextProps: any) {
+        console.log( this.props.numberOfRowsReady);
+        console.log(this.props.total - 1);
         if (this.props.numberOfRowsReady === 19 || (this.props.total - 1 === this.props.numberOfRowsReady)) { // updating
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
@@ -32,6 +34,7 @@ export class InfiniteList extends React.Component<any> {
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
+        this.props.clear();
         this.loadMoreRows(param);
 
     }

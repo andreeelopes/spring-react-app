@@ -1,7 +1,7 @@
 import * as React from "react";
 import '../../../App.css';
 import {connect} from "react-redux";
-import {getBidsAndSections, getSections, IBid} from "../../../actions/bids/bidsListActions";
+import {clearList, getBidsAndSections, getSections, IBid} from "../../../actions/bids/bidsListActions";
 import {ISection} from "../../../models/IComponents";
 import {BidLine} from "./BidLine";
 import {InfiniteList} from "../../common/InfiniteList";
@@ -29,7 +29,7 @@ class BidsList extends React.Component<any> {
 
 
     public render() {
-        console.log(this.props.sectionsAdded);
+        console.log(this.props.total);
         return (
             <div>
                 <div className="App">
@@ -37,7 +37,9 @@ class BidsList extends React.Component<any> {
                 </div>
                 <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total}
                               numberOfRowsReady={this.props.sectionsAdded}
-                              rowRenderer={this.rowRenderer} loadMoreRows={this.getBids}/>
+                              rowRenderer={this.rowRenderer} loadMoreRows={this.getBids}
+                              clear={this.props.clearList}
+                />
             </div>
         );
     }
@@ -52,6 +54,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-    getBids: getBidsAndSections,
+    getBids: getBidsAndSections,clearList,
     getSections
 })(BidsList)

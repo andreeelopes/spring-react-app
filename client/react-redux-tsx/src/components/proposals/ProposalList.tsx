@@ -58,7 +58,9 @@ export class ProposalList extends React.Component<any> {
 
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
+        this.props.clearList();
         this.getProposals(param);
+
     }
 
     public render() {

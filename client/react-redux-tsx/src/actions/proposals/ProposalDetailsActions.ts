@@ -19,7 +19,6 @@ export const fetch = (url: string, reduxAction: string,) => {
     return (dispatch: any, getState: any) => {
         return httpClient.get(url)
             .then((response: any) => {
-                console.log(response);
                 dispatch({
                     type: reduxAction,
                     payload: response.data.content // TODO retirar o content para permitir o pageable   -nelson

@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import {IEmployee, IProposal, ISection} from "../../models/IComponents";
-import {ADD_TITLE, GET_BIDS_SECTIONS} from "../proposals/types";
+import {ADD_TITLE, CLEAR_BIDS, GET_BIDS_SECTIONS} from "../proposals/types";
 import {getUser} from "../getSessionUser";
 interface IBidPK {
     bidder: IEmployee;
@@ -59,4 +59,10 @@ export const getSections = (c: any, json: any, i: number,page:number,dispatch:an
         });
     });
 
+};
+
+export const clearList = () => (dispatch: any,) => {
+    dispatch({
+        type: CLEAR_BIDS
+    })
 };
