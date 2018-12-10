@@ -47,7 +47,7 @@ export const getSections = (c: any, json: any, i: number,page:number,dispatch:an
         let sectionList: ISection[];
         sectionList = sectionjson.data.content;
         sectionList.map((s) => {
-            if (s.type = "title") {
+            if (s.type === "title") {
                 const propLine:any = {section: s, bid: c.bid};
                 dispatch({
                     type: ADD_TITLE,

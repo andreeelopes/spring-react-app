@@ -152,7 +152,46 @@ public class EcmaApplication implements CommandLineRunner {
         employeeRepository.save(employee31);
         employeeRepository.save(employee32);
 
-        for(int i=0;i<200;i++) {
+        for(int i=0;i<10;i++) {
+            Proposal prop = new Proposal();
+            prop.setCompanyProposed(company1);
+            prop.setApprover(employee12);
+            prop.setStatus(Proposal.Status.REVIEW_PERIOD.toString());
+            prop.setPartnerCompany(company2);
+
+            ProposalRole staffMember = new ProposalRole();
+            ProposalRoleKey proposalRoleKey1 = new ProposalRoleKey();
+            proposalRoleKey1.setEmployee(employee11);
+            proposalRoleKey1.setProposal(prop);
+            staffMember.setPk(proposalRoleKey1);
+            staffMember.setRole(ProposalRole.Role.STAFF.toString());
+            prop.getTeam().add(staffMember);
+
+
+            ProposalRole partnerMember = new ProposalRole();
+            ProposalRoleKey proposalRoleKey2 = new ProposalRoleKey();
+            proposalRoleKey2.setEmployee(employee21);
+            proposalRoleKey2.setProposal(prop);
+            partnerMember.setPk(proposalRoleKey2);
+            partnerMember.setRole(ProposalRole.Role.PARTNER.toString());
+            prop.getTeam().add(partnerMember);
+
+
+            Review review=new Review();
+            review.setText("Brutal");
+            review.setScore(Review.Score.EXCELENT);
+            review.setAuthor(employee21);
+            review.setProposal(prop);
+            prop.getReviews().add(review);
+
+            Section sec = new Section();
+            sec.setType("title");
+            sec.setText("Best Prop");
+            sec.setProposal(prop);
+            prop.getSections().add(sec);
+            proposalRepository.save(prop);
+        }
+        for(int i=0;i<5;i++) {
             Proposal prop = new Proposal();
             prop.setCompanyProposed(company1);
             prop.setApprover(employee12);
@@ -181,7 +220,7 @@ public class EcmaApplication implements CommandLineRunner {
             bidKey.setBidder(employee21);
             bidKey.setProposal(prop);
             bid.setPk(bidKey);
-            bid.setStatus(Bid.Status.WAITING.toString());
+            bid.setStatus(Bid.Status.ACCEPTED.toString());
 
             Review review=new Review();
             review.setText("Brutal");
@@ -198,7 +237,6 @@ public class EcmaApplication implements CommandLineRunner {
             prop.getSections().add(sec);
             proposalRepository.save(prop);
         }
-
 
 
 

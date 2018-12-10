@@ -20,7 +20,7 @@ export class InfiniteList extends React.Component<any> {
     };
 
     public componentWillReceiveProps(nextProps: any) {
-        if (this.props.numberOfRowsReady === 19) { // updating
+        if (this.props.numberOfRowsReady === 19 || (this.props.total - 1 === this.props.numberOfRowsReady)) { // updating
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }

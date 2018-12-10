@@ -35,7 +35,9 @@ class AddProposalModal extends React.Component<any> {
 
 
     };
-
+    public componentWillMount()  {
+        this.handleClose();
+    }
     public render() {
         return (
             <Modal show={this.props.proposalModal} onHide={this.handleClose}>

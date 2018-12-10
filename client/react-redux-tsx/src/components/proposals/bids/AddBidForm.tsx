@@ -21,6 +21,7 @@ export class AddBidForm extends React.Component<any> {
     };
 
     public componentWillReceiveProps(nextprops:any){
+        console.log(nextprops.bids);
         if(nextprops.proposal!=null && this.props.addBidButtonStatus && nextprops.bids!=null){
             const user = getUser();
                 const found:any=nextprops.bids.find((element:any) =>(element.pk.bidder.username===user.username && element.pk.proposal.id===nextprops.proposal.id));

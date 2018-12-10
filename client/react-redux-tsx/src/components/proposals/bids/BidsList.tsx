@@ -29,7 +29,7 @@ class BidsList extends React.Component<any> {
 
 
     public render() {
-
+        console.log(this.props.sectionsAdded);
         return (
             <div>
                 <div className="App">
