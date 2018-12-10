@@ -36,7 +36,8 @@ export class ProposalList extends React.Component<any> {
     };
 
     public componentWillReceiveProps(nextProps: any) {
-        if (this.props.sectionsAdded === 19 || (this.props.total === this.props.sectionsAdded)) {
+        console.log(this.props.sectionsAdded);
+        if (this.props.sectionsAdded === 19 || (this.props.total-1 === this.props.sectionsAdded)) {
             this.table.scrollToPosition(2);
             this.table.scrollToPosition(0);
         }
@@ -59,7 +60,6 @@ export class ProposalList extends React.Component<any> {
     public componentWillMount() {
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
         this.getProposals(param);
-
     }
 
     public render() {

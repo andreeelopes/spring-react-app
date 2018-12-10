@@ -13,7 +13,7 @@ export interface IBid {
     status: string;
 }
 
-export const getBids = (currPage:number) => (dispatch: any,) => {
+export const getBidsAndSections = (currPage:number) => (dispatch: any,) => {
     const user = getUser();
     return axios('http://localhost:8080/employees/'+user.id+'/bids?page=' + currPage, {
         withCredentials: true,

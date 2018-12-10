@@ -10,6 +10,8 @@ import reviewListReducer from "./reviews/reviewListReducer";
 import reviewModalReducer from "./reviews/reviewModalReducer";
 import employeeDetailsReducer from "./employees/employeeDetailsReducer";
 import proposalPageModalsReducer from "./proposals/proposalPageModalsReducer";
+import addBidButtonReducer from "./bids/addBidButtonReducer";
+import proposalPageReducer from "./proposals/proposalPageReducer";
 
 
 export default combineReducers({
@@ -23,5 +25,7 @@ export default combineReducers({
     reviewList: reviewListReducer,
     reviewModal: reviewModalReducer,
     employeeDetails: employeeDetailsReducer,
-    proposalPageModals: proposalPageModalsReducer
+    proposalPageModals: proposalPageModalsReducer,
+    addBidButton: addBidButtonReducer,
+    proposalPage: proposalPageReducer
 })

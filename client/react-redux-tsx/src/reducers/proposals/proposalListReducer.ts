@@ -18,6 +18,7 @@ export default function (state = initialState, action: any) {
             };
         case ADD_SECTION:
             tempState = state.displayMyProposals;
+
             tempState[action.index] = action.payload;
             return {
                 ...state,

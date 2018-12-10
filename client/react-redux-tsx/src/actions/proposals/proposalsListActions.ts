@@ -43,7 +43,7 @@ export const getSections = (c: IProposal, json: any, i: number, page: number, di
         let sectionList: ISection[];
         sectionList = sectionjson.data.content;
         sectionList.map((s) => {
-            if (s.type = "title") {
+            if (s.type === "title") {
                 const propLine: any = {section: s, proposal: c};
                 dispatch({
                     type: ADD_SECTION,

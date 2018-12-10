@@ -17,7 +17,6 @@ const initialState = {
 };
 
 export default function (state = initialState, action: any) {
-    console.log(state);
     switch (action.type) {
         case GET_PROPOSAL_PARTNERS:
             return {

@@ -7,6 +7,8 @@ import AddReviewForm from "./reviews/AddReviewForm";
 import AddTeamMemberForm from "./AddTeamMemberForm";
 import AddSectionForm from "./sections/AddSectionForm";
 import {ChangeStateButton} from "./ChangeStateButton";
+import {connect} from "react-redux";
+import {fetchProposal} from "../../actions/proposals/ProposalPageActions";
 
 
 export class ProposalPage extends React.Component<any> {
@@ -14,14 +16,16 @@ export class ProposalPage extends React.Component<any> {
     public constructor(props: any) {
         super(props);
     }
-
+    public componentWillMount(){
+        this.props.fetchProposal(this.proposalId);
+    }
     // TODO
     public render() {
         return (
             <div>
                 <Proposal {...this.props} />
                 <AddCommentForm id={this.proposalId}/>
-                <AddBidForm id={this.proposalId}/>
+                <AddBidForm proposal={this.props.proposal}/>
                 <AddReviewForm/>
 
                 /* staff only*/
@@ -47,8 +51,9 @@ export class ProposalPage extends React.Component<any> {
 }
 
 // TODO
-// @ts-ignore //TODO remover, e so para nao se queixar   -nelson
-const mapStateToProps = (state: any) => ({});
+const mapStateToProps = (state: any) => ({
+    proposal:state.proposalPage.proposal
+});
 
 // TODO
 /*
@@ -67,4 +72,7 @@ export default connect(mapStateToProps, {
     selectPartner
 })(AddProposalModal)
 */
+export default connect(mapStateToProps, {
+    fetchProposal
+})(ProposalPage)
 
