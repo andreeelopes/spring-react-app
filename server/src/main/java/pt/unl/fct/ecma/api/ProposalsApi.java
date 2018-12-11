@@ -31,8 +31,8 @@ public interface ProposalsApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addPartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
-                    @ApiParam(value = "Partner member object to add on the proposal", required = true) @Valid @RequestBody Employee member);
+    Employee addPartner(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+                    @ApiParam(value = "Partner member object to add on the proposal", required = true)  @RequestBody Employee member);
 
 
     @ApiOperation(value = "Add a new proposal to the system", nickname = "addProposal", notes = "", tags = {"proposals",})
@@ -67,7 +67,7 @@ public interface ProposalsApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    void addStaffMember(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
+    Employee addStaffMember(@ApiParam(value = "Proposal ID", required = true) @PathVariable("proposalId") Long proposalId,
                         @ApiParam(value = "Staff member object to add on the proposal", required = true)
                         @Valid @RequestBody Employee staffMember);
 

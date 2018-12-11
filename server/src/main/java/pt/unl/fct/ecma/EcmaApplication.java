@@ -152,7 +152,7 @@ public class EcmaApplication implements CommandLineRunner {
         employeeRepository.save(employee31);
         employeeRepository.save(employee32);
 
-        for(int i=0;i<10;i++) {
+        for(int i=0;i<50;i++) {
             Proposal prop = new Proposal();
             prop.setCompanyProposed(company1);
             prop.setApprover(employee12);
@@ -222,12 +222,7 @@ public class EcmaApplication implements CommandLineRunner {
             bid.setPk(bidKey);
             bid.setStatus(Bid.Status.ACCEPTED.toString());
 
-            Review review=new Review();
-            review.setText("Brutal");
-            review.setScore(Review.Score.EXCELENT);
-            review.setAuthor(employee21);
-            review.setProposal(prop);
-            prop.getReviews().add(review);
+
 
             prop.getBids().add(bid);
             Section sec = new Section();

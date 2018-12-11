@@ -29,12 +29,13 @@ public class ProposalBroker {
     @Autowired
     private CompanyService companyService;
 
-    public void addPartner(Long proposalId, Employee member) {
+    public Employee addPartner(Long proposalId, Employee member) {
         Proposal proposal = proposalService.getProposal(proposalId);
-        Employee dbEmployee = employeeService.getEmployee(member.getId());
+        Employee dbEmployee = employeeService.getEmployeeByUsername(member.getUsername());
 
         if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getPartnerCompany())) {
             proposalService.addPartner(proposal, dbEmployee);
+            return dbEmployee;
         } else
             throw new BadRequestException("Employee does not belong to the partner company of this proposal");
     }
@@ -54,12 +55,13 @@ public class ProposalBroker {
 
     }
 
-    public void addStaffMember(Long proposalId, Employee staffMember) {
+    public Employee addStaffMember(Long proposalId, Employee staffMember) {
         Proposal proposal = proposalService.getProposal(proposalId);
-        Employee dbEmployee = employeeService.getEmployee(staffMember.getId());
+        Employee dbEmployee =  employeeService.getEmployeeByUsername(staffMember.getUsername());
 
         if (companyService.employeeBelongsToCompany(dbEmployee, proposal.getCompanyProposed())) {
             proposalService.addStaffMember(proposal, dbEmployee);
+            return dbEmployee;
         } else
             throw new BadRequestException("Employee does not belong to the company that made this proposal");
     }
