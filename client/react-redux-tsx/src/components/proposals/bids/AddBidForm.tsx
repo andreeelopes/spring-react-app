@@ -14,23 +14,30 @@ export class AddBidForm extends React.Component<any> {
         this.props.showBidModal(false);
     };
     public submit = () =>{
+        console.log(getUser().id,this.props.proposal.id);
         addBid(getUser().id,this.props.proposal.id).then(()=>{
             this.props.showBidButton(false);
             this.props.showBidModal(false);
         });
     };
 
+
     public componentWillReceiveProps(nextprops:any){
-        if(nextprops.proposal!=null && nextprops.proposal.status==="REVIEW_PERIOD" && this.props.addBidButtonStatus && nextprops.bids!=null){
+        if(this.props.addBidButtonStatus) {
             const user = getUser();
-                const found:any=nextprops.bids.find((element:any) =>(element.pk.bidder.username===user.username && element.pk.proposal.id===nextprops.proposal.id));
-                if(found!=null ){
+            if (nextprops.proposal.status !== "REVIEW_PERIOD") {
+                this.props.showBidButton(false);
+            }
+            if ( nextprops.bids != null && nextprops.proposal.approver) {
+                const found: any = nextprops.bids.find((element: any) => (element.pk.bidder.username === user.username && element.pk.proposal.id === nextprops.proposal.id));
+                if (found != null) {
                     this.props.showBidButton(false)
                 }
-
-            if(nextprops.proposal.approver.id===user.id){
+            }
+            if (nextprops.proposal != null && nextprops.proposal.approver.id === user.id) {
                 this.props.showBidButton(false)
             }
+
         }
     }
 

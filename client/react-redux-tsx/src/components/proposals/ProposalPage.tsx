@@ -57,7 +57,7 @@ export class ProposalPage extends React.Component<any> {
                 {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
 
                 {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
-                {(this.imStaff) ? <AddSectionForm/> :null}
+                {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> :null}
 
                 {/*Approver only*/}
                 {(this.imApprover) ? <ChangeStateButton/> : null}

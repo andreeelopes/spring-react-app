@@ -4,7 +4,12 @@ import {
     GET_PROPOSAL_SECTIONS,
     GET_PROPOSAL_COMMENTS,
     GET_PROPOSAL_BIDS,
-    GET_PROPOSAL_REVIEWS, ADD_PROPOSAL_COMMENT, ADD_PROPOSAL_REVIEW, ADD_PARTNER_MEMBER, ADD_STAFF_MEMBER
+    GET_PROPOSAL_REVIEWS,
+    ADD_PROPOSAL_COMMENT,
+    ADD_PROPOSAL_REVIEW,
+    ADD_PARTNER_MEMBER,
+    ADD_STAFF_MEMBER,
+    ADD_PROPOSAL_SECTION
 } from "../../actions/proposals/types";
 
 const initialState = {
@@ -71,6 +76,11 @@ export default function (state = initialState, action: any) {
             return{
                 ...state,
                 staff:[...staff,action.payload]
+            }
+        case ADD_PROPOSAL_SECTION:
+            return{
+                ...state,
+                sections:[...state.sections,action.payload]
             }
         default:
             return state;

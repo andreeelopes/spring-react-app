@@ -15,7 +15,7 @@ export class AddReviewForm extends React.Component<any> {
     };
     public submit = () =>{
         const user=getUser();
-        if(this.description.value.lenght===0){
+        if(this.description.value.length===0){
             return;
         }
         this.props.submitReview(user.id,this.props.id,this.description.value).then(() => this.handleClose());
