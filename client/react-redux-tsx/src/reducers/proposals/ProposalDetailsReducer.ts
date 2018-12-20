@@ -4,7 +4,7 @@ import {
     GET_PROPOSAL_SECTIONS,
     GET_PROPOSAL_COMMENTS,
     GET_PROPOSAL_BIDS,
-    GET_PROPOSAL_REVIEWS, ADD_PROPOSAL_COMMENT
+    GET_PROPOSAL_REVIEWS, ADD_PROPOSAL_COMMENT, ADD_PROPOSAL_REVIEW, ADD_PARTNER_MEMBER, ADD_STAFF_MEMBER
 } from "../../actions/proposals/types";
 
 const initialState = {
@@ -49,12 +49,29 @@ export default function (state = initialState, action: any) {
                 reviews: action.payload
             };
         case ADD_PROPOSAL_COMMENT:
-            const array= state.comments;
+            const comments= state.comments;
             return{
                 ...state,
-                comments:  [...array, action.payload]
+                comments:  [...comments, action.payload]
+            };
+        case ADD_PROPOSAL_REVIEW:
+            const reviews= state.reviews;
+            return{
+                ...state,
+                reviews:[...reviews,action.payload]
+            };
+        case ADD_PARTNER_MEMBER:
+            const partners= state.partners;
+            return{
+                ...state,
+                partners:[...partners,action.payload]
+            };
+        case ADD_STAFF_MEMBER:
+            const staff=state.staff;
+            return{
+                ...state,
+                staff:[...staff,action.payload]
             }
-
         default:
             return state;
     }

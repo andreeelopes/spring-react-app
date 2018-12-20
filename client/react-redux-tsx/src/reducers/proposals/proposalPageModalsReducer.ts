@@ -3,7 +3,7 @@ import {
     SHOW_COMMENT_FORM,
     SHOW_REVIEW_FORM,
     SHOW_SECTION_FORM,
-    SHOW_TEAMMEMBER_FORM
+    SHOW_TEAMMEMBER_FORM, TYPE_OF_MEMBER
 } from "../../actions/proposals/types";
 
 const initialState = {
@@ -11,7 +11,8 @@ const initialState = {
     bidModal:false,
     reviewModal: false,
     teamMemberModal: false,
-    sectionModal: false
+    sectionModal: false,
+    membertype:'Type of member'
 };
 
 export default function (state = initialState, action: any) {
@@ -41,6 +42,11 @@ export default function (state = initialState, action: any) {
                 ...state,
                 sectionModal: action.payload
             };
+        case TYPE_OF_MEMBER:
+            return{
+                ...state,
+                membertype: action.payload
+            }
         default:
             return state;
     }
