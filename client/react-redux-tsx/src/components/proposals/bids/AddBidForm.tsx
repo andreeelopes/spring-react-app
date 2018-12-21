@@ -53,8 +53,8 @@ export class AddBidForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Cancel</Button>
-                        <Button onClick={this.submit}>Confirm</Button>
+                        <Button className="red-button" onClick={this.handleClose}>Cancel</Button>
+                        <Button className="blue-button" onClick={this.submit}>Confirm</Button>
                     </Modal.Footer>
                 </Modal>
                 {(this.props.addBidButtonStatus)? <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Bid</Button>:null}

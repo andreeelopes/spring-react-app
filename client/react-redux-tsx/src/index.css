@@ -20,3 +20,16 @@ body {
     color: dodgerblue !important;
     border: 1px solid dodgerblue !important;
 }
+
+.red-button {
+    background-color: #d32f2f !important;
+    color: white !important;
+    border-radius: 12px !important;
+    border: 1px solid transparent !important;
+}
+
+.red-button:hover {
+    background-color: white !important;
+    color: #d32f2f !important;
+    border: 1px solid #d32f2f !important;
+}
