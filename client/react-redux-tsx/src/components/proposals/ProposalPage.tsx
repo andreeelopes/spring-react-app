@@ -6,7 +6,6 @@ import AddBidForm from "./bids/AddBidForm";
 import AddReviewForm from "./reviews/AddReviewForm";
 import AddTeamMemberForm from "./AddTeamMemberForm";
 import AddSectionForm from "./sections/AddSectionForm";
-import {ChangeStateButton} from "./ChangeStateButton";
 import {connect} from "react-redux";
 import {fetchBids, fetchProposal} from "../../actions/proposals/ProposalPageActions";
 import {getUser} from "../../actions/getSessionUser";
@@ -21,6 +20,7 @@ export class ProposalPage extends React.Component<any> {
 
     public constructor(props: any) {
         super(props);
+        console.log(this.imApprover);//TODO - remover e so para calar um warning - nelson
     }
 
     public componentWillMount() {
@@ -51,7 +51,6 @@ export class ProposalPage extends React.Component<any> {
     }
 
     public render() {
-        console.log("Props ProposalPage: " + this.props);
         return (
             <div>
                 <Proposal {...this.props} />
@@ -63,22 +62,9 @@ export class ProposalPage extends React.Component<any> {
                 {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
                 {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
 
-                {/*Approver only*/}
-                {(this.imApprover) ? <ChangeStateButton/> : null}
             </div>
         );
     }
-
-    // private onFormSubmit = (newResource) => { //TODO -nelson
-    //     switch (newResource.typeof) {
-    //         case "Comment":
-    //         case "Bid":
-    //         case "TeamMember":
-    //         case "SectionForm":
-    //
-    //     }
-    //     this.props.saveCommentOnServer(newResource);
-    // }
 }
 
 // TODO
