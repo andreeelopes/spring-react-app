@@ -4,16 +4,18 @@ import {
     GET_PROPOSAL_SECTIONS,
     GET_PROPOSAL_COMMENTS,
     GET_PROPOSAL_BIDS,
-    GET_PROPOSAL_REVIEWS
+    GET_PROPOSAL_REVIEWS, CHANGE_PROPOSAL_STATUS,
 } from "./types";
 import {httpClient} from "../index";
+import {IProposal} from "../../models/IComponents";
 
-const partnerURL = '/proposals/{pid}/partnermembers/';
-const staffURL = '/proposals/{pid}/staff/';
-const sectionsURL = '/proposals/{pid}/sections/';
-const commentsURL = '/proposals/{pid}/comments/';
-const bidsURL = '/proposals/{pid}/bids/';
-const reviewsURL = '/proposals/{pid}/reviews/';
+const proposalURL = 'proposals/{pid}/';
+const partnerURL = proposalURL + 'partnermembers/';
+const staffURL = proposalURL + 'staff/';
+const sectionsURL = proposalURL + 'sections/';
+const commentsURL = proposalURL + 'comments/';
+const bidsURL = proposalURL + 'bids/';
+const reviewsURL = proposalURL + 'reviews/';
 
 export const fetch = (url: string, reduxAction: string,) => {
     return (dispatch: any, getState: any) => {
@@ -51,4 +53,21 @@ export const fetchBids = (id: number) => {
 
 export const fetchReviews = (id: number) => {
     return fetch(reviewsURL.replace("{pid}", id.toString()), GET_PROPOSAL_REVIEWS)
+};
+
+export const setStatus = (id: number, proposal: IProposal, newStatus: string) => {
+    // const updatedProposal: IProposal = proposal;
+    // updatedProposal.status = newStatus;
+
+    return (dispatch: any, getState: any) => {
+        return httpClient.put(proposalURL.replace("{pid}", id.toString()), {...proposal, status: newStatus})
+            .then((response: any) => {
+                dispatch({
+                    type: CHANGE_PROPOSAL_STATUS,
+                    payload: proposal.status
+                })
+            }).catch((error: any) => {
+                console.log(error)
+            })
+    }
 };

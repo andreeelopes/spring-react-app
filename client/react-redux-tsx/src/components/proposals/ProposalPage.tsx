@@ -13,21 +13,23 @@ import {getUser} from "../../actions/getSessionUser";
 
 
 export class ProposalPage extends React.Component<any> {
-    private proposalId=this.props.match.params.id;
-    private imStaff=false;
-    private imApprover=false;
-    private canReview=false;
-    private user=getUser();
+    private proposalId = this.props.match.params.id;
+    private imStaff = false;
+    private imApprover = false;
+    private canReview = false;
+    private user = getUser();
+
     public constructor(props: any) {
         super(props);
     }
-    public componentWillMount(){
-        this.props.fetchProposal(this.proposalId).then(()=>{
-            if(this.props.proposal.status==="REVIEW_PERIOD"){
-                this.props.fetchBids(this.user.id).then(()=>{
-                    const found = this.props.bids.find((element:any)=>(element.pk.proposal.id===parseInt(this.proposalId,0) && element.status==="ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
-                    if(found!=null){
-                        this.canReview=true;
+
+    public componentWillMount() {
+        this.props.fetchProposal(this.proposalId).then(() => {
+            if (this.props.proposal.status === "REVIEW_PERIOD") {
+                this.props.fetchBids(this.user.id).then(() => {
+                    const found = this.props.bids.find((element: any) => (element.pk.proposal.id === parseInt(this.proposalId, 0) && element.status === "ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
+                    if (found != null) {
+                        this.canReview = true;
                     }
                 });
             }
@@ -35,19 +37,21 @@ export class ProposalPage extends React.Component<any> {
 
 
     }
-    public componentWillReceiveProps(nextProps:any){
-        if(nextProps.staff.length>0){
-            const found:any=nextProps.staff.find((element:any) =>(element.username===this.user.username));
-            if(found!=null){
-                this.imStaff=true;
+
+    public componentWillReceiveProps(nextProps: any) {
+        if (nextProps.staff.length > 0) {
+            const found: any = nextProps.staff.find((element: any) => (element.username === this.user.username));
+            if (found != null) {
+                this.imStaff = true;
             }
         }
-        if(this.props.proposal!=null){
-            this.imApprover= this.user.id===this.props.proposal.approver.id;
+        if (this.props.proposal != null) {
+            this.imApprover = this.user.id === this.props.proposal.approver.id;
         }
     }
+
     public render() {
-        console.log(this.props.proposal);
+        console.log("Props ProposalPage: " + this.props);
         return (
             <div>
                 <Proposal {...this.props} />
@@ -57,7 +61,7 @@ export class ProposalPage extends React.Component<any> {
                 {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
 
                 {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
-                {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> :null}
+                {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
 
                 {/*Approver only*/}
                 {(this.imApprover) ? <ChangeStateButton/> : null}
@@ -79,7 +83,7 @@ export class ProposalPage extends React.Component<any> {
 
 // TODO
 const mapStateToProps = (state: any) => ({
-    proposal:state.proposalPage.proposal,
+    proposal: state.proposalPage.proposal,
     staff: state.proposalDetails.staff,
     bids: state.proposalPage.bids
 });
@@ -101,7 +105,8 @@ export default connect(mapStateToProps, {
     selectPartner
 })(AddProposalModal)
 */
-export default connect(mapStateToProps, {fetchBids,
+export default connect(mapStateToProps, {
+    fetchBids,
     fetchProposal
 })(ProposalPage)
 

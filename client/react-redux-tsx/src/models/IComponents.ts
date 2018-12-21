@@ -14,6 +14,13 @@ export interface ICompany {
     email: string
 }
 
+export enum ProposalStatus {
+    placed = "PLACED",
+    review_period = "REVIEW_PERIOD",
+    approved = "APPROVED",
+    declined = "DECLINED"
+}
+
 export interface IProposal {
     id: number
     approver: IEmployee

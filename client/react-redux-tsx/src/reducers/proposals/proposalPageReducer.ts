@@ -1,11 +1,18 @@
-import {GET_BIDS, GET_SINGLE_PROPOSAL} from "../../actions/proposals/types";
+import {CHANGE_PROPOSAL_STATUS, GET_BIDS, GET_SINGLE_PROPOSAL} from "../../actions/proposals/types";
+import {IBid, IProposal} from "../../models/IComponents";
 
-const initialState = {
+
+interface IState {
+    proposal: IProposal | null,
+    bids: IBid[] | null
+}
+
+const initialState: IState = {
     proposal: null,
     bids: null
 };
 
-export default function (state = initialState, action: any) {
+export default function (state: IState = initialState, action: any) {
     switch (action.type) {
         case GET_SINGLE_PROPOSAL:
             return {
@@ -16,6 +23,14 @@ export default function (state = initialState, action: any) {
             return {
                 ...state,
                 bids: action.payload
+            };
+        case CHANGE_PROPOSAL_STATUS: //TODO verificar se esta no sitio certo, adicionei isto para a mudanca do estado da proposal feita pelo approver -nelson
+            return {
+                ...state,
+                proposal: {
+                    ...state.proposal,
+                    status: action.payload
+                }
             };
         default:
             return state;

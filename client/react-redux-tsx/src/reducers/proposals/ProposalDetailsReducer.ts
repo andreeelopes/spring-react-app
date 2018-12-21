@@ -13,6 +13,7 @@ import {
 } from "../../actions/proposals/types";
 
 const initialState = {
+    proposal: [],
     partners: [],
     staff: [],
     sections: [],
@@ -54,34 +55,34 @@ export default function (state = initialState, action: any) {
                 reviews: action.payload
             };
         case ADD_PROPOSAL_COMMENT:
-            const comments= state.comments;
-            return{
+            const comments = state.comments;
+            return {
                 ...state,
-                comments:  [...comments, action.payload]
+                comments: [...comments, action.payload]
             };
         case ADD_PROPOSAL_REVIEW:
-            const reviews= state.reviews;
-            return{
+            const reviews = state.reviews;
+            return {
                 ...state,
-                reviews:[...reviews,action.payload]
+                reviews: [...reviews, action.payload]
             };
         case ADD_PARTNER_MEMBER:
-            const partners= state.partners;
-            return{
+            const partners = state.partners;
+            return {
                 ...state,
-                partners:[...partners,action.payload]
+                partners: [...partners, action.payload]
             };
         case ADD_STAFF_MEMBER:
-            const staff=state.staff;
-            return{
+            const staff = state.staff;
+            return {
                 ...state,
-                staff:[...staff,action.payload]
-            }
+                staff: [...staff, action.payload]
+            };
         case ADD_PROPOSAL_SECTION:
-            return{
+            return {
                 ...state,
-                sections:[...state.sections,action.payload]
-            }
+                sections: [...state.sections, action.payload]
+            };
         default:
             return state;
     }
