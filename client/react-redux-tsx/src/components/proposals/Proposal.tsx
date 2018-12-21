@@ -13,6 +13,7 @@ import {IComment, IEmployee, IReview, ISection, ProposalStatus} from "../../mode
 import * as Grid from "react-bootstrap/lib/Grid";
 import {Col, Row} from "react-bootstrap";
 import StatusChangeButtons from "./StatusChangeButtons";
+import {Link} from "react-router-dom";
 
 
 export class Proposal extends React.Component<any> {
@@ -100,7 +101,12 @@ export class Proposal extends React.Component<any> {
         );
     }
 
-    private employeesShow = (employee: IEmployee) => `${employee.name} (${employee.email})`;
+    private employeesShow = (employee: IEmployee) => (
+        <div>
+            <Link to={`/employees/${employee.id}`}> {employee.name} </Link>
+            {employee.email} {employee.job}
+        </div>
+    );
     private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
     private commentsShow = (comment: any) => `${comment.author}: ${comment.comment}`;
     // private bidsShow = (comment: IBid) => `${comment.author}: ${comment.comment}`;

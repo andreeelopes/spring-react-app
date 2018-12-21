@@ -1,8 +1,7 @@
 import * as React from "react";
-import {connect} from "react-redux";
 import {ICompany} from "../../models/IComponents";
 
-class CompanyDetails extends React.Component<any> {
+export class CompanyDetails extends React.Component<any> {
 
     public constructor(props: ICompany) {
         super(props);
@@ -22,10 +21,4 @@ class CompanyDetails extends React.Component<any> {
             </div>
         );
     }
-
 }
-
-
-const mapStateToProps = () => ({});
-
-export default connect(mapStateToProps)(CompanyDetails)
