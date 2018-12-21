@@ -5,6 +5,8 @@ import SimpleList from "../common/SimpleList";
 import {IEmployee} from "../../models/IComponents";
 import {CompanyDetails} from "./CompanyDetails";
 import {Link} from "react-router-dom";
+import * as Grid from "react-bootstrap/lib/Grid";
+import {Col, Row} from "react-bootstrap";
 
 export class CompanyPage extends React.Component<any> {
 
@@ -18,13 +20,21 @@ export class CompanyPage extends React.Component<any> {
 
         if (this.props.company && this.props.employees) {
             return (
-                <div>
-                    <CompanyDetails {...this.props.company}/>
-                    <SimpleList<IEmployee> title="Employees"
-                                           list={this.props.employees}
-                                           show={this.employeesShow}
-                    />
-                </div>
+
+                <Grid>
+                    <Row>
+                        <Col md={12}>
+
+                            <div>
+                                <CompanyDetails {...this.props.company}/>
+                                <SimpleList<IEmployee> title="Employees"
+                                                       list={this.props.employees}
+                                                       show={this.employeesShow}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                </Grid>
             );
 
         }

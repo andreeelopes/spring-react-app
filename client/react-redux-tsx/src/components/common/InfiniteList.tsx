@@ -60,7 +60,7 @@ export class InfiniteList extends React.Component<any> {
                               rowCount={this.props.displayItems.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
-                              width={500}
+                              width={300}
                         />
                     )}
                 </InfiniteLoader>

@@ -102,7 +102,7 @@ export class ProposalList extends React.Component<any> {
                               rowCount={this.props.displayMyProposals.length}
                               rowHeight={50}
                               rowRenderer={this.rowRenderer}
-                              width={500}
+                              width={300}
                         />
                     )}
                 </InfiniteLoader>
