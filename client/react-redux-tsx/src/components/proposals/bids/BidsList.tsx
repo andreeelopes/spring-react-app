@@ -35,11 +35,13 @@ class BidsList extends React.Component<any> {
                 <div className="App">
                     <h1>Proposals I bidded</h1>
                 </div>
+                <br/>
                 <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total}
                               numberOfRowsReady={this.props.sectionsAdded}
                               rowRenderer={this.rowRenderer} loadMoreRows={this.getBids}
                               clear={this.props.clearList}
                 />
+
             </div>
         );
     }
@@ -54,6 +56,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
-    getBids: getBidsAndSections,clearList,
+    getBids: getBidsAndSections, clearList,
     getSections
 })(BidsList)

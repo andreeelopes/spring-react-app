@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Button} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 
 import ProposalList from "./proposals/ProposalList";
 import BidsList from "./proposals/bids/BidsList";
@@ -12,6 +12,7 @@ import AddProposalModal from "./proposals/AddProposalModal";
 
 
 import {doLogin} from "../actions/HomepageLoginAction";
+import * as Grid from "react-bootstrap/lib/Grid";
 
 class Homepage extends React.Component<any> {
     public constructor(props: {}) {
@@ -27,13 +28,27 @@ class Homepage extends React.Component<any> {
         if (this.props.login) {
             return (
                 <div>
-                    <ProposalList/>
-                    <BidsList/>
-                    <ReviewsList/>
-
-                    <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
-                    <AddProposalModal/>
-
+                    <Grid>
+                        <Row>
+                            <Col md={8}/>
+                            <Col md={4}>
+                                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                                    Proposal</Button>
+                                <AddProposalModal/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={4}>
+                                <ProposalList/>
+                            </Col>
+                            <Col md={4}>
+                                <ReviewsList/>
+                            </Col>
+                            <Col md={4}>
+                                <BidsList/>
+                            </Col>
+                        </Row>
+                    </Grid>
                 </div>
             );
         }
