@@ -3,36 +3,36 @@ import {connect} from "react-redux";
 import {
     setStatus
 } from "../../actions/proposals/ProposalDetailsActions";
-import {Button, Col} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import {ProposalStatus} from "../../models/IComponents";
 
 
 export class StatusChangeButtons extends React.Component<any> {
 
     public render() {
-        return (
-            <div>
-                {this.props.proposal.status === ProposalStatus.placed &&
-                <Col md={6}>
-                    <Button
-                        onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
-                        Begin Review Period
-                    </Button>
-                </Col>}
-                {this.props.proposal.status === ProposalStatus.review_period &&
-                <Col md={6}>
-                    <Button
+        if (this.props.proposal.status === ProposalStatus.placed) {
+            return (
+                <Button
+                    onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
+                    Begin Review Period
+                </Button>
+            );
+        }
+        else if (this.props.proposal.status === ProposalStatus.review_period) {
+            return (
+                <div className={"buttons-status"}>
+                    <Button className={"blue-button"}
                         onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.approved)}>
                         Approve
                     </Button>
-
-                    <Button
+                    < Button className={"blue-button"}
                         onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.declined)}>
                         Decline
                     </Button>
-                </Col>}
-            </div>
-        );
+                </div>
+            );
+        }
+        return null;
     }
 
 

@@ -11,7 +11,7 @@ import {
 import SimpleList from "../common/SimpleList";
 import {IComment, IEmployee, IReview, ISection, ProposalStatus} from "../../models/IComponents";
 import * as Grid from "react-bootstrap/lib/Grid";
-import {Col} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import StatusChangeButtons from "./StatusChangeButtons";
 
 
@@ -37,52 +37,64 @@ export class Proposal extends React.Component<any> {
         return (
             this.props.proposal &&
             <Grid>
-                <Col md={12}>
-                    <h1>{this.getTitle(this.props.sections)}</h1>
-                </Col>
-                <Col md={6}>
-                    <h2>Status: {this.parseStatus(this.props.proposal.status)}</h2>
-                </Col>
+                <Row>
+                    <Col md={12}>
+                        <h1>{this.getTitle(this.props.sections)}</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <h4>Status: {this.parseStatus(this.props.proposal.status)}</h4>
+                    </Col>
 
-                {!this.isProposalClose(this.props.proposal.status) &&
-                <StatusChangeButtons proposal={this.props.proposal}/>}
-                {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
+                    {!this.isProposalClose(this.props.proposal.status) &&
+                    <Col md={6}>
+                        <StatusChangeButtons proposal={this.props.proposal}/>
+                    </Col>}
+                    {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <SimpleList<IEmployee> title="Partners"
+                                               list={this.props.partners}
+                                               show={this.employeesShow}
+                        /> </Col>
+                    <Col md={6}>
+                        <SimpleList<IEmployee> title="Staff"
+                                               list={this.props.staff}
+                                               show={this.employeesShow}
 
-                <Col md={6}>
-                    <SimpleList<IEmployee> title="Partners"
-                                           list={this.props.partners}
-                                           show={this.employeesShow}
-                    /> </Col>
-                <Col md={6}>
-                    <SimpleList<IEmployee> title="Staff"
-                                           list={this.props.staff}
-                                           show={this.employeesShow}
-
-                    />
-                </Col>
-                <Col md={12}>
-                    <SimpleList<ISection> title="Sections"
-                                          list={this.props.sections}
-                                          show={this.sectionsShow}
-                    />
-                </Col>
-                <Col md={12}>
-                    <SimpleList<IComment> title="Comments"
-                                          list={this.props.comments}
-                                          show={this.commentsShow}
-                    />
-                </Col>
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <SimpleList<ISection> title="Sections"
+                                              list={this.props.sections}
+                                              show={this.sectionsShow}
+                        />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <SimpleList<IComment> title="Comments"
+                                              list={this.props.comments}
+                                              show={this.commentsShow}
+                        />
+                    </Col>
+                </Row>
                 {/*<SimpleList<IBid> title="Bids"*/}
                 {/*list={this.props.bids}*/}
                 {/*show={this.bidsShow}*/}
                 {/*/>*/}
-
-                <Col md={12}>
-                    <SimpleList<IReview> title="Reviews"
-                                         list={this.props.reviews}
-                                         show={this.reviewsShow}
-                    />
-                </Col>
+                <Row>
+                    <Col md={12}>
+                        <SimpleList<IReview> title="Reviews"
+                                             list={this.props.reviews}
+                                             show={this.reviewsShow}
+                        />
+                    </Col>
+                </Row>
 
             </Grid>
         );

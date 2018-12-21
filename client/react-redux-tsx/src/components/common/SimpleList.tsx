@@ -12,7 +12,7 @@ const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disab
     if (!(typeof list === "undefined") && list.length > 0) {
         return (
             <div>
-                <h1>{title}</h1>
+                <h4>{title}</h4>
                 <ul>
                     {
                         list.map((c, i) => (
