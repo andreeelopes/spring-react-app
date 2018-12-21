@@ -36,7 +36,7 @@ export class AddCommentForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button className={"blue-button"} onClick={this.handleClose}>Close</Button>
+                        <Button className={"red-button"} onClick={this.handleClose}>Cancel</Button>
                         <Button className={"blue-button"} onClick={this.submit}>Add Comment</Button>
                     </Modal.Footer>
                 </Modal>

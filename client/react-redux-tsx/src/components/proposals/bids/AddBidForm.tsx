@@ -49,15 +49,15 @@ export class AddBidForm extends React.Component<any> {
                     </Modal.Header>
 
                     <Modal.Body>
-                        You sure u want to bid?
+                        Please confirm action.
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>No</Button>
-                        <Button onClick={this.submit}>Yes</Button>
+                        <Button className="red-button" onClick={this.handleClose}>Cancel</Button>
+                        <Button className="blue-button" onClick={this.submit}>Confirm</Button>
                     </Modal.Footer>
                 </Modal>
-                {(this.props.addBidButtonStatus)? <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Bid</Button>:null}
+                {(this.props.addBidButtonStatus)? <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Bid</Button>:null}
             </div>
         );
     }
