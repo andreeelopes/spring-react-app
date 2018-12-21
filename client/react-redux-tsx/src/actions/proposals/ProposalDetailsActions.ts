@@ -15,13 +15,13 @@ const commentsURL = '/proposals/{pid}/comments/';
 const bidsURL = '/proposals/{pid}/bids/';
 const reviewsURL = '/proposals/{pid}/reviews/';
 
-export const fetch = (url: string, reduxAction: string,) => {
+export const fetch = (url: string, reduxAction: string, isArray: boolean = true) => {
     return (dispatch: any, getState: any) => {
         return httpClient.get(url)
             .then((response: any) => {
                 dispatch({
                     type: reduxAction,
-                    payload: response.data.content // TODO retirar o content para permitir o pageable   -nelson
+                    payload: isArray ? response.data.content : response.data // TODO retirar o content para permitir o pageable   -nelson
                 })
             }).catch((error: any) => {
                 console.log(error)

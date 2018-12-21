@@ -1,9 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {fetchCompany, fetchEmployeesOfCompany} from "../../actions/companies/CompanyDetailsActions";
-import Company from "./CompanyDetails";
+import {fetchCompany, fetchEmployeesOfCompany} from "../../actions/companies/companyDetailsActions";
 import SimpleList from "../common/SimpleList";
 import {IEmployee} from "../../models/IComponents";
+import {CompanyDetails} from "./CompanyDetails";
+import {Link} from "react-router-dom";
 
 export class CompanyPage extends React.Component<any> {
 
@@ -15,23 +16,27 @@ export class CompanyPage extends React.Component<any> {
 
     public render() {
 
-        console.log(this.props);
-        if (this.props.employees != null) {
-
+        if (this.props.company && this.props.employees) {
             return (
                 <div>
-                    <Company {...this.props.company}/>
+                    <CompanyDetails {...this.props.company}/>
                     <SimpleList<IEmployee> title="Employees"
                                            list={this.props.employees}
                                            show={this.employeesShow}
                     />
                 </div>
             );
+
         }
         return null;
     }
 
-    private employeesShow = (employee: IEmployee) => `${employee.name} (${employee.email})`; // TODO remove from here
+    private employeesShow = (employee: IEmployee) => (
+        <div>
+            <Link to={`/employees/${employee.id}`}> {employee.name} </Link>
+            {employee.email} {employee.job}
+        </div>
+    );
 
 }
 

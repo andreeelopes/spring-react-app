@@ -22,6 +22,7 @@ class NavBar extends React.Component<any> {
     }
 
     public render() {
+
         return (
             <Navbar>
                 <Navbar.Header>
@@ -30,7 +31,7 @@ class NavBar extends React.Component<any> {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
-                    <NavItem eventKey={1} href="/employees/6">
+                    <NavItem eventKey={1} href={"#"}>
                         <Link to={"/employees/" + this.user.id}>My profile</Link>
                     </NavItem>
                     <NavItem eventKey={2} href="#">

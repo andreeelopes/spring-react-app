@@ -5,6 +5,7 @@ export interface IEmployee {
     email: string
     job: string
     admin: boolean
+    company: ICompany
 }
 
 export interface ICompany {

@@ -4,7 +4,7 @@ export interface IList<T> {
     title: string;
     list: T[];
     // select: (x: number) => void;
-    show: (x: T) => string;
+    show: (x: T) => any;
 }
 
 const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disable-line
@@ -12,7 +12,7 @@ const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disab
     if (!(typeof list === "undefined") && list.length > 0) {
         return (
             <div>
-                <h1>{title}</h1>
+                <h2>{title}</h2>
                 <ul>
                     {
                         list.map((c, i) => (
