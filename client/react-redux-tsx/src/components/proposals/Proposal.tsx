@@ -35,9 +35,7 @@ export class Proposal extends React.Component<any> {
     }
 
     public render() {
-        if(this.props.proposal){
-            debugger;
-        }
+
         return (
             this.props.proposal &&
             <Grid>
@@ -74,17 +72,17 @@ export class Proposal extends React.Component<any> {
                 </Row>
                 <Row>
                     <Col md={6}>
-                        <SimpleList<IEmployee> title="Partners"
-                                               list={this.props.partners}
-                                               show={this.employeesShow}
-                        /> </Col>
-                    <Col md={6}>
                         <SimpleList<IEmployee> title="Staff"
                                                list={this.props.staff}
                                                show={this.employeesShow}
 
                         />
                     </Col>
+                    <Col md={6}>
+                        <SimpleList<IEmployee> title="Partners"
+                                               list={this.props.partners}
+                                               show={this.employeesShow}
+                        /> </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
@@ -172,7 +170,9 @@ const mapStateToProps = (state: any) =>
         sections: state.proposalDetails.sections,
         comments: state.proposalDetails.comments,
         // bids: state.proposalDetails.bids,
-        reviews: state.proposalDetails.reviews
+        reviews: state.proposalDetails.reviews,
+        proposal: state.proposalPage.proposal
+
     });
 
 export default connect(mapStateToProps, {

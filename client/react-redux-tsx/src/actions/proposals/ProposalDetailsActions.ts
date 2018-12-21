@@ -56,15 +56,13 @@ export const fetchReviews = (id: number) => {
 };
 
 export const setStatus = (id: number, proposal: IProposal, newStatus: string) => {
-    // const updatedProposal: IProposal = proposal;
-    // updatedProposal.status = newStatus;
-
     return (dispatch: any, getState: any) => {
         return httpClient.put(proposalURL.replace("{pid}", id.toString()), {...proposal, status: newStatus})
             .then((response: any) => {
+                debugger;
                 dispatch({
                     type: CHANGE_PROPOSAL_STATUS,
-                    payload: proposal.status
+                    payload: newStatus
                 })
             }).catch((error: any) => {
                 console.log(error)

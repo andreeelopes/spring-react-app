@@ -12,7 +12,7 @@ export class StatusChangeButtons extends React.Component<any> {
     public render() {
         if (this.props.proposal.status === ProposalStatus.placed) {
             return (
-                <Button
+                <Button className={"blue-button"}
                     onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
                     Begin Review Period
                 </Button>

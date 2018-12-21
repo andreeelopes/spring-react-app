@@ -5,6 +5,7 @@ import {showBidModal} from "../../../actions/proposals/proposalPageModalsAction"
 import {addBid} from "../../../actions/bids/addBidAction";
 import {getUser} from "../../../actions/getSessionUser";
 import { showBidButton} from "../../../actions/bids/addBidButtonAction";
+import {ProposalStatus} from "../../../models/IComponents";
 
 export class AddBidForm extends React.Component<any> {
     public handleOpen = () => {
@@ -25,7 +26,7 @@ export class AddBidForm extends React.Component<any> {
     public componentWillReceiveProps(nextprops:any){
         if(this.props.addBidButtonStatus) {
             const user = getUser();
-            if (nextprops.proposal.status !== "REVIEW_PERIOD") {
+            if (nextprops.proposal.status !== ProposalStatus.review_period) {
                 this.props.showBidButton(false);
             }
             if ( nextprops.bids != null && nextprops.proposal.approver) {

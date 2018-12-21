@@ -49,7 +49,7 @@ export class AddSectionForm extends React.Component<any> {
                         <Button onClick={this.submit}>Add section</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Section</Button>
+                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Section</Button>
             </div>
         );
     }

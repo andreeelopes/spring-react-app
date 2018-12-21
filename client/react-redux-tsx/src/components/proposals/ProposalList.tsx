@@ -73,7 +73,7 @@ export class ProposalList extends React.Component<any> {
                 <div className="App">
 
                     <Dropdown id="dropdown-custom-menu">
-                        <DropdownButton
+                        <DropdownButton className={"blue-button"}
                             bsStyle={"primary"}
                             title={this.dropdownTitle}
                             key={0}

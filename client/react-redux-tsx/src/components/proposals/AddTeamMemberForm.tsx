@@ -39,6 +39,7 @@ export class AddTeamMemberForm extends React.Component<any> {
                     </Modal.Header>
                     <Dropdown id="dropdown-custom-menu">
                         <DropdownButton
+                            className={"blue-button"}
                             bsStyle={"primary"}
                             title={this.props.title}
                             key={0}
@@ -62,7 +63,7 @@ export class AddTeamMemberForm extends React.Component<any> {
                         <Button onClick={this.submit}>Add member</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add TeamMember</Button>
+                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add TeamMember</Button>
             </div>
         );
     }

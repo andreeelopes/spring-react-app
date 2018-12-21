@@ -31,7 +31,7 @@ class Homepage extends React.Component<any> {
                     <BidsList/>
                     <ReviewsList/>
 
-                    <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
+                    <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Proposal</Button>
                     <AddProposalModal/>
 
                 </div>
