@@ -59,7 +59,7 @@ export class Proposal extends React.Component<any> {
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <h5><b>Approver:</b> {this.props.proposal.approver.name}</h5>
+                        <h5><b>Approver:</b> {this.props.proposal.approver.username}</h5>
                     </Col>
                 </Row>
                 <Row>
