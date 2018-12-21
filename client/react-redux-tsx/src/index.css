@@ -10,13 +10,13 @@ body {
 }
 
 .blue-button {
-    background-color: dodgerblue;
-    color: white;
-    border-radius: 12px;
-    border: 1px solid transparent;
+    background-color: dodgerblue!important;
+    color: white!important;
+    border-radius: 12px!important;
+    border: 1px solid transparent!important;
 }
 .blue-button:hover {
-    background-color: white;
-    color: dodgerblue;
-    border: 1px solid dodgerblue;
+    background-color: white!important;
+    color: dodgerblue!important;
+    border: 1px solid dodgerblue!important;
 }
