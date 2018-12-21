@@ -6,12 +6,13 @@ import {
     fetchSections,
     fetchComments,
     fetchBids,
-    fetchReviews, setStatus,
+    fetchReviews
 } from "../../actions/proposals/ProposalDetailsActions";
 import SimpleList from "../common/SimpleList";
 import {IComment, IEmployee, IReview, ISection, ProposalStatus} from "../../models/IComponents";
 import * as Grid from "react-bootstrap/lib/Grid";
-import {Button, Col} from "react-bootstrap";
+import {Col} from "react-bootstrap";
+import StatusChangeButtons from "./StatusChangeButtons";
 
 
 export class Proposal extends React.Component<any> {
@@ -42,26 +43,9 @@ export class Proposal extends React.Component<any> {
                 <Col md={6}>
                     <h2>Status: {this.parseStatus(this.props.proposal.status)}</h2>
                 </Col>
-                {/*TODO refactorizar isto para um componente -nelson*/}
-                {!this.isProposalClose(this.props.proposal.status) && <Col md={6}>
-                    {this.props.proposal.status === ProposalStatus.placed &&
-                    <Button
-                        onClick={() => this.props.setStatus(this.proposalID, this.props.proposal, ProposalStatus.review_period)}>
-                        Begin Review Period
-                    </Button>}
-                    {this.props.proposal.status === ProposalStatus.review_period &&
-                    <Button
-                        onClick={() => this.props.setStatus(this.proposalID, this.props.proposal, ProposalStatus.approved)}>
-                        Approve
-                    </Button>}
-                    {this.props.proposal.status === ProposalStatus.review_period &&
-                    <Button
-                        onClick={() => this.props.setStatus(this.proposalID, this.props.proposal, ProposalStatus.declined)}>
-                        Decline
-                    </Button>
-                    }
-                </Col>}
 
+                {!this.isProposalClose(this.props.proposal.status) &&
+                <StatusChangeButtons proposal={this.props.proposal}/>}
                 {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
 
                 <Col md={6}>
@@ -100,7 +84,8 @@ export class Proposal extends React.Component<any> {
                     />
                 </Col>
 
-            </Grid>);
+            </Grid>
+        );
     }
 
     private employeesShow = (employee: IEmployee) => `${employee.name} (${employee.email})`;
@@ -125,12 +110,6 @@ export class Proposal extends React.Component<any> {
     };
 
 
-    private isProposalClose = (status: string) => {
-        const closed = status === ProposalStatus.approved || status === ProposalStatus.declined;
-        console.log("Closed = " + closed);
-        return closed;
-    };
-
     private getTitle = (sections: ISection[]) => {
         if (sections.length !== 0) {
             return sections.filter(section => section.type === 'title')[0].text;
@@ -140,6 +119,12 @@ export class Proposal extends React.Component<any> {
         }
 
     }
+
+    private isProposalClose = (status: string) => {
+        const closed = status === ProposalStatus.approved || status === ProposalStatus.declined;
+        console.log("Closed = " + closed);
+        return closed;
+    };
 
 }
 
@@ -161,6 +146,5 @@ export default connect(mapStateToProps, {
     fetchComments,
     fetchBids,
     fetchReviews,
-    setStatus
 })(Proposal);
 
