@@ -35,6 +35,9 @@ export class Proposal extends React.Component<any> {
     }
 
     public render() {
+        if(this.props.proposal){
+            debugger;
+        }
         return (
             this.props.proposal &&
             <Grid>
@@ -45,7 +48,7 @@ export class Proposal extends React.Component<any> {
                 </Row>
                 <Row>
                     <Col md={6}>
-                        <h4>Status: {this.parseStatus(this.props.proposal.status)}</h4>
+                        <h5><b>Status:</b> {this.parseStatus(this.props.proposal.status)}</h5>
                     </Col>
 
                     {!this.isProposalClose(this.props.proposal.status) &&
@@ -53,6 +56,21 @@ export class Proposal extends React.Component<any> {
                         <StatusChangeButtons proposal={this.props.proposal}/>
                     </Col>}
                     {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <h5><b>Approver:</b> {this.props.proposal.approver.name}</h5>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <h5><b>Proposed by:</b> {this.props.proposal.companyProposed.name}</h5>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <h5><b>Partner:</b> {this.props.proposal.partnerCompany.name}</h5>
+                    </Col>
                 </Row>
                 <Row>
                     <Col md={6}>
