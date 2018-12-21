@@ -36,11 +36,11 @@ export class AddCommentForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                        <Button onClick={this.submit}>Add Comment</Button>
+                        <Button className={"blue-button"} onClick={this.handleClose}>Close</Button>
+                        <Button className={"blue-button"} onClick={this.submit}>Add Comment</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Comment</Button>
+                <Button className={"blue-button App-middle"} onClick={this.handleOpen}>Add Comment</Button>
             </div>
         );
     }
