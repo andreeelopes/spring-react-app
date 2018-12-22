@@ -80,7 +80,7 @@ export class ProposalList extends React.Component<any> {
                                         id={`dropdown-basic-${0}`}
                         >
 
-                            <MenuItem eventKey="1" onSelect={this.getAllProposals}>All proposals</MenuItem>
+                            <MenuItem eventKey="1" onSelect={this.getAllProposals}>Partner proposals</MenuItem>
                             <MenuItem eventKey="2" onSelect={this.getStaffProposals}>Proposals where im staff</MenuItem>
                         </DropdownButton>
                     </Dropdown>
