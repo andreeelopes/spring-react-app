@@ -179,7 +179,7 @@ public class EcmaApplication implements CommandLineRunner {
             Faker faker;
 
             Review review=new Review();
-            review.setText("this review was made by"+ employee21.getUsername());
+            review.setText("This review was made by "+ employee21.getUsername() + ".");
             review.setScore(Review.Score.EXCELENT);
             review.setAuthor(employee21);
             review.setProposal(prop);
