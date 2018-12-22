@@ -31,7 +31,7 @@ export default function (state = initialState, action: any) {
                 displayMyProposals: [],
                 totalSize: 0,
                 sectionsAdded: 0
-            }
+            };
         default:
             return state;
     }

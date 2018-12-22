@@ -74,10 +74,10 @@ export class ProposalList extends React.Component<any> {
 
                     <Dropdown id="dropdown-custom-menu">
                         <DropdownButton className={"blue-button"}
-                            bsStyle={"primary"}
-                            title={this.dropdownTitle}
-                            key={0}
-                            id={`dropdown-basic-${0}`}
+                                        bsStyle={"primary"}
+                                        title={this.dropdownTitle}
+                                        key={0}
+                                        id={`dropdown-basic-${0}`}
                         >
 
                             <MenuItem eventKey="1" onSelect={this.getAllProposals}>All proposals</MenuItem>

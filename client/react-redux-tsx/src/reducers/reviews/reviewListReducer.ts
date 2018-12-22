@@ -1,5 +1,5 @@
 import {ADD_REVIEW_TITLE, GET_REVIEWS} from "../../actions/reviews/types";
-import { CLEAR_REVIEWS} from "../../actions/proposals/types";
+import {CLEAR_REVIEWS} from "../../actions/proposals/types";
 
 
 const initialState = {
