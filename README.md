@@ -12,6 +12,9 @@ The reviewing is performed by adding reviews to the event proposal, the assignme
 A proposal consists of an arbitrary sequence of document sections (e.g. title, description, goals, needed materials, budget, work-plan). A proposal has a team that consists of staff and partner members.
 A proposal has a related stream of comments that fire email notifications to the involved users to respond using a link.
 
+## Documentation
+The documentation of server and client is present in the doc folder.
+
 ## Server
 
 ### The latests specification can be accessed on the following url: 
@@ -51,8 +54,6 @@ server
 ## Client
 
 Implemented using react+redux+typescript. 
-
-The specification is present in ```/doc/client```.
 
 
 ###Developers
