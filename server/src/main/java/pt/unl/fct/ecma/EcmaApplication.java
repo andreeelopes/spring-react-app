@@ -1,5 +1,6 @@
 package pt.unl.fct.ecma;
 
+import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -175,18 +176,19 @@ public class EcmaApplication implements CommandLineRunner {
             partnerMember.setPk(proposalRoleKey2);
             partnerMember.setRole(ProposalRole.Role.PARTNER.toString());
             prop.getTeam().add(partnerMember);
-
+            Faker faker;
 
             Review review=new Review();
-            review.setText("Brutal");
+            review.setText("this review was made by"+ employee21.getUsername());
             review.setScore(Review.Score.EXCELENT);
             review.setAuthor(employee21);
             review.setProposal(prop);
             prop.getReviews().add(review);
+            faker = new Faker();
 
             Section sec = new Section();
             sec.setType("title");
-            sec.setText("Best Prop");
+            sec.setText(faker.app().name());
             sec.setProposal(prop);
             prop.getSections().add(sec);
             proposalRepository.save(prop);
