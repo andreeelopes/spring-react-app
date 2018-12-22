@@ -35,7 +35,6 @@ export class Proposal extends React.Component<any> {
     }
 
     public render() {
-
         return (
             this.props.proposal &&
             <Grid>
@@ -182,6 +181,8 @@ export class Proposal extends React.Component<any> {
     };
 
     private isProposalClose = (status: string) => {
+        console.log(this.props.proposal.status);
+        console.log(this.props.imApprover);
         return status === ProposalStatus.approved || status === ProposalStatus.declined;
     };
 

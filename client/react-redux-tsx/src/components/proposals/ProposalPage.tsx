@@ -55,7 +55,7 @@ export class ProposalPage extends React.Component<any,any> {
         return (
             <Grid>
                 <Row>
-                    <Proposal {...this.props}/>
+                    <Proposal {...this.props} imApprover={this.imApprover}/>
                 </Row>
                 <Row>
                     <Col md={12}>
