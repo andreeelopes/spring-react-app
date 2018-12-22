@@ -44,7 +44,7 @@ class ReviewsList extends React.Component<any> {
             <div>
                 <Review review={this.props.review}/>
                 <div className="App">
-                    <h1>My Reviews</h1>
+                    <h1>Reviews</h1>
                 </div>
                 <br/>
                 <InfiniteList displayItems={this.props.displayedMyReviews} total={this.props.total}

@@ -100,8 +100,8 @@ export class Proposal extends React.Component<any> {
                         />
                     </Col>
                 </Row>
-                {this.props.bids && <SimpleList<IBid> title="Bids"
-                                                      list={this.props.bids}
+                {this.props.pBids && <SimpleList<IBid> title="Bids"
+                                                      list={this.props.pBids}
                                                       show={this.bidsShow}
                 />}
                 <Row>
@@ -168,12 +168,10 @@ export class Proposal extends React.Component<any> {
             return "Proposal";
         }
 
-    }
+    };
 
     private isProposalClose = (status: string) => {
-        const closed = status === ProposalStatus.approved || status === ProposalStatus.declined;
-        console.log("Closed = " + closed);
-        return closed;
+        return status === ProposalStatus.approved || status === ProposalStatus.declined;
     };
 
 }
@@ -186,8 +184,8 @@ const mapStateToProps = (state: any) =>
         sections: state.proposalDetails.sections,
         comments: state.proposalDetails.comments,
         reviews: state.proposalDetails.reviews,
+        pBids: state.proposalDetails.bids,
         proposal: state.proposalPage.proposal
-
     });
 
 export default connect(mapStateToProps, {

@@ -33,7 +33,7 @@ class BidsList extends React.Component<any> {
         return (
             <div>
                 <div className="App">
-                    <h1>Proposals I bidded</h1>
+                    <h1>Placed Bids</h1>
                 </div>
                 <br/>
                 <InfiniteList displayItems={this.props.displayedMyBids} total={this.props.total}
