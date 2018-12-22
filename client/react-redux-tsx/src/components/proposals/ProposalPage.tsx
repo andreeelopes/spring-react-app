@@ -25,14 +25,13 @@ export class ProposalPage extends React.Component<any> {
 
     public componentWillMount() {
         this.props.fetchProposal(this.proposalId).then(() => {
-            if (this.props.proposal.status === "REVIEW_PERIOD") {
+
                 this.props.fetchBids(this.user.id).then(() => {
                     const found = this.props.bids.find((element: any) => (element.pk.proposal.id === parseInt(this.proposalId, 0) && element.status === "ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
-                    if (found != null) {
+                    if (found != null && this.props.proposal.status === "REVIEW_PERIOD") {
                         this.canReview = true;
                     }
                 });
-            }
         });
 
 

@@ -5,7 +5,10 @@ import {hideModal, showModal} from "../../../actions/reviews/reviewModalAction";
 import {Link} from "react-router-dom";
 
 export class Review extends React.Component<any> {
-
+    constructor(props:any) {
+        super(props);
+        this.props.hideModal();
+    }
     public render() {
         if (this.props.reviewModal) {
 
