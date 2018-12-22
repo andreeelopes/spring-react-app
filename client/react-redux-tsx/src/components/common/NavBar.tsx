@@ -1,20 +1,13 @@
-import {Nav, Navbar, NavItem} from 'react-bootstrap';
+import {Button, Nav, Navbar, NavItem} from 'react-bootstrap';
 import * as React from 'react';
 import {IUser} from "../../models/IComponents";
 import {connect} from "react-redux";
 import {doLogin} from "../../actions/HomepageLoginAction";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import {getUser} from "../../actions/getSessionUser";
 
 class NavBar extends React.Component<any> {
-    private user: IUser = {
-        "id": 6,
-        "username": "employee21",
-        "name": "Employee 1 Company 2",
-        "email": "employee21@",
-        "job": "normal",
-        "company": {"id": 2, "name": "company2", "address": "rua idk", "email": "company2@"},
-        "admin": false
-    };
+    private user: IUser = getUser();
 
     public render() {
 
@@ -35,11 +28,23 @@ class NavBar extends React.Component<any> {
 
 
                 </Nav>
+                <Navbar.Form pullRight={true}>
+                    <this.LogoutButton/>
+                </Navbar.Form>
                 <Navbar.Text pullRight={true}> Welcome, {this.user.username} </Navbar.Text>
-
             </Navbar>
         );
     }
+
+    public LogoutButton = withRouter(({history}) => (
+        <Button className={"blue-button"}
+                onClick={() => history.push("/login")}
+        >
+            Logout
+        </Button>
+    ));
 }
+
+
 
 export default connect(null, {doLogin})(NavBar)
