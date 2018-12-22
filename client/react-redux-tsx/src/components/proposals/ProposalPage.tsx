@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import {fetchBids, fetchProposal} from "../../actions/proposals/ProposalPageActions";
 import {getUser} from "../../actions/getSessionUser";
 import {Col, Row} from "react-bootstrap";
+import * as Grid from "react-bootstrap/lib/Grid";
 
 
 export class ProposalPage extends React.Component<any> {
@@ -52,25 +53,20 @@ export class ProposalPage extends React.Component<any> {
 
     public render() {
         return (
-            <div>
+            <Grid>
                 <Row>
                     <Proposal {...this.props} />
                 </Row>
                 <Row>
-                    <Col md={2}/>
-                    <Col md={8}>
-
+                    <Col md={12}>
                         <AddCommentForm id={this.proposalId}/>
                         <AddBidForm proposal={this.props.proposal} bids={this.props.bids}/>
                         {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
                         {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
                         {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
                     </Col>
-                    <Col md={2}/>
-
                 </Row>
-
-            </div>
+            </Grid>
         );
     }
 }

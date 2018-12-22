@@ -13,6 +13,7 @@ import Login from "./components/Login";
 import NavBar from "./components/common/NavBar";
 
 class App extends React.Component {
+
     public render() {
         return (
             <Provider store={store}>

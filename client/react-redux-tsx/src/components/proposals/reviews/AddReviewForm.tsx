@@ -22,7 +22,7 @@ export class AddReviewForm extends React.Component<any> {
     };
 
     public render() {
-        return (<div className={"specialOne"}>
+        return (<div className={"prop-control-button"}>
                 <Modal show={this.props.reviewModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add Review</Modal.Title>

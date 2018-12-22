@@ -8,7 +8,6 @@ export class InfiniteList extends React.Component<any> {
 
     public constructor(props: {}) {
         super(props);
-        console.log("new list")
         this.currPage = -1;
     }
 

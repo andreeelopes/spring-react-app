@@ -39,37 +39,46 @@ export class Proposal extends React.Component<any> {
         return (
             this.props.proposal &&
             <Grid>
-                <Row>
-                    <Col md={12}>
-                        <h1>{this.getTitle(this.props.sections)}</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <h5><b>Status:</b> {this.parseStatus(this.props.proposal.status)}</h5>
-                    </Col>
+                <div className={"card-container"}>
+                    <div className={"blue-card-header"}>
 
-                    {!this.isProposalClose(this.props.proposal.status) &&
-                    <Col md={6}>
-                        <StatusChangeButtons proposal={this.props.proposal}/>
-                    </Col>}
-                    {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
-                </Row>
-                <Row>
-                    <Col md={12}>
-                        <h5><b>Approver:</b> {this.props.proposal.approver.username}</h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={12}>
-                        <h5><b>Proposed by:</b> {this.props.proposal.companyProposed.name}</h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={12}>
-                        <h5><b>Partner:</b> {this.props.proposal.partnerCompany.name}</h5>
-                    </Col>
-                </Row>
+                        <Row><Col md={12}>
+                            <div className={"blue-card-title"}>{this.getTitle(this.props.sections)}</div>
+                        </Col></Row>
+
+                    </div>
+                    <div className={"blue-card-content"}>
+
+                        <Row>
+                            <Col md={6}>
+                                <h5><b>Status:</b> {this.parseStatus(this.props.proposal.status)}</h5>
+                            </Col>
+
+                            {!this.isProposalClose(this.props.proposal.status) &&
+                            <Col md={6}>
+                                <StatusChangeButtons proposal={this.props.proposal}/>
+                            </Col>}
+                            {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
+
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                <h5><b>Approver:</b> {this.props.proposal.approver.username}</h5>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                <h5><b>Proposed by:</b> {this.props.proposal.companyProposed.name}</h5>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12}>
+                                <h5><b>Partner:</b> {this.props.proposal.partnerCompany.name}</h5>
+                            </Col>
+                        </Row>
+                    </div>
+
+                </div>
                 <Row>
                     <Col md={6}>
                         <SimpleList<IEmployee> title="Staff"
@@ -114,7 +123,8 @@ export class Proposal extends React.Component<any> {
                 </Row>
 
             </Grid>
-        );
+        )
+            ;
     }
 
     private employeesShow = (employee: IEmployee) => (

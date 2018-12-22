@@ -24,7 +24,7 @@ export class AddSectionForm extends React.Component<any> {
 
     public render() {
 
-        return (<div className={"specialOne"}>
+        return (<div className={"prop-control-button"}>
                 <Modal show={this.props.sectionModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Create a new Section</Modal.Title>

@@ -33,7 +33,7 @@ export class AddTeamMemberForm extends React.Component<any> {
     }
 
     public render() {
-        return (<div className={"specialOne"}>
+        return (<div className={"prop-control-button"}>
                 <Modal show={this.props.teamMemberModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add a proposal team member</Modal.Title>

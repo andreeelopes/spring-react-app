@@ -46,7 +46,7 @@ export class AddBidForm extends React.Component<any> {
     }
 
     public render() {
-        return (<div className={"specialOne"}>
+        return (<div className={"prop-control-button"}>
                 <Modal show={this.props.bidModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Bid proposal</Modal.Title>
