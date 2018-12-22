@@ -54,11 +54,12 @@ export class Proposal extends React.Component<any> {
                                 <h5><b>Status:</b> {this.parseStatus(this.props.proposal.status)}</h5>
                             </Col>
 
-                            {!this.isProposalClose(this.props.proposal.status) &&
+
+                            {!this.isProposalClose(this.props.proposal.status) && this.props.imApprover &&
                             <Col md={6}>
                                 <StatusChangeButtons proposal={this.props.proposal}/>
                             </Col>}
-                            {this.isProposalClose(this.props.proposal.status) && <Col md={6}/>}
+                            {this.isProposalClose(this.props.proposal.status) || !this.props.imApprover && <Col md={6}/>}
 
                         </Row>
                         <Row>
