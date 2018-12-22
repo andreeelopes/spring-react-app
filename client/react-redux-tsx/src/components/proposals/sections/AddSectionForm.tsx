@@ -5,8 +5,8 @@ import {showSectionModal} from "../../../actions/proposals/proposalPageModalsAct
 import {submitSection} from "../../../actions/sections/sectionFormAction";
 
 export class AddSectionForm extends React.Component<any> {
-    private  type:HTMLInputElement;
-    private content:HTMLInputElement;
+    private type: HTMLInputElement;
+    private content: HTMLInputElement;
     public handleOpen = () => {
         this.props.showSectionModal(true);
     };
@@ -15,12 +15,13 @@ export class AddSectionForm extends React.Component<any> {
         console.log(this.content.value);
         this.props.showSectionModal(false);
     };
-    public submit = () =>{
-        if(this.type.value.length===0 || this.type.value.length===0){
+    public submit = () => {
+        if (this.type.value.length === 0 || this.type.value.length === 0) {
             return;
         }
-        this.props.submitSection(this.props.id,this.type.value,this.content.value).then(() => this.handleClose());
+        this.props.submitSection(this.props.id, this.type.value, this.content.value).then(() => this.handleClose());
     };
+
     public render() {
 
         return (<div>
@@ -34,13 +35,17 @@ export class AddSectionForm extends React.Component<any> {
                         <FormControl
                             componentClass="input"
                             placeholder="Type of the new section"
-                            inputRef={(ref) => {this.type = ref}}
-                            />
+                            inputRef={(ref) => {
+                                this.type = ref
+                            }}
+                        />
                         <ControlLabel>Section Description</ControlLabel>
                         <FormControl
                             componentClass="input"
                             placeholder="Content of the new section"
-                            inputRef={(ref) => {this.content = ref}}
+                            inputRef={(ref) => {
+                                this.content = ref
+                            }}
                         />
                     </Modal.Body>
 
@@ -49,14 +54,16 @@ export class AddSectionForm extends React.Component<any> {
                         <Button onClick={this.submit}>Add section</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Section</Button>
+                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                    Section</Button>
             </div>
         );
     }
 
 }
+
 const mapStateToProps = (state: any) => ({
     sectionModal: state.proposalPageModals.sectionModal,
 });
 
-export default connect(mapStateToProps, {showSectionModal,submitSection})(AddSectionForm);
+export default connect(mapStateToProps, {showSectionModal, submitSection})(AddSectionForm);

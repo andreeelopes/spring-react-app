@@ -2,16 +2,17 @@ import {Button, ControlLabel, FormControl, FormGroup, Modal} from "react-bootstr
 import * as React from "react";
 import {connect} from "react-redux";
 import {hideModal, showModal} from "../../actions/proposals/proposalModalActions";
-import {submit
+import {
+    submit
 } from "../../actions/proposals/proposalFormActions";
 import {withRouter} from "react-router";
 
 
 class AddProposalModal extends React.Component<any> {
-    private approver:any;
-    private partnerCompany:any;
-    private title:any;
-    private description:any;
+    private approver: any;
+    private partnerCompany: any;
+    private title: any;
+    private description: any;
 
     public SubmitButton = withRouter(({history}) => (
         <Button
@@ -25,19 +26,20 @@ class AddProposalModal extends React.Component<any> {
     };
 
 
-
     public submit = (history: any) => {
 
-        if ( this.description.value.length === 0) {
+        if (this.description.value.length === 0) {
             return;
         }
         submit(this.approver.value, this.partnerCompany.value, this.title.value, this.description.value, history);
 
 
     };
-    public componentWillMount()  {
+
+    public componentWillMount() {
         this.handleClose();
     }
+
     public render() {
         return (
             <Modal show={this.props.proposalModal} onHide={this.handleClose}>
@@ -53,7 +55,9 @@ class AddProposalModal extends React.Component<any> {
                             <ControlLabel>Title</ControlLabel>
                             <FormControl
                                 type="text"
-                                inputRef={(ref) => {this.title = ref}}
+                                inputRef={(ref) => {
+                                    this.title = ref
+                                }}
                                 placeholder="Enter title"
                             />
                             <FormControl.Feedback/>
@@ -66,7 +70,9 @@ class AddProposalModal extends React.Component<any> {
                                 style={{height: 500}}
                                 componentClass="textarea"
                                 placeholder="Your description"
-                                inputRef={(ref) => {this.description = ref}}
+                                inputRef={(ref) => {
+                                    this.description = ref
+                                }}
                             />
                         </FormGroup>
                     </form>
@@ -75,7 +81,9 @@ class AddProposalModal extends React.Component<any> {
                         <FormControl
                             type="text"
                             placeholder="Enter Company"
-                            inputRef={(ref) => {this.partnerCompany = ref}}
+                            inputRef={(ref) => {
+                                this.partnerCompany = ref
+                            }}
                         />
                     </form>
                     <form>
@@ -83,7 +91,9 @@ class AddProposalModal extends React.Component<any> {
                         <FormControl
                             type="text"
                             placeholder="Enter Approver"
-                            inputRef={(ref) => {this.approver = ref}}
+                            inputRef={(ref) => {
+                                this.approver = ref
+                            }}
                         />
                     </form>
                 </Modal.Body>

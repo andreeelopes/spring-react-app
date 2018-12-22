@@ -13,7 +13,7 @@ export class StatusChangeButtons extends React.Component<any> {
         if (this.props.proposal.status === ProposalStatus.placed) {
             return (
                 <Button className={"blue-button"}
-                    onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
+                        onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
                     Begin Review Period
                 </Button>
             );
@@ -22,11 +22,11 @@ export class StatusChangeButtons extends React.Component<any> {
             return (
                 <div className={"buttons-status"}>
                     <Button className={"blue-button"}
-                        onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.approved)}>
+                            onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.approved)}>
                         Approve
                     </Button>
                     < Button className={"blue-button"}
-                        onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.declined)}>
+                             onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.declined)}>
                         Decline
                     </Button>
                 </div>

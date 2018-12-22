@@ -1,17 +1,9 @@
 
 import axios from "axios";
-import {IEmployee, IProposal, ISection} from "../../models/IComponents";
+import {ISection} from "../../models/IComponents";
 import {ADD_TITLE, CLEAR_BIDS, GET_BIDS_SECTIONS} from "../proposals/types";
 import {getUser} from "../getSessionUser";
-interface IBidPK {
-    bidder: IEmployee;
-    proposal: IProposal;
-}
 
-export interface IBid {
-    pk: IBidPK
-    status: string;
-}
 
 export const getBidsAndSections = (currPage:number) => (dispatch: any,) => {
     const user = getUser();

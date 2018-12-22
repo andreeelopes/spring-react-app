@@ -1,22 +1,23 @@
 import * as React from "react";
 import {ICompany} from "../../models/IComponents";
 
-export class CompanyDetails extends React.Component<any> {
+export class CompanyDetails extends React.Component<ICompany> {
 
     public constructor(props: ICompany) {
         super(props);
     }
 
     public render() {
+        const company: ICompany = this.props;
 
         return (
             <div>
-                <h1>{this.props.name}</h1>
+                <h1>{company.name}</h1>
                 <p>
-                    <label>Email: </label> {this.props.email}
+                    <label>Email: </label> {company.email}
                 </p>
                 <p>
-                    <label>Adress: </label> {this.props.address}
+                    <label>Adress: </label> {company.address}
                 </p>
             </div>
         );

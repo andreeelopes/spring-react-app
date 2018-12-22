@@ -6,20 +6,21 @@ import {getUser} from "../../../actions/getSessionUser";
 import {submitReview} from "../../../actions/reviews/reviewFormAction";
 
 export class AddReviewForm extends React.Component<any> {
-    private description:any;
+    private description: any;
     public handleOpen = () => {
         this.props.showReviewModal(true);
     };
     public handleClose = () => {
         this.props.showReviewModal(false);
     };
-    public submit = () =>{
-        const user=getUser();
-        if(this.description.value.length===0){
+    public submit = () => {
+        const user = getUser();
+        if (this.description.value.length === 0) {
             return;
         }
-        this.props.submitReview(user.id,this.props.id,this.description.value).then(() => this.handleClose());
+        this.props.submitReview(user.id, this.props.id, this.description.value).then(() => this.handleClose());
     };
+
     public render() {
         return (<div>
                 <Modal show={this.props.reviewModal} onHide={this.handleClose}>
@@ -31,7 +32,9 @@ export class AddReviewForm extends React.Component<any> {
                         <FormControl
                             componentClass="textarea"
                             placeholder="Enter description"
-                            inputRef={(ref) => {this.description = ref}}
+                            inputRef={(ref) => {
+                                this.description = ref
+                            }}
                         />
                     </Modal.Body>
 
@@ -46,8 +49,9 @@ export class AddReviewForm extends React.Component<any> {
     }
 
 }
+
 const mapStateToProps = (state: any) => ({
     reviewModal: state.proposalPageModals.reviewModal,
 });
 
-export default connect(mapStateToProps, {showReviewModal,submitReview})(AddReviewForm);
+export default connect(mapStateToProps, {showReviewModal, submitReview})(AddReviewForm);

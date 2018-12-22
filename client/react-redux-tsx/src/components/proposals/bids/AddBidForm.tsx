@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {showBidModal} from "../../../actions/proposals/proposalPageModalsAction";
 import {addBid} from "../../../actions/bids/addBidAction";
 import {getUser} from "../../../actions/getSessionUser";
-import { showBidButton} from "../../../actions/bids/addBidButtonAction";
+import {showBidButton} from "../../../actions/bids/addBidButtonAction";
 import {ProposalStatus} from "../../../models/IComponents";
 
 export class AddBidForm extends React.Component<any> {
@@ -14,24 +14,24 @@ export class AddBidForm extends React.Component<any> {
     public handleClose = () => {
         this.props.showBidModal(false);
     };
-    public submit = () =>{
-        console.log(getUser().id,this.props.proposal.id);
-        addBid(getUser().id,this.props.proposal.id).then(()=>{
+    public submit = () => {
+        console.log(getUser().id, this.props.proposal.id);
+        addBid(getUser().id, this.props.proposal.id).then(() => {
             this.props.showBidButton(false);
             this.props.showBidModal(false);
         });
     };
 
 
-    public componentWillReceiveProps(nextprops:any){
-        if(this.props.addBidButtonStatus) {
+    public componentWillReceiveProps(nextprops: any) {
+        if (this.props.addBidButtonStatus) {
             const user = getUser();
-            console.log(nextprops.bids)
+
             if (nextprops.proposal.status !== ProposalStatus.placed) {
                 console.log("what")
                 this.props.showBidButton(false);
             }
-            else if ( nextprops.bids != null) {
+            else if (nextprops.bids != null) {
                 const found: any = nextprops.bids.find((element: any) => (element.pk.bidder.username === user.username && element.pk.proposal.id === nextprops.proposal.id));
                 if (found !== undefined) {
                     this.props.showBidButton(false)
@@ -61,16 +61,19 @@ export class AddBidForm extends React.Component<any> {
                         <Button className="blue-button" onClick={this.submit}>Confirm</Button>
                     </Modal.Footer>
                 </Modal>
-                {(this.props.addBidButtonStatus)? <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add Bid</Button>:null}
+                {(this.props.addBidButtonStatus) ?
+                    <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                        Bid</Button> : null}
             </div>
         );
     }
 
 }
+
 const mapStateToProps = (state: any) => ({
     bidModal: state.proposalPageModals.bidModal,
     addBidButtonStatus: state.addBidButton.showButton,
 
 });
 
-export default connect(mapStateToProps, {showBidModal,showBidButton})(AddBidForm);
+export default connect(mapStateToProps, {showBidModal, showBidButton})(AddBidForm);

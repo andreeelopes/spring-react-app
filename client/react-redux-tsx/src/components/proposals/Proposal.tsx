@@ -9,7 +9,7 @@ import {
     fetchReviews
 } from "../../actions/proposals/ProposalDetailsActions";
 import SimpleList from "../common/SimpleList";
-import {IComment, IEmployee, IReview, ISection, ProposalStatus} from "../../models/IComponents";
+import {IBid, IComment, IEmployee, IReview, ISection, ProposalStatus} from "../../models/IComponents";
 import * as Grid from "react-bootstrap/lib/Grid";
 import {Col, Row} from "react-bootstrap";
 import StatusChangeButtons from "./StatusChangeButtons";
@@ -100,10 +100,10 @@ export class Proposal extends React.Component<any> {
                         />
                     </Col>
                 </Row>
-                {/*<SimpleList<IBid> title="Bids"*/}
-                {/*list={this.props.bids}*/}
-                {/*show={this.bidsShow}*/}
-                {/*/>*/}
+                {this.props.pBids && <SimpleList<IBid> title="Bids"
+                                                      list={this.props.pBids}
+                                                      show={this.bidsShow}
+                />}
                 <Row>
                     <Col md={12}>
                         <SimpleList<IReview> title="Reviews"
@@ -123,10 +123,26 @@ export class Proposal extends React.Component<any> {
             {employee.email} {employee.job}
         </div>
     );
-    private sectionsShow = (section: ISection) => `${section.type}: ${section.text}`;
-    private commentsShow = (comment: any) => `${comment.author}: ${comment.comment}`;
-    // private bidsShow = (comment: IBid) => `${comment.author}: ${comment.comment}`;
-    private reviewsShow = (review: IReview) => `${review.author}: ${review.score}`;
+    private sectionsShow = (section: ISection) => <div><b>{section.type}</b>: {section.text}</div>;
+    private commentsShow = (comment: IComment) => (
+        <div>
+            <Link to={`/employees/${comment.author.id}`}> <b>{comment.author.name}</b> </Link>
+            :{comment.comment}
+        </div>
+    );
+    private bidsShow = (bid: IBid) => (
+        <div>
+            <Link to={`/employees/${bid.pk.bidder.id}`}> <b>{bid.pk.bidder.name}</b> </Link>
+            :{bid.status}
+        </div>
+    );
+
+    private reviewsShow = (review: IReview) => (
+        <div>
+            <Link to={`/employees/${review.author.id}`}> <b>{review.author.name}</b> </Link>
+            :{review.score}
+        </div>
+    );
     private parseStatus = (status: string) => {
         switch (status) {
             case ProposalStatus.placed:
@@ -152,12 +168,10 @@ export class Proposal extends React.Component<any> {
             return "Proposal";
         }
 
-    }
+    };
 
     private isProposalClose = (status: string) => {
-        const closed = status === ProposalStatus.approved || status === ProposalStatus.declined;
-        console.log("Closed = " + closed);
-        return closed;
+        return status === ProposalStatus.approved || status === ProposalStatus.declined;
     };
 
 }
@@ -169,10 +183,9 @@ const mapStateToProps = (state: any) =>
         staff: state.proposalDetails.staff,
         sections: state.proposalDetails.sections,
         comments: state.proposalDetails.comments,
-        // bids: state.proposalDetails.bids,
         reviews: state.proposalDetails.reviews,
+        pBids: state.proposalDetails.bids,
         proposal: state.proposalPage.proposal
-
     });
 
 export default connect(mapStateToProps, {

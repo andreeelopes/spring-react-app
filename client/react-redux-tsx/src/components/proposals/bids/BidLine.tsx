@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 import * as React from "react";
-import {IBid} from "../../../actions/bids/bidsListActions";
-import {ISection} from "../../../models/IComponents";
+import {IBid, ISection} from "../../../models/IComponents";
 
 
 interface IProps {

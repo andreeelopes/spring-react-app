@@ -68,19 +68,19 @@ export class ProposalList extends React.Component<any> {
         return (
             <div>
                 <div className="App">
-                    <h1>MyProposals</h1>
+                    <h1>Proposals</h1>
                 </div>
                 <div className="App">
 
                     <Dropdown id="dropdown-custom-menu">
                         <DropdownButton className={"blue-button"}
-                            bsStyle={"primary"}
-                            title={this.dropdownTitle}
-                            key={0}
-                            id={`dropdown-basic-${0}`}
+                                        bsStyle={"primary"}
+                                        title={this.dropdownTitle}
+                                        key={0}
+                                        id={`dropdown-basic-${0}`}
                         >
 
-                            <MenuItem eventKey="1" onSelect={this.getAllProposals}>All proposals</MenuItem>
+                            <MenuItem eventKey="1" onSelect={this.getAllProposals}>Partner proposals</MenuItem>
                             <MenuItem eventKey="2" onSelect={this.getStaffProposals}>Proposals where im staff</MenuItem>
                         </DropdownButton>
                     </Dropdown>
