@@ -101,8 +101,8 @@ export class Proposal extends React.Component<any> {
                     </Col>
                 </Row>
                 {this.props.pBids && <SimpleList<IBid> title="Bids"
-                                                      list={this.props.pBids}
-                                                      show={this.bidsShow}
+                                                       list={this.props.pBids}
+                                                       show={this.bidsShow}
                 />}
                 <Row>
                     <Col md={12}>
