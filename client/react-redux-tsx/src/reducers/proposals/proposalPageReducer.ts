@@ -24,7 +24,7 @@ export default function (state: IState = initialState, action: any) {
                 ...state,
                 bids: action.payload
             };
-        case CHANGE_PROPOSAL_STATUS: //TODO verificar se esta no sitio certo, adicionei isto para a mudanca do estado da proposal feita pelo approver -nelson
+        case CHANGE_PROPOSAL_STATUS:
             return {
                 ...state,
                 proposal: {

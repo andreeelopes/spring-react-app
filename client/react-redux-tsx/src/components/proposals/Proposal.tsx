@@ -19,7 +19,6 @@ import {Link} from "react-router-dom";
 export class Proposal extends React.Component<any> {
     private proposalID = -1;
 
-    //TODO atencao as permissoes porque nem todos podem ver  as listas      -nelson
     public componentWillMount() {
         const params = this.props.match.params;
         if (params) {

@@ -22,7 +22,6 @@ export class ProposalPage extends React.Component<any> {
 
     public constructor(props: any) {
         super(props);
-        console.log(this.imApprover);//TODO - remover e so para calar um warning - nelson
     }
 
     public componentWillMount() {
@@ -71,30 +70,12 @@ export class ProposalPage extends React.Component<any> {
     }
 }
 
-// TODO
 const mapStateToProps = (state: any) => ({
     proposal: state.proposalPage.proposal,
     staff: state.proposalDetails.staff,
     bids: state.proposalPage.bids
 });
 
-// TODO
-/*
-export default connect(mapStateToProps, {
-    addComment,
-    addBid,
-    addReview,
-    addTeamMember,
-    changeStatus,
-    addSection,
-    selectSection,
-    selectComment,
-    selectBidder,
-    selectReview,
-    selectStaff,
-    selectPartner
-})(AddProposalModal)
-*/
 export default connect(mapStateToProps, {
     fetchBids,
     fetchProposal

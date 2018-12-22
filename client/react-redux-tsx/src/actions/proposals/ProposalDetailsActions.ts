@@ -23,7 +23,7 @@ export const fetch = (url: string, reduxAction: string, isArray: boolean = true)
             .then((response: any) => {
                 dispatch({
                     type: reduxAction,
-                    payload: isArray ? response.data.content : response.data // TODO retirar o content para permitir o pageable   -nelson
+                    payload: isArray ? response.data.content : response.data
                 })
             }).catch((error: any) => {
                 console.log(error)
