@@ -1,8 +1,8 @@
 import * as React from "react";
 import '../../../App.css';
 import {connect} from "react-redux";
-import {clearList, getBidsAndSections, getSections, IBid} from "../../../actions/bids/bidsListActions";
-import {ISection} from "../../../models/IComponents";
+import {clearList, getBidsAndSections, getSections} from "../../../actions/bids/bidsListActions";
+import {IBid, ISection} from "../../../models/IComponents";
 import {BidLine} from "./BidLine";
 import {InfiniteList} from "../../common/InfiniteList";
 

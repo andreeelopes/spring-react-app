@@ -54,9 +54,14 @@ export interface IComment {
     proposal: IProposal
 }
 
+interface IBidPK {
+    bidder: IEmployee
+    proposal: IProposal
+}
+
 export interface IBid {
-    // TODO
-    id: number
+    pk: IBidPK
+    status: string
 }
 
 export interface IReview {
