@@ -22,7 +22,7 @@ export class AddCommentForm extends React.Component<any> {
     };
 
     public render() {
-        return (<div className={"specialOne"}>
+        return (<div className={"prop-control-button"}>
                 <Modal show={this.props.commentModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add a comment</Modal.Title>
