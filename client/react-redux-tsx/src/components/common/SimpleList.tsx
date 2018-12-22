@@ -8,7 +8,6 @@ export interface IList<T> {
 }
 
 const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disable-line
-    // debugger;
     if (!(typeof list === "undefined") && list.length > 0) {
         return (
             <div>

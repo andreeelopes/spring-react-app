@@ -59,7 +59,6 @@ export const setStatus = (id: number, proposal: IProposal, newStatus: string) =>
     return (dispatch: any, getState: any) => {
         return httpClient.put(proposalURL.replace("{pid}", id.toString()), {...proposal, status: newStatus})
             .then((response: any) => {
-                debugger;
                 dispatch({
                     type: CHANGE_PROPOSAL_STATUS,
                     payload: newStatus
