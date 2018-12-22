@@ -13,7 +13,7 @@ A proposal consists of an arbitrary sequence of document sections (e.g. title, d
 A proposal has a related stream of comments that fire email notifications to the involved users to respond using a link.
 
 ## Documentation
-The documentation of server and client is present in the doc folder.
+The documentation of server and client is present in the doc folder, which includes the reports of the client and server applications.
 
 ## Server
 
