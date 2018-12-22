@@ -10,18 +10,24 @@ export interface IList<T> {
 const SimpleList = function <T>({title, list, show}: IList<T>) { // tslint:disable-line
     if (!(typeof list === "undefined") && list.length > 0) {
         return (
-            <div>
-                <h2>{title}</h2>
-                <ul>
-                    {
-                        list.map((c, i) => (
-                                <li key={i}>
-                                    {show(c)}
-                                </li>
+            <div className={"card-container"}>
+                <div className={"blue-card-header"}>
+                    <div className={"blue-card-subtitle"}>
+                        {title}
+                    </div>
+                </div>
+                <div className={"blue-card-content"}>
+                    <ul>
+                        {
+                            list.map((c, i) => (
+                                    <li key={i}>
+                                        {show(c)}
+                                    </li>
+                                )
                             )
-                        )
-                    }
-                </ul>
+                        }
+                    </ul>
+                </div>
             </div>);
     }
     return null;
