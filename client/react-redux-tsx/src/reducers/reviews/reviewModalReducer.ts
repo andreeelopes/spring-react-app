@@ -13,11 +13,6 @@ export default function (state = initialState, action: any) {
                 state: action.state,
                 review: action.payload
             };
-        case SHOW_REVIEW_MODAL:
-            return {
-                ...state,
-                state: action.state
-            };
         default:
             return state;
     }
