@@ -16,7 +16,7 @@ export class ReviewLine extends React.Component<any> {
                 style={this.props.style}
             >
                 <Link
-                    to={'/proposals/' + this.props.review.proposal.id}>{(this.props.section) ? this.props.section.text : null}</Link> {this.props.review.score}
+                    to={'/proposals/' + this.props.review.proposal.id}>{(this.props.section) ? this.props.section.text : null}</Link>
                 <span onClick={() => this.open(this.props.review)}className="review-popup glyphicon glyphicon-fullscreen" aria-hidden="true"/>
             </div>
         );
