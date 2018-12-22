@@ -224,12 +224,12 @@ public class EcmaApplication implements CommandLineRunner {
             bid.setPk(bidKey);
             bid.setStatus(Bid.Status.ACCEPTED.toString());
 
-
+            Faker faker=new Faker();
 
             prop.getBids().add(bid);
             Section sec = new Section();
             sec.setType("title");
-            sec.setText("Best Prop");
+            sec.setText(faker.app().name());
             sec.setProposal(prop);
             prop.getSections().add(sec);
             proposalRepository.save(prop);
