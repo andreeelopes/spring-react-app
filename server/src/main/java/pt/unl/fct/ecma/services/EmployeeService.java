@@ -77,4 +77,8 @@ public class EmployeeService {
     public Page<Review> getReviews(Employee employee,Pageable pageable) {
         return employeeRepository.getReviews(pageable,employee.getId());
     }
+
+    public Page<Proposal> getProposalApprover(Employee employee, Pageable pageable) {
+        return employeeRepository.getProposalsApprover(pageable,employee.getId());
+    }
 }

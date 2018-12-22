@@ -32,4 +32,6 @@ public interface EmployeeRepository extends CrudRepository<Employee,Long> {
 
     @Query("SELECT r from Review r where r.author.id = :employeeid")
     Page<Review> getReviews(Pageable pageable,@Param(value = "employeeid") Long id);
+    @Query("SELECT p from Proposal p where p.approver.id= :employeeid")
+    Page<Proposal> getProposalsApprover(Pageable pageable,@Param(value = "employeeid") Long id);
 }

@@ -86,4 +86,9 @@ public interface EmployeesApi {
     @PathVariable("employeeId") Long employeeId);
     @GetMapping("/employees/{employeeId}/reviews")
     Page<Review> getReviews( @PathVariable("employeeId") Long employeeId,Pageable pageable);
+
+    @GetMapping("/employees/{employeeId}/approver")
+    Page<Proposal> getProposalsApprover( @PathVariable("employeeId") Long employeeId,Pageable pageable);
+
+
 }

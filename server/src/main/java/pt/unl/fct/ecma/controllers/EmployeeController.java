@@ -90,5 +90,10 @@ public class EmployeeController implements EmployeesApi {
         return employeeBroker.getReviews(employeeId,pageable);
     }
 
+    @Override
+    public Page<Proposal> getProposalsApprover(@PathVariable("employeeId")Long employeeId, Pageable pageable) {
+        return employeeBroker.getAproverProposals(employeeId,pageable);
+    }
+
 
 }

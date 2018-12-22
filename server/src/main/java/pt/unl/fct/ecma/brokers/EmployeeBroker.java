@@ -60,4 +60,9 @@ public class EmployeeBroker {
         return employeeService.getReviews(employee,pageable);
 
     }
+
+    public Page<Proposal> getAproverProposals(Long employeeId, Pageable pageable) {
+        Employee employee = employeeService.getEmployee(employeeId);
+        return employeeService.getProposalApprover(employee,pageable);
+    }
 }
