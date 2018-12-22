@@ -24,7 +24,7 @@ export class AddSectionForm extends React.Component<any> {
 
     public render() {
 
-        return (<div>
+        return (<div className={"specialOne"}>
                 <Modal show={this.props.sectionModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Create a new Section</Modal.Title>
@@ -50,11 +50,11 @@ export class AddSectionForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                        <Button onClick={this.submit}>Add section</Button>
+                        <Button className="red-button" onClick={this.handleClose}>Close</Button>
+                        <Button className="blue-button" onClick={this.submit}>Add section</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                <Button className="blue-button" bsStyle="success" onClick={this.handleOpen}>Add
                     Section</Button>
             </div>
         );

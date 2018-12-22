@@ -9,6 +9,7 @@ import AddSectionForm from "./sections/AddSectionForm";
 import {connect} from "react-redux";
 import {fetchBids, fetchProposal} from "../../actions/proposals/ProposalPageActions";
 import {getUser} from "../../actions/getSessionUser";
+import {Col, Row} from "react-bootstrap";
 
 
 export class ProposalPage extends React.Component<any> {
@@ -26,12 +27,12 @@ export class ProposalPage extends React.Component<any> {
     public componentWillMount() {
         this.props.fetchProposal(this.proposalId).then(() => {
 
-                this.props.fetchBids(this.user.id).then(() => {
-                    const found = this.props.bids.find((element: any) => (element.pk.proposal.id === parseInt(this.proposalId, 0) && element.status === "ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
-                    if (found != null && this.props.proposal.status === "REVIEW_PERIOD") {
-                        this.canReview = true;
-                    }
-                });
+            this.props.fetchBids(this.user.id).then(() => {
+                const found = this.props.bids.find((element: any) => (element.pk.proposal.id === parseInt(this.proposalId, 0) && element.status === "ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
+                if (found != null && this.props.proposal.status === "REVIEW_PERIOD") {
+                    this.canReview = true;
+                }
+            });
         });
 
 
@@ -52,14 +53,22 @@ export class ProposalPage extends React.Component<any> {
     public render() {
         return (
             <div>
-                <Proposal {...this.props} />
-                <AddCommentForm id={this.proposalId}/>
-                <AddBidForm proposal={this.props.proposal} bids={this.props.bids}/>
+                <Row>
+                    <Proposal {...this.props} />
+                </Row>
+                <Row>
+                    <Col md={2}/>
+                    <Col md={8}>
 
-                {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
+                        <AddCommentForm id={this.proposalId}/>
+                        <AddBidForm proposal={this.props.proposal} bids={this.props.bids}/>
+                        {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
+                        {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
+                        {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
+                    </Col>
+                    <Col md={2}/>
 
-                {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
-                {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
+                </Row>
 
             </div>
         );

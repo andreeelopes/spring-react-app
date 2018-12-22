@@ -15,7 +15,7 @@ class AddProposalModal extends React.Component<any> {
     private description: any;
 
     public SubmitButton = withRouter(({history}) => (
-        <Button
+        <Button className="blue-button"
             onClick={() => this.submit(history)}
         >
             Submit
@@ -99,7 +99,7 @@ class AddProposalModal extends React.Component<any> {
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button onClick={this.handleClose}>Close</Button>
+                    <Button className="red-button" onClick={this.handleClose}>Close</Button>
                     <this.SubmitButton/>
                 </Modal.Footer>
             </Modal>)

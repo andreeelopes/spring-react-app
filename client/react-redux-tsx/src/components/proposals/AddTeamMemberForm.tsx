@@ -33,7 +33,7 @@ export class AddTeamMemberForm extends React.Component<any> {
     }
 
     public render() {
-        return (<div>
+        return (<div className={"specialOne"}>
                 <Modal show={this.props.teamMemberModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add a proposal team member</Modal.Title>
@@ -62,11 +62,11 @@ export class AddTeamMemberForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                        <Button onClick={this.submit}>Add member</Button>
+                        <Button className="red-button" onClick={this.handleClose}>Close</Button>
+                        <Button className="blue-button" onClick={this.submit}>Add member</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                <Button className="blue-button" bsStyle="success" onClick={this.handleOpen}>Add
                     TeamMember</Button>
             </div>
         );

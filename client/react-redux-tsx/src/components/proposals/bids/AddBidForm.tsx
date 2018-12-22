@@ -46,7 +46,7 @@ export class AddBidForm extends React.Component<any> {
     }
 
     public render() {
-        return (<div>
+        return (<div className={"specialOne"}>
                 <Modal show={this.props.bidModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Bid proposal</Modal.Title>
@@ -62,7 +62,7 @@ export class AddBidForm extends React.Component<any> {
                     </Modal.Footer>
                 </Modal>
                 {(this.props.addBidButtonStatus) ?
-                    <Button className="blue-button App-middle" bsStyle="success" onClick={this.handleOpen}>Add
+                    <Button className="blue-button" bsStyle="success" onClick={this.handleOpen}>Add
                         Bid</Button> : null}
             </div>
         );

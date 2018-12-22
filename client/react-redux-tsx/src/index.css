@@ -37,3 +37,8 @@ body {
 .review-popup {
     padding-left: 10px;
 }
+
+.specialOne {
+    display: inline-block;
+    padding-right: 10px;
+}

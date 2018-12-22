@@ -22,7 +22,7 @@ export class AddCommentForm extends React.Component<any> {
     };
 
     public render() {
-        return (<div>
+        return (<div className={"specialOne"}>
                 <Modal show={this.props.commentModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add a comment</Modal.Title>
@@ -43,7 +43,7 @@ export class AddCommentForm extends React.Component<any> {
                         <Button className={"blue-button"} onClick={this.submit}>Add Comment</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className={"blue-button App-middle"} onClick={this.handleOpen}>Add Comment</Button>
+                <Button className={"blue-button"} onClick={this.handleOpen}>Add Comment</Button>
             </div>
         );
     }

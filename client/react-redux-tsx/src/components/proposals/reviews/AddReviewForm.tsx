@@ -22,7 +22,7 @@ export class AddReviewForm extends React.Component<any> {
     };
 
     public render() {
-        return (<div>
+        return (<div className={"specialOne"}>
                 <Modal show={this.props.reviewModal} onHide={this.handleClose}>
                     <Modal.Header>
                         <Modal.Title>Add Review</Modal.Title>
@@ -39,11 +39,11 @@ export class AddReviewForm extends React.Component<any> {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button onClick={this.handleClose}>Close</Button>
-                        <Button onClick={this.submit}>Add review</Button>
+                        <Button className="red-button" onClick={this.handleClose}>Close</Button>
+                        <Button className="blue-button" onClick={this.submit}>Add review</Button>
                     </Modal.Footer>
                 </Modal>
-                <Button className="App-middle" bsStyle="success" onClick={this.handleOpen}>Add Review</Button>
+                <Button className="blue-button" bsStyle="success" onClick={this.handleOpen}>Add Review</Button>
             </div>
         );
     }
