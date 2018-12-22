@@ -13,7 +13,7 @@ export const hideModal = () => (dispatch: any) => {
 
     dispatch({
         type: SHOW_REVIEW_MODAL,
-        payload: false
+        state: false
     })
 
 };
