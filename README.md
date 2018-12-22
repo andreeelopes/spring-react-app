@@ -1,4 +1,4 @@
-# Spring App
+# Event Management Application
 
 ### Requirements
 Consider an application that a marketing company called ECMA uses to host and organise events with the help of partner companies.
@@ -12,6 +12,7 @@ The reviewing is performed by adding reviews to the event proposal, the assignme
 A proposal consists of an arbitrary sequence of document sections (e.g. title, description, goals, needed materials, budget, work-plan). A proposal has a team that consists of staff and partner members.
 A proposal has a related stream of comments that fire email notifications to the involved users to respond using a link.
 
+## Server
 
 ### The latests specification can be accessed on the following url: 
 #### Swagger UI: localhost:8080/swagger-ui.html
@@ -44,6 +45,14 @@ server
 │   └───test/java/pt/unl/fct/ecma		(Spring Boot Tests)
 │       └───utils						(some utilities used on the tests
 ```
+
+
+
+## Client
+
+Implemented using react+redux+typescript. 
+
+The specification is present in ```/doc/client```.
 
 
 ###Developers
