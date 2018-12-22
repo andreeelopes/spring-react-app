@@ -22,6 +22,7 @@ export class AddReviewForm extends React.Component<any> {
     };
 
     public render() {
+        console.log("ADDING REVIEWWWW")
         return (<div className={"prop-control-button"}>
                 <Modal show={this.props.reviewModal} onHide={this.handleClose}>
                     <Modal.Header>
