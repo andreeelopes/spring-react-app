@@ -149,7 +149,7 @@ export class Proposal extends React.Component<any> {
     private reviewsShow = (review: IReview) => (
         <div>
             <Link to={`/employees/${review.author.id}`}> <b>{review.author.name}</b> </Link>
-            :{review.score}
+            :{review.text}
         </div>
     );
     private parseStatus = (status: string) => {
