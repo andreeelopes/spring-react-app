@@ -17,7 +17,7 @@ export class ProposalListItem extends React.Component<IProps> {
                 style={this.props.style}
             >
                 <Link
-                    to={'/proposals/' + this.props.proposal.id}>{(this.props.section) ? this.props.section.text : null}</Link> {this.props.proposal.id + " " + this.props.proposal.partnerCompany.name + " " + this.props.proposal.companyProposed.name}
+                    to={'/proposals/' + this.props.proposal.id}>{(this.props.section) ? this.props.section.text : null}</Link> { this.props.proposal.partnerCompany.name + " " + this.props.proposal.companyProposed.name}
             </div>
         );
     }
