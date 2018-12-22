@@ -81,7 +81,7 @@ export class ProposalList extends React.Component<any> {
                         >
 
                             <MenuItem eventKey="1" onSelect={this.getAllProposals}>Partner proposals</MenuItem>
-                            <MenuItem eventKey="2" onSelect={this.getStaffProposals}>Proposals where im staff</MenuItem>
+                            <MenuItem eventKey="2" onSelect={this.getStaffProposals}>Staff proposals</MenuItem>
                         </DropdownButton>
                     </Dropdown>
                 </div>
