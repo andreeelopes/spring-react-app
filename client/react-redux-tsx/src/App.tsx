@@ -10,6 +10,7 @@ import {Provider} from 'react-redux';
 import store from './store'
 import NavBar from "./components/common/NavBar";
 import EmployeePage from "./components/employees/EmployeePage";
+import Login from "./components/Login";
 
 class App extends React.Component {
     public render() {
@@ -19,7 +20,8 @@ class App extends React.Component {
                     <Router>
                         <div>
                             <NavBar/>
-                            <Route exact={true} path="/" component={Homepage}/>
+                            <Route exact={true} path="/" component={Login}/>
+                            <Route exact={true} path="/homepage" component={Homepage}/>
                             <Route exact={true} path="/proposals/:id" component={ProposalPage}/>
                             <Route exact={true} path="/companies/:id" component={CompanyPage}/>
                             <Route exact={true} path="/employees/:id" component={EmployeePage}/>

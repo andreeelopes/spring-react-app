@@ -16,18 +16,13 @@ class NavBar extends React.Component<any> {
         "admin": false
     };
 
-    public componentWillMount() {
-        this.props.doLogin();
-        sessionStorage.setItem('myData', JSON.stringify(this.user));
-    }
-
     public render() {
 
         return (
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to="/">ECMA</Link>
+                        <Link to="/homepage">ECMA</Link>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Nav>
