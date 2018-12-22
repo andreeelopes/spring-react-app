@@ -8,11 +8,11 @@ import {
 
 const initialState = {
     commentModal: false,
-    bidModal:false,
+    bidModal: false,
     reviewModal: false,
     teamMemberModal: false,
     sectionModal: false,
-    membertype:'Type of member'
+    membertype: 'Type of member'
 };
 
 export default function (state = initialState, action: any) {
@@ -23,27 +23,27 @@ export default function (state = initialState, action: any) {
                 commentModal: action.payload
             };
         case SHOW_BID_FORM:
-            return{
+            return {
                 ...state,
                 bidModal: action.payload
             };
         case SHOW_REVIEW_FORM:
-            return{
+            return {
                 ...state,
                 reviewModal: action.payload
             };
         case SHOW_TEAMMEMBER_FORM:
-            return{
+            return {
                 ...state,
                 teamMemberModal: action.payload
             };
         case SHOW_SECTION_FORM:
-            return{
+            return {
                 ...state,
                 sectionModal: action.payload
             };
         case TYPE_OF_MEMBER:
-            return{
+            return {
                 ...state,
                 membertype: action.payload
             }
