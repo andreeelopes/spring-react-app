@@ -25,13 +25,14 @@ export class Login extends React.Component<any> {
         return (
             <div>
                 <FormControl
-                    componentClass="textarea"
+                    componentClass="input"
                     placeholder="Enter username"
                     inputRef={(ref) => {
                         this.username = ref
                     }}/>
                 <FormControl
-                    componentClass="textarea"
+                    componentClass="input"
+                    type="password"
                     placeholder="password"
                     inputRef={(ref) => {
                         this.password = ref

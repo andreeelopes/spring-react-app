@@ -24,8 +24,7 @@ class Homepage extends React.Component<any> {
     };
 
     public render() {
-        console.log(this.props.login);
-        if (this.props.login) {
+
             return (
                 <div>
                     <Grid>
@@ -52,10 +51,6 @@ class Homepage extends React.Component<any> {
                 </div>
             );
         }
-        else {
-            return null;
-        }
-    }
 }
 
 const mapStateToProps = (state: any) => ({
