@@ -22,7 +22,7 @@ export class ProposalList extends React.Component<any> {
         super(props);
         this.listType = 1;
         this.currPage = -1;
-        this.dropdownTitle = "All proposals"
+        this.dropdownTitle = "Partner proposals"
     }
 
     public getProposals = (param: IndexRange) => {
@@ -115,7 +115,7 @@ export class ProposalList extends React.Component<any> {
         this.listType = 1;
         this.props.clearList();
         this.currPage = -1;
-        this.dropdownTitle = "All proposals";
+        this.dropdownTitle = "Partner proposals";
         const param: IndexRange = {startIndex: 0, stopIndex: 19};
         this.getProposals(param);
     }
