@@ -13,15 +13,15 @@ import {Col, Row} from "react-bootstrap";
 import * as Grid from "react-bootstrap/lib/Grid";
 
 
-export class ProposalPage extends React.Component<any> {
+export class ProposalPage extends React.Component<any,any> {
     private proposalId = this.props.match.params.id;
     private imStaff = false;
     private imApprover = false;
-    private canReview = false;
     private user = getUser();
 
     public constructor(props: any) {
         super(props);
+        this.state ={canReview:false}
     }
 
     public componentWillMount() {
@@ -30,7 +30,7 @@ export class ProposalPage extends React.Component<any> {
             this.props.fetchBids(this.user.id).then(() => {
                 const found = this.props.bids.find((element: any) => (element.pk.proposal.id === parseInt(this.proposalId, 0) && element.status === "ACCEPTED"));  // nao me perguntem pq mas o proposalId nao é int e dizia que era diferente
                 if (found != null && this.props.proposal.status === "REVIEW_PERIOD") {
-                    this.canReview = true;
+                    this.setState({canReview:true})
                 }
             });
         });
@@ -60,7 +60,7 @@ export class ProposalPage extends React.Component<any> {
                     <Col md={12}>
                         <AddCommentForm id={this.proposalId}/>
                         <AddBidForm proposal={this.props.proposal} bids={this.props.bids}/>
-                        {(this.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
+                        {(this.state.canReview) ? <AddReviewForm id={this.proposalId}/> : null}
                         {(this.imStaff) ? <AddTeamMemberForm id={this.proposalId}/> : null}
                         {(this.imStaff) ? <AddSectionForm id={this.proposalId}/> : null}
                     </Col>

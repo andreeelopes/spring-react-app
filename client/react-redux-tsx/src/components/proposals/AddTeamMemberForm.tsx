@@ -19,7 +19,7 @@ export class AddTeamMemberForm extends React.Component<any> {
             return;
         }
         if (this.props.title === "Partner Member") {
-            this.props.submitPartnerMember(user.id, this.props.id, this.newTeamMember.value).then(() => this.handleClose());
+            this.props.submitTeamMember(user.id, this.props.id, this.newTeamMember.value).then(() => this.handleClose());
         }
         else if (this.props.title === "Staff Member") {
             this.props.submitStaffMember(user.id, this.props.id, this.newTeamMember.value).then(() => this.handleClose());

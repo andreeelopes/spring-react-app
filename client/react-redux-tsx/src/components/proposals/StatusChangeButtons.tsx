@@ -1,6 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {
+    fetchBids,
     setStatus
 } from "../../actions/proposals/ProposalDetailsActions";
 import {Button} from "react-bootstrap";
@@ -13,7 +14,9 @@ export class StatusChangeButtons extends React.Component<any> {
         if (this.props.proposal.status === ProposalStatus.placed) {
             return (
                 <Button className={"blue-button"}
-                        onClick={() => this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period)}>
+                        onClick={() => {this.props.setStatus(this.props.proposal.id, this.props.proposal, ProposalStatus.review_period).then(()=>{
+                            this.props.fetchBids(this.props.proposal.id);
+                        })}}>
                     Begin Review Period
                 </Button>
             );
@@ -44,5 +47,5 @@ const mapStateToProps = (state: any) =>
     ({});
 
 export default connect(mapStateToProps, {
-    setStatus
+    setStatus,fetchBids
 })(StatusChangeButtons);

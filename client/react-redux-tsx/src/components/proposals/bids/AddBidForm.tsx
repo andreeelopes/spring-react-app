@@ -8,6 +8,11 @@ import {showBidButton} from "../../../actions/bids/addBidButtonAction";
 import {ProposalStatus} from "../../../models/IComponents";
 
 export class AddBidForm extends React.Component<any> {
+
+    public constructor(props: any) {
+        super(props);
+        this.props.showBidButton(true)
+    }
     public handleOpen = () => {
         this.props.showBidModal(true);
     };
@@ -28,10 +33,10 @@ export class AddBidForm extends React.Component<any> {
             const user = getUser();
 
             if (nextprops.proposal.status !== ProposalStatus.placed) {
-                console.log("what")
                 this.props.showBidButton(false);
             }
             else if (nextprops.bids != null) {
+                console.log("what3")
                 const found: any = nextprops.bids.find((element: any) => (element.pk.bidder.username === user.username && element.pk.proposal.id === nextprops.proposal.id));
                 if (found !== undefined) {
                     this.props.showBidButton(false)
