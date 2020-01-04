@@ -56,8 +56,8 @@ server
 Implemented using react+redux+typescript. 
 
 
-###Developers
+### Developers
 
-* André Lopes nº 45617
-* Nelson Coquenim nº 45694
-* Simão Dolores nº 45020
+* André Lopes
+* Nelson Coquenim
+* Simão Dolores
